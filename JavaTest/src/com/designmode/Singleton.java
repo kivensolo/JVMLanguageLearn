@@ -8,7 +8,7 @@ package com.designmode;
  * description: 单例模式演变
  */
 
-// version 1.0
+// version 1.0  懒汉式，线程不安全
 public class Singleton {
     private static Singleton singleton = null;
     //私有的构造函数，表明这个类是不可能形成实例了。这主要是怕这个类会有多个实例。
@@ -52,7 +52,7 @@ public class Singleton {
  同样会出现很多实例。嗯，确实如此！看来，还得把那个判断(singleton== null)
  条件也同步起来。
 */
-// version 1.2
+// version 1.2  懒汉式，线程安全
 /**
 public class Singleton
 {
@@ -72,9 +72,9 @@ public class Singleton
 /**
  ====================================================================
     上面版本同步是一调用就判断一次同步，耗费性能，所以加一层判断。
- 这可能是最不错的一个版本了，这个版本又叫“双重检查”Double-Check
+ 这可能是最不错的一个版本了，这个版本又叫“双重检查”Double-Check，是为了提高效率
 */
-// version 1.3
+// version 1.3  双重检验锁，一次是在同步块外，一次是在同步块内
 /**
 public class Singleton
 {
@@ -116,6 +116,9 @@ public class Singleton
             return singleton;
         }
  }
+
+ //饿汉式 static final field
+
  public class Singleton{
         private static final Singleton singleton  = new Singleton();
         private Singleton()  {    }
@@ -147,7 +150,7 @@ public class Singleton
  */
 
 /**
-  version 1.6
+  version 1.6  静态内部类 static nested class【很好的方法】
   public class Singleton {
     private static class SingletonHolder {
         private static final Singleton INSTANCE = new Singleton();
