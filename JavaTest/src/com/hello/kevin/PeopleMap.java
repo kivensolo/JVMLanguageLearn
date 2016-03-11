@@ -1,7 +1,6 @@
 package com.hello.kevin;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -11,7 +10,7 @@ import java.util.TreeMap;
  * All rights reserved.
  * author: King.Z
  * date:  2016/3/11 11:18
- * description: 将学生对象和学生的归属地通过键与值存储到map集合中
+ * description: 将ID和学生对象通过键与值存储到map集合中
  */
 public class PeopleMap {
     public static void main(String[] args) {
@@ -19,7 +18,6 @@ public class PeopleMap {
         mainMap.put(1001, new People("tiantian", "21", "girl"));
         mainMap.put(1002, new People("xiaohua", "22", "girl"));
         mainMap.put(1003, new People("wangsan", "15", "girl"));
-        mainMap.put(1004, new People("lishishishis", "33", "boy"));
         mainMap.put(1005, new People("kiven", "20", "boy"));
         Set<Map.Entry<Integer, People>> entrySets = mainMap.entrySet();
 
