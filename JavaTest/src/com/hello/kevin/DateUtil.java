@@ -112,7 +112,7 @@ public class DateUtil {
         long ss = diffms/1000;              //共计秒数
         int MM = (int)ss/60;                //共计分钟数
         int hh=(int)ss/3600;                //共计小时数
-        int dd=(int)hh/24;                  //共计天数
+        int dd= hh /24;                  //共计天数
         System.out.println("------------------两个时间点之间------------------");
         System.out.println("共"+days+"天"+hours+"小时"+minutes+"分"+secondss+"秒");
         System.out.println("天数："+dd+"天；  总小时数："+hh+"h; 总分钟数："+MM+"min； 总秒数："+ss+"s； 共计："+ss*1000+" ms");
