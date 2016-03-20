@@ -1,4 +1,4 @@
-package com.hello.kevin;
+package com.kingz.godlike;
 
 /**
  * description:测试一个char汉字的字符

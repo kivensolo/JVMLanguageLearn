@@ -1,4 +1,4 @@
-package com.hello.kevin;
+package com.kingz.godlike;
 
 /**
  * Copyright(C) 2015, 北京视达科科技有限公司

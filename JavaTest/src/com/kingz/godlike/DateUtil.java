@@ -1,4 +1,4 @@
-package com.hello.kevin;
+package com.kingz.godlike;
 
 import java.text.DateFormat;
 import java.text.ParseException;

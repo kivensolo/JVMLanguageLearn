@@ -1,4 +1,4 @@
-package com.hello.kevin;
+package com.kingz.godlike;
 
 /**
  * Copyright (c) 2015, �����Ӵ�ƿƼ��������ι�˾
