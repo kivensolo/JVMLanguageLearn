@@ -8,19 +8,21 @@ package com.synchronizedTest;
  * description:
  */
 public class synchroRightDemo implements Runnable {
-    private int ticket = 10;
+    //若单独加transient修饰符，还是没有用的
+    private int ticket = 20;
+
     @Override
     public void run() {
         for (int i = 0; i < 20; i++) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(200);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            //synchronized (this) {
+            synchronized (this) {
                 if (this.ticket > 0) {
                     System.out.println(Thread.currentThread().getName() + "号窗口卖出：" + this.ticket-- + "号票");
-                //}
+                }
             }
         }
     }
