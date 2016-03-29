@@ -4,9 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Copyright(C) 2015, 北京视达科科技有限公司
@@ -18,10 +16,30 @@ import java.util.Locale;
 public class DateUtil {
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final int ONE_DAY_MS = 86400000;
     Calendar calendar = Calendar.getInstance();
     String currentSysTime;
     DateFormat df;
     Date date;
+
+    /**
+	 * 每日定时定点做事
+	 */
+	private void setExpireCheckClock() {
+		Calendar cal = Calendar.getInstance();
+		//每天(24小时制)定点执行
+		cal.set(Calendar.HOUR_OF_DAY, 18);
+		cal.set(Calendar.MINUTE, 15);
+		cal.set(Calendar.SECOND, 0);
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+                //
+			}
+		}, cal.getTime(), ONE_DAY_MS);
+	}
+
 
     /**
      * 获取现在的时间
@@ -29,6 +47,18 @@ public class DateUtil {
      */
     public String getStringDate(){
         currentSysTime = sdf.format(new Date());  //new Date为获取当前系统时间
+        System.out.println("当前系统时间："+currentSysTime);
+        return currentSysTime;
+    }
+
+    /**
+     * 获取当前时间
+     * @return 字符串格式  yyyy年MM月dd日
+     */
+    public String getCurrentTextDate(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+        currentSysTime = sdf.format(new Date());
+        System.out.println("当前系统时间："+currentSysTime);
         return currentSysTime;
     }
 

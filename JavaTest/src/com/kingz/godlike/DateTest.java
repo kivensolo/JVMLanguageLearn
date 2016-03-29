@@ -11,9 +11,12 @@ public class DateTest {
     public static void main(String[] args) {
         DateUtil  du = new DateUtil();
         String currentTime = du.getStringDate();
-        System.out.println("当前系统时间：" + currentTime);
+        System.out.println("");
         du.caculateTimeDiff("2015-03-03 14:51:23","2016-03-03 15:51:53");
+
         du.getTimeZone();
+
+        System.out.println("");
         du.changeString2Date(du.getStringDate());
         du.getHour();
         du.getWeek(currentTime);
