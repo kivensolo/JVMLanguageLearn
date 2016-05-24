@@ -40,6 +40,15 @@ public class DateUtil {
 		}, cal.getTime(), ONE_DAY_MS);
 	}
 
+    /**
+     * 获取当前时间的Hour
+     * @return
+     */
+    private int getCurrentTimeHour(){
+        //Calendar.getInstance().getTime().getHours()
+        return Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+    }
+
 
     /**
      * 获取现在的时间
