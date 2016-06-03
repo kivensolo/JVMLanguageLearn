@@ -24,6 +24,7 @@ public class String2Map {
         System.out.println("--2:Keys:" + mMap.keySet());
 
         Set<Map.Entry<String, String>> entrySet = mMap.entrySet();
+
         System.out.println("--3:循环输出省会+省城：");
         PrintAllItemOfMap(entrySet);
 
@@ -43,5 +44,11 @@ public class String2Map {
         for (Map.Entry<String, String> item : mEntrySet) {
             System.out.println("    " + item.getKey() + "   " + item.getValue());
         }
+
+        //Iterator<Map.Entry<String, String>> iter = mEntrySet.iterator();
+        //while (iter.hasNext()){
+        //    Map.Entry<String, String> entry = iter.next();
+        //    System.out.println(entry.getKey() + "\t" + entry.getValue());
+        //}
     }
 }

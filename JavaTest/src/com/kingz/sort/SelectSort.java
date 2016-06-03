@@ -16,6 +16,7 @@ public class SelectSort {
         System.out.println("Array values is：" + Arrays.toString(nums));
         selectSort(nums);
         System.out.println("selectSort values is：" + Arrays.toString(nums));
+        System.out.println(System.getProperty("file.encoding"));
     }
 
     //选择排序，就是选择最小的，然后置换，循环再找到最小的，再置换....
