@@ -118,6 +118,9 @@ public class Singleton
  }
 
  //饿汉式 static final field
+   为什么用final 因为被final关键字修饰的类,不能被继承,被final修饰的成员变量不可以被修改.
+   此处用了final为了强化和重点突出:"同一对象"这个概念——只有这么一个对象,
+   而且它是不可以被修改的.
 
  public class Singleton{
         private static final Singleton singleton  = new Singleton();
