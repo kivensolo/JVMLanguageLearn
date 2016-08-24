@@ -1,5 +1,5 @@
 //: polymorphism/shape/RandomShapeGenerator.java
-// A "factory" that randomly creates shapes.
+// A "factoryandbuilder" that randomly creates shapes.
 package com.think.in.shape;
 import java.util.*;
 
