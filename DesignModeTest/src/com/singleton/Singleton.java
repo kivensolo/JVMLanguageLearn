@@ -1,11 +1,11 @@
-package com.designmode;
+package com.singleton;
 
 /**
  * Copyright(C) 2016, 北京视达科科技有限公司
  * All rights reserved.
  * author: King.Z
  * date:  2016/2/25 14:13
- * description: 单例模式演变
+ * description: 单例模式的演变
  */
 
 // version 1.0  懒汉式，线程不安全
@@ -73,12 +73,13 @@ public class Singleton
  ====================================================================
     上面版本同步是一调用就判断一次同步，耗费性能，所以加一层判断。
  这可能是最不错的一个版本了，这个版本又叫“双重检查”Double-Check，是为了提高效率
+ Android Glide重get方法获取实例就是通过这种方式
 */
 // version 1.3  双重检验锁，一次是在同步块外，一次是在同步块内
 /**
 public class Singleton
 {
-    private static Singleton singleton = null;
+    private static volatile Singleton singleton = null;
     private Singleton()  {    }
     public static Singleton getInstance() {
         if (singleton == null)  {

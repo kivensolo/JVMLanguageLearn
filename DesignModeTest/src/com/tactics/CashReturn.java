@@ -1,4 +1,4 @@
-package com.designmode.tactics;
+package com.tactics;
 
 /**
  * 返现模式

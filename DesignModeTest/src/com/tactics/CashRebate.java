@@ -1,4 +1,4 @@
-package com.designmode.tactics;
+package com.tactics;
 
 /**
  * 打折模式

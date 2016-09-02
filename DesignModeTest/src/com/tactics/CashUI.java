@@ -1,4 +1,4 @@
-package com.designmode.tactics;
+package com.tactics;
 
 import java.io.BufferedReader;
 import java.io.IOException;
