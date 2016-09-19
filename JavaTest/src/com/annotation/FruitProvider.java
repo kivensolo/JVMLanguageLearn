@@ -7,13 +7,15 @@ import java.lang.annotation.Target;
 
 /**
  * Copyright(C) 2016, 北京视达科科技有限公司
- * All rights reserved. <br>
- * author: King.Z <br>
- * date:  2016/9/19 18:20 <br>
- * description: XXXXXXX <br>
+ * All rights reserved.
+ * author: King.Z
+ * date:  2016/9/19 21:53
+ * description:
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface FruitName {
-    String value() default "恶魔果";
+public @interface FruitProvider {
+	public  int id() default -1;//供应商编号
+	public  String name() default "佚名";//供应商名称
+	public  String address() default "成都";//供应商地址
 }
