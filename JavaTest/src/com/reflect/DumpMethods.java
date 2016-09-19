@@ -11,6 +11,10 @@ import java.lang.reflect.Method;
  */
 public class DumpMethods {
     public static void main(String[] args) {
+        //testmethods();
+    }
+
+    public static void testmethods() {
         try {
             String name = DumpMethods.class.getSimpleName();
             Class c = Class.forName("java.lang.String");
@@ -21,9 +25,5 @@ public class DumpMethods {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    public void testmethods(){
-
     }
 }
