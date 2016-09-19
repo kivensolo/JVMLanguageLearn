@@ -48,13 +48,13 @@ public class ByteStreamSample{
      */
     public static void appendNewDataToFile(File mFile,String data){
         System.out.println("AppendNewContent");
+
         try {
             ous = new FileOutputStream(mFile,true);
             ous.write(data.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     /**

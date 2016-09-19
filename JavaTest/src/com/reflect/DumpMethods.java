@@ -11,17 +11,23 @@ import java.lang.reflect.Method;
  */
 public class DumpMethods {
     public static void main(String[] args) {
+        test();
+    }
+
+    private static void test() {
         try {
             String name = DumpMethods.class.getSimpleName();
             Class c = Class.forName("java.lang.String");
             Method[] mthods = c.getDeclaredMethods();
-            for (int i = 0; i < mthods.length; i++) {
-                System.out.println(mthods[i].toString());
+            for (Method mthod : mthods) {
+                System.out.println(mthod.toString());
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
+
+
 
     public void testmethods(){
 
