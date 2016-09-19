@@ -15,6 +15,10 @@ public class DumpMethods {
     }
 
     private static void test() {
+        //testmethods();
+    }
+
+    public static void testmethods() {
         try {
             String name = DumpMethods.class.getSimpleName();
             Class c = Class.forName("java.lang.String");
@@ -27,9 +31,4 @@ public class DumpMethods {
         }
     }
 
-
-
-    public void testmethods(){
-
-    }
 }
