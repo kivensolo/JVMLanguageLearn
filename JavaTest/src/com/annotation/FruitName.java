@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * All rights reserved. <br>
  * author: King.Z <br>
  * date:  2016/9/19 18:20 <br>
- * description: XXXXXXX <br>
+ * description: 水果名字的注解定义 <br>
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

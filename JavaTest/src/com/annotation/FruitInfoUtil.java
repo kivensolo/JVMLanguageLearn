@@ -33,7 +33,6 @@ public class FruitInfoUtil {
 				FruitColor fruitColor = field.getAnnotation(FruitColor.class);
 				strFruitColor = strFruitColor + fruitColor.fruitColor().toString();
 				System.out.println(strFruitColor);
-
 			} else if (field.isAnnotationPresent(FruitProvider.class)) {
 				FruitProvider fruitProvider = field.getAnnotation(FruitProvider.class);
 				strFruitProvicer = " 供应商编号：" + fruitProvider.id() + " 供应商名称：" + fruitProvider.name() + " 供应商地址：" + fruitProvider.address();

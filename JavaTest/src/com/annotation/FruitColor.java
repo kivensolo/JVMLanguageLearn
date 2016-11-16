@@ -10,12 +10,12 @@ import java.lang.annotation.Target;
  * All rights reserved. <br>
  * author: King.Z <br>
  * date:  2016/9/19 18:22 <br>
- * description: XXXXXXX <br>
+ * description: 水果颜色的注解定义 <br>
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FruitColor {
-    public enum Color{BLUE,RED,GREEN};
+    public enum Color{BLUE,RED,GREEN,ORANGE};
 
     Color fruitColor() default Color.GREEN;
 }

@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * All rights reserved.
  * author: King.Z
  * date:  2016/9/19 21:53
- * description:
+ * description:水果供应商的注解定义
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
