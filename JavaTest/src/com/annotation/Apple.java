@@ -8,7 +8,7 @@ package com.annotation;
  * description: 注解的使用
  */
 public class Apple {
-	@FruitName("Apple")
+	@FruitName(value = "Apple")
 	private String appleName;
 
 	@FruitColor(fruitColor = FruitColor.Color.RED)
