@@ -31,18 +31,17 @@ public class XmlDomParse {
         Document doc = db.parse("E:\\111.xml");
         Element root = doc.getDocumentElement();
 
-        System.out.println("���ڵ�������" + root.getTagName());
+        System.out.println("根节点：" + root.getTagName()+";name参数为："+root.getAttribute("name"));
 
-        NodeList collegeLists = root.getChildNodes(); //���е�college
+        NodeList collegeLists = root.getChildNodes();
         if (collegeLists == null) {
             return;
         }
-        System.out.println("**********����xml****���ҽڵ�Ԫ��*******");
         for (int i = 0; i < collegeLists.getLength(); i++) {
-            Node node_1 = collegeLists.item(i);    //ѭ��college�ڵ�
-            System.out.println("��" + i + "��college�ڵ�Ϊ��" + node_1);
+            Node node_1 = collegeLists.item(i);
+            System.out.println("第" + i + "个college节点为：" + node_1);
             if (node_1 != null && node_1.getNodeType() == Node.ELEMENT_NODE) {
-                System.err.println(node_1.getAttributes().getNamedItem("name").getNodeValue());
+                System.err.println("属性值为："+node_1.getAttributes().getNamedItem("name").getNodeValue());
 //                // all class node
 //                NodeList classLists = node_1.getChildNodes();
 //                if (classLists == null) {

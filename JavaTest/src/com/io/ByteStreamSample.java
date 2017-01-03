@@ -106,7 +106,7 @@ public class ByteStreamSample{
      * @param bufferLen     缓冲区大小
      */
     public static void readDataFromFile(File mFile,int bufferLen){
-        //指导文件多大
+        //知道文件多大
         byte[] buffer = new byte[bufferLen]; //1024的话长度可能超长
         //不知道文件多少大
         //byte[] buffer = new byte[1024]; //1024

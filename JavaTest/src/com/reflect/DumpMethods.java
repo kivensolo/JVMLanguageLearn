@@ -16,6 +16,7 @@ public class DumpMethods {
 
     private static void test() {
         //testmethods();
+
     }
 
     public static void testmethods() {
