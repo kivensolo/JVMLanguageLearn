@@ -1,4 +1,4 @@
-package com.kkklong;
+package com.clonepra;
 
 import java.util.Date;
 
@@ -8,12 +8,12 @@ import java.util.Date;
  * author: King.Z <br>
  * date:  2016/12/29 10:31 <br>
  * description: 实现了 Cloneable 接口，
- * 以指示 Object.clone() 方法可以合法地对该类实例进行按字段复制。 <br>
+ * 以指示 Object.clonepra() 方法可以合法地对该类实例进行按字段复制。 <br>
  *
  *     要让一个对象进行克隆，其实就是两个步骤：
     1. 让该类实现java.lang.Cloneable接口；
     2. 重写（override）Object类的clone()方法。
-    这种方式是浅克隆（shallow clone）
+    这种方式是浅克隆（shallow clonepra）
  */
 public class SourceIronMain implements Cloneable{
     private String id;

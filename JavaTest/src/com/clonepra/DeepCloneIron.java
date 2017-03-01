@@ -1,4 +1,4 @@
-package com.kkklong;
+package com.clonepra;
 
 /**
  * Copyright(C) 2016, 北京视达科科技有限公司
@@ -23,8 +23,8 @@ public class DeepCloneIron implements Cloneable{
     }
 
     //@Override
-    //protected Object clone() throws CloneNotSupportedException {
-    //    return super.clone();
+    //protected Object clonepra() throws CloneNotSupportedException {
+    //    return super.clonepra();
     //}
     @Override
     protected Object clone() throws CloneNotSupportedException {
