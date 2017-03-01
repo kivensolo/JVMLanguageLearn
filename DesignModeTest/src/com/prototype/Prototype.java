@@ -25,7 +25,7 @@ public class Prototype implements Cloneable,Serializable {
      */
     //此处clone方法可以改成任意的名称，因为Cloneable接口是个空接口
     public Object clone() throws CloneNotSupportedException {
-        //此处的重点是super.clone()这句话，super.clone()调用的是Object的clone()方法 native的
+        //此处的重点是super.clonepra()这句话，super.clonepra()调用的是Object的clone()方法 native的
         Prototype proto = (Prototype) super.clone();
         return proto;
         ///--------> 扩展
