@@ -1,8 +1,8 @@
 package com.factory_design;
 
-import factory_design.pizzas.ChinesePizza;
-import factory_design.pizzas.HotPizza;
-import factory_design.pizzas.Pizza;
+import com.factory_design.pizzas.ChinesePizza;
+import com.factory_design.pizzas.HotPizza;
+import com.factory_design.pizzas.Pizza;
 
 /**
  * Copyright(C) 2016, 北京视达科科技有限公司
