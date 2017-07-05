@@ -22,15 +22,25 @@ public class NormalQuqueUse extends AbstractCollection{
 	private static Queue<Object> mArrQueue = new ArrayDeque<Object>();
 	private static Queue<Delayed> mDelayQueue = new DelayQueue<Delayed>();
 
+
 	public static void main(String[] args) {
-		for(int i=0;i<20;i++){
-			mArrQueue.add("num:"+i);
+
+		BoundedCirclrQueue circlrQueue = new BoundedCirclrQueue();
+		for (int i = 0; i < 9; i++) {
+			if (!circlrQueue.offer(i)) {
+				System.out.println("队列数据已满");
+			}
 		}
-		System.out.println(mArrQueue.toString());
+		//for(int i=0;i<20;i++){
+		//	mArrQueue.add("num:"+i);
+		//}
+		//System.out.println(mArrQueue.toString());
 	}
+
 	public boolean addItem(Object o){
 		return mArrQueue.add(o);
 	}
+
 	public boolean removeItem(Object o){
 		return mArrQueue.remove(o);
 	}

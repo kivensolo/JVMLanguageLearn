@@ -15,6 +15,14 @@ public class Node {
     private String name;
     private int num;
 
+    public Node getNextNode(){
+        return nextNode;
+    }
+
+    public Node getPreNode(){
+        return preNode;
+    }
+
     public String getName() {
         return name;
     }

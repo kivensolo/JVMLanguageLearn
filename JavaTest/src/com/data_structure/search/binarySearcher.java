@@ -1,13 +1,11 @@
-package com.data_structure;
+package com.data_structure.search;
 
 /**
- * Copyright(C) 2016, 北京视达科科技有限公司
- * All rights reserved.
  * author: King.Z
  * date:  2016/9/4 16:50
  * description:二分查找法，适用于有序排列的数据，升序或者降序。
- *  首先，假设表中元素是按升序排列，将表中间位置记录的关键字与查找关键字比较，如果两者相等，则查找成功
- *
+ *  首先，假设表中元素是按升序排列，
+ *  将表中间位置记录的关键字与查找关键字比较，如果两者相等，则查找成功
  */
 public class binarySearcher {
 
