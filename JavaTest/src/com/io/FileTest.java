@@ -14,17 +14,37 @@ import java.io.*;
  */
 public class FileTest {
 	public static void main(String[] args) {
-		String path = "E:" + File.separator + "KKKKK";
-		System.out.println("路径="+path);
-		File file = new File(path);
-		if (!file.isDirectory()) {
+		String fileName = "src.txt";
+		String path = "E:" + File.separator + "wz" + File.separator;
+		File dir = new File(path);
+		if (!dir.isDirectory()) {
 			System.out.println("路径不存在，创建路径");
-			file.mkdirs();
+			dir.mkdirs();
 		}
-		String filePath = path + File.separator + "test.txt";
-		file = new File(filePath);
-		createFile(file, path);
-		readDataFromFile(file);
+		File file = new File(path + fileName);
+		createFile(file,null);
+		readDataFromExistedFile(file);
+
+		//Create File
+		File file1 = new File(dir,"asasa");
+		createFile(file1,null);
+
+		//Rename Dir
+		//dir.renameTo(new File("E:" + File.separator + "lols" + File.separator));
+
+		//Detele Dir's all files
+		boolean success = dir.delete();
+		if(!success){
+			String[] fileList = dir.list();
+			 for (int i=0; i<fileList.length; i++) {
+                //boolean isDelete = deleteDir(new File(dir, fileList[i]));
+				 System.out.println("遍历文件：" + fileList[i]);
+            }
+		}
+
+
+		//Rename File
+		//file1.renameTo(new File(dir,"www"));
 	}
 
 	/**
@@ -33,7 +53,7 @@ public class FileTest {
 	 * 当知道文件长度的时候，就
 	 * @param file
 	 */
-	private static void readDataFromFile(File file) {
+	private static void readDataFromExistedFile(File file) {
 		try {
 			byte[] bytes = new byte[(int) file.length()];
 			FileInputStream fins = new FileInputStream(file);
@@ -55,9 +75,31 @@ public class FileTest {
 			fops.write("HelloWorld".getBytes());
 			//什么时候flush? 有缓冲的时候？
 			//	    fops.flush();
+			fops.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 		}
 	}
+	  /**
+     * 递归删除目录下的所有文件及子目录下所有文件
+     * @param dir 将要删除的文件目录
+     * @return boolean Returns "true" if all deletions were successful.
+     *                 If a deletion fails, the method stops attempting to
+     *                 delete and returns "false".
+     */
+    private static boolean deleteDir(File dir) {
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+ 			//递归删除目录中的子目录下
+            for (int i=0; i<children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        // 目录此时为空，可以删除
+        return dir.delete();
+    }
 }
