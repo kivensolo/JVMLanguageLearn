@@ -1,12 +1,11 @@
 package com.concurrent.thread;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.*;
 
 /**
- * Copyright(C) 2017, 北京视达科科技有限公司
- * All rights reserved. <br>
  * author: King.Z <br>
  * date:  2017/8/14 21:45 <br>
  * description: Executor执行Callable任务 <br>
@@ -29,40 +28,40 @@ class CallableTest {
     static void start() {
         ExecutorService executorService  = Executors.newCachedThreadPool();
         List<Future<String>> resultList = new ArrayList<Future<String>>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 20; i++) {
             Future<String> future = executorService .submit(new TaskWithResult(i));
             resultList.add(future);
         }
+        System.out.println("Submit Finish");
         for (Future<String> fs : resultList) {
             try {
                 //blocking result
                 while (!fs.isDone()){
-                    System.out.println(" wait....." + fs.get());
+                    System.out.println(Calendar.getInstance().getTimeInMillis()+"   result:" + fs.get());
                 }
-                System.out.println(fs.get());
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             } finally {
                 executorService.shutdown();
             }
         }
+        System.out.println("ALl finish");
     }
 }
 
 class TaskWithResult implements Callable<String> {
     private int id;
 
-    public TaskWithResult(int id) {
+    TaskWithResult(int id) {
         this.id = id;
     }
 
-    /**
-     * 任务的具体过程，一旦任务传给ExecutorService的submit方法，
-     * 则该方法自动在一个线程上执行
-     */
     @Override
     public String call() throws Exception {
-        System.out.println("开始执行 id:" + id + "    " + Thread.currentThread().getName());
+        if(id == 10){
+            Thread.sleep(10 * 1000);
+        }
+        System.out.println(Calendar.getInstance().getTimeInMillis()+"  Start id:" + id + "    " + Thread.currentThread().getName());
         return "Task finish. id = " + id + "    " + Thread.currentThread().getName();
     }
 }
