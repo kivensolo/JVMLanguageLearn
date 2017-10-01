@@ -1,4 +1,4 @@
-package com.proxy.dynamic_proxy;
+package com.proxy.normal_proxy;
 
 /**
  * author: King.Z <br>

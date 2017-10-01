@@ -12,17 +12,19 @@ public class GamePlayHandler implements InvocationHandler {
     //被代理对象
     Object target = null;
 
-    //要代理谁
+    //我要代理谁
     public GamePlayHandler(Object _obj){
         this.target = _obj;
     }
 
-     //代理方法
+     //调用被代理的方法   它完成对正式方法的调用
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        System.out.println("invoke() ---->" + "Method = " + method.getName());
+        Object result = method.invoke(this.target, args);
         if(method.getName().equalsIgnoreCase("login")){
             System.out.println("---->有人在用账号登陆<----");
         }
-        return method.invoke(this.target, args);
+        return result;
     }
 }

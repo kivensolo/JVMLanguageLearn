@@ -4,34 +4,26 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
 /**
- * 动态代理类是一个实现在创建类时在运行时指定的接口列表的类，该类具有下面描述的行为。
- * 【代理接口】 是代理类实现的一个接口。
- * 【代理实例】 是代理类的一个实例。
- * 每个代理实例都有一个关联的调用处理程序对象，它可以实现接口 InvocationHandler。
- * 通过其中一个代理接口的代理实例上的方法调用将被指派到实例的调用处理程序的 Invoke 方法，
- * 并传递代理实例、识别调用方法的 java.lang.reflect.Method 对象以及包含参数的 Object 类型的数组。
- * 调用处理程序以适当的方式处理编码的方法调用，并且它返回的结果将作为代理实例上方法调用的结果返回。
-
+ * ※ 动态代理在实现阶段不用关心代理谁，而是在运行阶段才指定代理谁。
+ * ※  之前的两种代理方式，需要自己写代理类的方式就是静态代理。
+ *
+ * AOP编程思想
  */
 public class Client {
     public static void main(String[] args) throws Throwable {
-        //定义一个痴迷的玩家
         IGamePlayer player = new GamePlayer("张三");
-        //定义一个handler  The invocation handler to dispatch method invocations to
-        InvocationHandler handler = new GamePlayHandler(player);
-        //记下时间戳
+        InvocationHandler handler = new GamePlayHandler(player); //传入具体对象，方法回调时，反射调用其方法。
         System.out.println("开始时间是：2017-6-24 10:45");
-        //The class loader to define the proxy class
+        //获取到具体对象类的ClassLoader
         ClassLoader cl = player.getClass().getClassLoader();
-        //动态产生一个IGamePlayer的代理
-        IGamePlayer proxy = (IGamePlayer) Proxy.newProxyInstance(cl,new Class[] { IGamePlayer.class },handler);
-        //等同于：
-        //Class proxyClass = Proxy.getProxyClass(cl, new Class[] { IGamePlayer.class });
-        //IGamePlayer proxy = (IGamePlayer)proxyClass.getConstructor(new Class[]{InvocationHandler.class}).newInstance(new Object[]{handler});
-
-
-        //登录
-        proxy.login("zhangsan","123456");
+        //通过反射动态产生代理
+        Class clazz = Proxy.getProxyClass(cl, IGamePlayer.class); //获取到需要代理的Foo接口的class
+        //通过Foo接口的class，传入一个InvocationHandler对象，实例化一个需要代理的对象接口
+        // 这样对具体对象那个的方法调用，就会触发handler的invoke()回调方法
+        IGamePlayer proxy = (IGamePlayer)clazz.getConstructor(InvocationHandler.class).newInstance(handler);
+        //简洁调用
+        //IGamePlayer proxy2 = (IGamePlayer) Proxy.newProxyInstance(cl,new Class[] { IGamePlayer.class },handler);
+        proxy.login("张三","123456");
         proxy.killBoss();
         proxy.upgrade();
         System.out.println("结束时间是：2017-6-25 03:40");
