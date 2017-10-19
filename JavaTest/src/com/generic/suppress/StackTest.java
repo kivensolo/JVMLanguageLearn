@@ -2,7 +2,7 @@ package com.generic.suppress;
 
 public class StackTest {
     public static void main(String[] args) {
-        Stack<String> stack = new Stack<>();
+        GenericStack<String> stack = new GenericStack<>();
         stack.push("a");
         stack.push("b");
         stack.push("c");
