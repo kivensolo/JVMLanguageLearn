@@ -14,7 +14,7 @@ import java.io.*;
 public class ByteStreamSample{
     static File file;
     static String path;
-    static String data = "codeWorld 逗比";
+    static String data = "codeWorld ";
     static InputStream ins;
     static OutputStream ous;
 

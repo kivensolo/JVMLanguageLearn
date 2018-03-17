@@ -21,9 +21,10 @@ public class FileTest {
 			System.out.println("路径不存在，创建路径");
 			dir.mkdirs();
 		}
-		File file = new File(path + fileName);
+		File file = new File(path.concat(fileName));
 		createFile(file,null);
-		readDataFromExistedFile(file);
+
+		//readDataFromExistedFile(file);
 
 		//Create File
 		File file1 = new File(dir,"asasa");
@@ -67,15 +68,14 @@ public class FileTest {
 
 	private static void createFile(File file, String path) {
 		try {
-			FileOutputStream fops = new FileOutputStream(file, true);
+			//FileOutputStream fops = new FileOutputStream(file, true);
 			if (!file.exists()) {
 				//文件不存在  生成文件，并写入数据
 				file.createNewFile();
 			}
-			fops.write("HelloWorld".getBytes());
 			//什么时候flush? 有缓冲的时候？
 			//	    fops.flush();
-			fops.close();
+			//fops.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
