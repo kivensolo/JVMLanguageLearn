@@ -7,16 +7,16 @@ import com.annotation.requestDemo.ReqTypeEnum;
  * date:  2016/9/4 17:42
  * description:反射测试
  */
-public class Dump {
+public class RelectClient {
     private int num = 555;
     private String str = "hello";
 
     //没有这个无参构造函数 会导致class.newInstance的时候抛出InstantiationException异常
     //在Class的getConstructor0方法中会抛出异常
-    public Dump(){
+    public RelectClient(){
 
     }
-    public Dump(int num, String str) {
+    public RelectClient(int num, String str) {
         this.num = num;
         this.str = str;
     }
@@ -26,6 +26,13 @@ public class Dump {
 
     private int getDumpNum(){
         return num;
+    }
+
+    public void numPrint(int num1){
+        System.out.println("num1:" + num1);
+    }
+    public void numPrint(int num1,int num2){
+        System.out.println("num1:" + num1 + "num2:" + num2);
     }
 
     @ReqType({ReqTypeEnum.POST})
