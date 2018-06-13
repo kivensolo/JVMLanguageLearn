@@ -3,15 +3,13 @@ package com.common.string;
 import java.util.Arrays;
 
 /**
- * Copyright(C) 2016, 北京视达科科技有限公司
- * All rights reserved. <br>
  * author: King.Z <br>
  * date:  2016/6/12 17:25 <br>
  * description: XXXXXXX <br>
  */
 public class Transform {
     public static void main(String[] args) {
-
+        str2Byte("java");
     }
 
     /** String 转 byte */

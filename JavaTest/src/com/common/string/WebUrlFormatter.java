@@ -1,11 +1,9 @@
 package com.common.string;
 
 /**
- * Copyright(C) 2016, 北京视达科科技有限公司
- * All rights reserved. <br>
  * author: King.Z <br>
  * date:  2016/6/16 10:37 <br>
- * description: 关于接口的一些格式化代码 <br>
+ * description: 关于Url的一些格式化代码 <br>
  */
 public class WebUrlFormatter {
 

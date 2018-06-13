@@ -1,8 +1,6 @@
 package com.common.string;
 
 /**
- * Copyright(C) 2016, 北京视达科科技有限公司
- * All rights reserved. <br>
  * author: King.Z <br>
  * date:  2016/5/11 15:41 <br>
  * description: 常用的字符串格式化 <br>
@@ -24,21 +22,21 @@ public class JavaStringFormat {
     private static void changeFlagFromat() {
         str=String.format("格式参数$:(被格式化的参数索引)的使用：%2$d,%1$s","abc",99);
         System.out.println(str);
-        //+使用
-        System.out.printf("格式参数+:显示正负数的符号：%+d与%d%n", 99,-99);
+        //+使用 对于负数无效
+        System.out.printf("格式参数+:显示正负数的符号：%+d与%d  和%+d %n", 99,-99,-99);
         //-使用
         System.out.printf("格式参数-:左对齐：%-5d  %n",15);
         //补O使用
         System.out.printf("格式参数0:数字前面补0,最牛的编号是：%03d  %n", 7);
         //(使用
-        System.out.printf("格式参数(:包裹负数-99.99, %(f   %n", -99.99);
+        System.out.printf("格式参数(:包裹负数-99.99: %(f   %n", -99.99);
         //空格使用
-        System.out.printf("无Tab键的效果是：%08d%n", 7);
-        System.out.printf("有Tab键的效果是：% 8d%n", 7);
+        System.out.printf("无Tab键的效果是：%08d  %n", 7);
+        System.out.printf("有Tab键的效果是：%7d   %n", 7);
         //.使用
         System.out.printf("整数分组的效果是：%,d   %n", 9989997);
         //空格和小数点后面个数
-        System.out.printf("一本书的价格是：% 50.5f元%n", 49.8);
+        System.out.printf("一本书的价格是：% 50.5f元 %n", 49.8);
     }
 
     /**
@@ -60,6 +58,6 @@ public class JavaStringFormat {
         System.out.printf("上面价格的指数和浮点数结果的长度较短的是：%g %n", 50*0.85);
         System.out.printf("上面的折扣是%d%% %n", 85);
         System.out.printf("字母A的散列码是：%h %n", 'A');
-         System.out.println("");
+        System.out.println("");
     }
 }
