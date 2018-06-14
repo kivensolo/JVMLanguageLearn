@@ -1,11 +1,9 @@
 package com.factoryandbuilder.nomalfactory;
 
 /**
- * Copyright(C) 2016, 北京视达科科技有限公司
- * All rights reserved. <br>
  * author: King.Z <br>
  * date:  2017/1/25 14:28 <br>
- * description: XXXXXXX <br>
+ * description: 具体创建者 <br>
  */
 public class ConcreteCreator extends Creator {
     public <T extends Product> T createProduct(Class<T> c) {

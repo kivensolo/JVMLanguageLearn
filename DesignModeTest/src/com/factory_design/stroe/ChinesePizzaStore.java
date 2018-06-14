@@ -5,8 +5,6 @@ import com.factory_design.pizzas.ChinesePizza;
 import com.factory_design.pizzas.Pizza;
 
 /**
- * Copyright(C) 2016, 北京视达科科技有限公司
- * All rights reserved. <br>
  * author: King.Z <br>
  * date:  2017/3/31 21:24 <br>
  * description: 加盟店之一 ------- 中国披萨店 <br>
