@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Root>
+    <name>快乐风男 -ex   </name>
+    <games>
+        <item price="30">
+            <game>Witcher</game>
+        </item>
+        <item price="22">
+            <game>NR</game>
+        </item>
+    </games>
+    <birthDate>2018-06-12</birthDate>
+</Root>
