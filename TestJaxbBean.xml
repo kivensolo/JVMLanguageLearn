@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Root>
+    <name>KingZ -ex</name>
+    <games>
+        <item price="30">
+            <game>Witcher</game>
+        </item>
+        <item price="22">
+            <game>NR</game>
+        </item>
+    </games>
+    <birth>2018-06-12</birth>
+</Root>
