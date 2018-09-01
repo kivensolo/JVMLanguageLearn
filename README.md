@@ -1,2 +1,2 @@
 # JavaPracticeCode
-Some Java Test Code ThiknInJava
+Some Java Practice Code
