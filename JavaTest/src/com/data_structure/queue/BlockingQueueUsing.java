@@ -1,4 +1,4 @@
-package com.concurrent.queue;
+package com.data_structure.queue;
 
 /**
  * author: King.Z <br>
@@ -13,6 +13,7 @@ package com.concurrent.queue;
  *     问题：阻塞是怎么实现的？
  *      试图向已满队列中放入元素会导致操作受阻塞；
  *      试图从空队列中提取元素将导致类似阻塞
+ *      TODO 待编写
  */
 public class BlockingQueueUsing {
 

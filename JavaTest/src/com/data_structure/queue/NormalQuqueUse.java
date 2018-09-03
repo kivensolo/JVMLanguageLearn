@@ -1,4 +1,4 @@
-package com.concurrent.queue;
+package com.data_structure.queue;
 
 import java.util.AbstractCollection;
 import java.util.ArrayDeque;
