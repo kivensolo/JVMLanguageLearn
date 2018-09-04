@@ -3,13 +3,12 @@ package com.prototype;
 import java.io.*;
 
 /**
- * Copyright(C) 2016, 北京视达科科技有限公司
- * All rights reserved. <br>
  * author: King.Z <br>
  * date:  2016/8/24 11:28 <br>
  * description: 原型模式（Prototype） <br>
  *     原型模式虽然是创建型的模式，但是与工厂模式没有关系，
- *     从名字即可看出，该模式的思想就是将一个对象作为原型，对其进行复制、克隆，产生一个和原对象类似的新对象
+ *     从名字即可看出，该模式的思想就是将一个对象作为原型，
+ *     对其进行复制、克隆，产生一个和原对象类似的新对象
  */
 public class Prototype implements Cloneable,Serializable {
 
