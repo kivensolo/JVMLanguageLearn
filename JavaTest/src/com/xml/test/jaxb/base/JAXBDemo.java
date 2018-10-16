@@ -22,11 +22,13 @@ public class JAXBDemo {
             marshaller.setProperty(Marshaller.JAXB_ENCODING,"UTF-8");
 
             TestJaxbBean dataBean = new TestJaxbBean();
-            dataBean.name = "KingZ";
+            TestJaxbBean.UserInfoAttr userInfoAttr = new TestJaxbBean.UserInfoAttr();
+            userInfoAttr.setName("KingZ");
             ArrayList<TestItem>  itemArrayList = new ArrayList<>();
             itemArrayList.add(new TestItem("30","Witcher"));
             itemArrayList.add(new TestItem("22","NR"));
             dataBean.games = itemArrayList;
+            dataBean.userInfo = userInfoAttr;
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			dataBean.birth = sdf.format(new Date());
 			marshaller.marshal(dataBean, xmlFile);

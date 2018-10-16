@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Root>
-    <name>KingZ -ex</name>
+<Root xmlns:ns1="http://www.mynamespace.com">
+    <user_info ns1:name="KingZ"/>
     <games>
         <item price="30">
             <game>Witcher</game>
@@ -9,5 +9,5 @@
             <game>NR</game>
         </item>
     </games>
-    <birth>2018-06-12</birth>
+    <birthDate>2018-10-16 -ex</birthDate>
 </Root>

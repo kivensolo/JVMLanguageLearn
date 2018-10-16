@@ -1,9 +1,13 @@
 package com.xml.test.jaxb.base.dimain;
 
+import com.sun.org.apache.xerces.internal.dom.ElementNSImpl;
+
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * <p> <b>Annotations explain:</b> </p>
@@ -29,23 +33,26 @@ import java.util.ArrayList;
 @XmlRootElement(name = "Root")
 public class TestJaxbBean {
 
-    @XmlJavaTypeAdapter(value = StringTrimAdapter.class)
-    @XmlElement(name = "name")
-    public String name;
+    @XmlElement(name = "user_info")
+    public UserInfoAttr userInfo;
 
     @XmlElementWrapper(name="games")
     @XmlElement(name = "item")
     public ArrayList<TestItem> games;
 
-    //@XmlElement(name = "birthDate")
+    @XmlJavaTypeAdapter(value = StringTrimAdapter.class)
+    @XmlElement(name = "birthDate")
     public String birth;
+
+    @XmlAnyElement()
+    Object[] otherElements;
 
     @Override
     public String toString() {
-        return "TestJaxbBean{" +
-                "birth='" + birth + '\'' +
-                ", games='" + games.toString() + '\'' +
-                ", name='" + name + '\'' +
+        return "TestJaxbBean{\n" + userInfo.toString() + '\n' +
+                "   birth=" + birth + '\n' +
+                "   games=" + games.toString() + '\n' +
+                "   othersA=" + (otherElements == null ? "null" : ((ElementNSImpl)otherElements[0]).getTextContent()) + '\n' +
                 '}';
     }
 
@@ -70,4 +77,36 @@ public class TestJaxbBean {
         }
     }
 
+    public static class UserInfoAttr {
+        public static final String NAME_SPACE = "http://www.mynamespace.com";
+        //----------------- 指定的属性值 -----------------
+        @XmlAttribute(namespace = NAME_SPACE, required = true)
+		String name;
+
+        @XmlAttribute(namespace = NAME_SPACE)
+		String age;
+
+        @XmlAttribute(namespace = NAME_SPACE)
+		String sex;
+        //----------------- 指定的属性值 -----------------
+
+
+        //----------------- 未指定的属性值 -----------------
+        @XmlAnyAttribute()
+        HashMap<QName, String> attributes;
+
+        @Override
+        public String toString() {
+            return "    UserInfoAttr{" + '\n' +
+                    "       name=" + name + '\n' +
+                    "       age=" + age + '\n' +
+                    "       sex=" + sex + '\n' +
+                    "       otherAttr=" + attributes.toString() + '\n' +
+                    "   }";
+        }
+
+        public void setName(String n){
+            this.name = n;
+        }
+    }
 }

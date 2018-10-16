@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Root>
-    <name>快乐风男 -ex   </name>
+
+<Root xmlns:android="http://www.mynamespace.com">
+
+    <!--一个element中多个Attr-->
+    <user_info
+            android:name = "快乐风男"
+            android:age = "15"
+            android:sex = "男"
+            otherAttr = "haha"/>
+
+    <!--一个element中多个element-->
     <games>
         <item price="30">
             <game>Witcher</game>
@@ -10,4 +19,7 @@
         </item>
     </games>
     <birthDate>2018-06-12</birthDate>
+
+    <undefined_a>未定义的节点_A</undefined_a>
+    <undefined_b>未定义的节点_B</undefined_b>
 </Root>
