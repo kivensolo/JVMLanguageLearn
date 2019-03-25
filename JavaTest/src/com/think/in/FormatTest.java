@@ -1,5 +1,6 @@
 package com.think.in;
 
+import java.util.ArrayList;
 import java.util.Formatter;
 
 /**
@@ -35,11 +36,23 @@ public class FormatTest {
     }
 
     public static void main(String[] args) {
-        FormatTest ft  = new FormatTest();
-        ft.printTitle(10);
-        ft.printDetail("HappyCar","2",5.31,10);
-        ft.printDetail("Apple","12",4.31,10);
-        ft.printDetail("Banana","5",3.2,10);
-        ft.printTotal(10);
+        //FormatTest ft  = new FormatTest();
+        //ft.printTitle(10);
+        //ft.printDetail("HappyCar","2",5.31,10);
+        //ft.printDetail("Apple","12",4.31,10);
+        //ft.printDetail("Banana","5",3.2,10);
+        //ft.printTotal(10);
+        printByStringFormat();
+    }
+
+
+    private static void printByStringFormat(){
+        ArrayList<String> timeLog = new ArrayList<String>();
+        for (int i = 0; i < 5; i++) {
+            timeLog.add(String.format("%15s: %.2fs", "Process-" +i, 0.32f));
+        }
+        for (String s : timeLog) {
+            System.out.println("TIMING:" + s);
+		}
     }
 }

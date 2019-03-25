@@ -1,6 +1,5 @@
 package com.think.in;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -18,22 +17,22 @@ public class StringFormat {
         //data = data.replaceAll("_","");
         //System.out.println(data);
         String  end_str= "2019-10-18 23:59:59";
-        long serviceTime = 1453194803;
+        long serviceTime = 1543129200;
 
-        SimpleDateFormat endDataFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SimpleDateFormat endDataFormat2 = new SimpleDateFormat("yyyyMMddHHmmss");
+        SimpleDateFormat endDataFormat = new SimpleDateFormat("yyyy-MM-DD HH:mm:ss");
+        //SimpleDateFormat endDataFormat2 = new SimpleDateFormat("HH:mm:ss");
         try {
-            Date date = endDataFormat.parse(end_str);
-            String strs = endDataFormat2.format(date);
-            System.out.println("转换后的日期：" + strs);
+            //Date date = endDataFormat.parse(end_str);
+            //String strs = endDataFormat2.format(date);
+            //System.out.println("转换后的日期：" + strs);
 
-            Date date2 = new Date(Integer.valueOf(String.valueOf(serviceTime)));
+            Date date2 = new Date(Long.valueOf(String.valueOf(serviceTime)) * 1000);
             //Date date3 = endDataFormat.parse(serviceTime);
-            System.out.println(date2.toString());
+            //System.out.println(date2.toString());
             String nowTime = endDataFormat.format(date2);
 
             System.out.println("转换后的当前系统时间 CurrentServerTime = " + nowTime);
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
          //String endData = end_str.replace("-","").replace(" ","").replace(":","");

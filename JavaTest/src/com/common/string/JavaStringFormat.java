@@ -32,11 +32,14 @@ public class JavaStringFormat {
         System.out.printf("格式参数(:包裹负数-99.99: %(f   %n", -99.99);
         //空格使用
         System.out.printf("无Tab键的效果是：%08d  %n", 7);
+        System.out.printf("字符串 的效果是：%8s  %n", "7");
         System.out.printf("有Tab键的效果是：%7d   %n", 7);
         //.使用
         System.out.printf("整数分组的效果是：%,d   %n", 9989997);
         //空格和小数点后面个数
         System.out.printf("一本书的价格是：% 50.5f元 %n", 49.8);
+
+        System.out.printf("Merging ext-files from %s \n%7s into %s ", "D:\\test\\ere","","E:\\ff");
     }
 
     /**
