@@ -29,7 +29,7 @@ class CallableTest {
         ExecutorService executorService  = Executors.newCachedThreadPool();
         List<Future<String>> resultList = new ArrayList<Future<String>>();
         for (int i = 0; i < 20; i++) {
-            Future<String> future = executorService .submit(new TaskWithResult(i));
+            Future<String> future = executorService.submit(new TaskWithResult(i));
             resultList.add(future);
         }
         System.out.println("Submit Finish");

@@ -15,11 +15,8 @@ public class ExecutorUtils {
 
     public static void exeFixedWork(){
         //User the executor to execute Runnabel
-        fixedExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                //Do work
-            }
+        fixedExecutor.execute(() -> {
+            //Do work with Runnable
         });
     }
 }
