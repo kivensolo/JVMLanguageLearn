@@ -205,25 +205,25 @@ public class DateUtil {
         int day = calendar.get(Calendar.DAY_OF_WEEK);
         String weekStr = "";
         switch (day){
-            case 1:
+            case Calendar.SUNDAY:
                 weekStr = "星期日";
                 break;
-            case 2:
+            case Calendar.MONDAY:
                 weekStr = "星期一";
                 break;
-            case 3:
+            case Calendar.TUESDAY:
                 weekStr = "星期二";
                 break;
-            case 4:
+            case Calendar.WEDNESDAY:
                 weekStr = "星期三";
                 break;
-            case 5:
+            case Calendar.THURSDAY:
                 weekStr = "星期四";
                 break;
-            case 6:
+            case Calendar.FRIDAY:
                 weekStr = "星期五";
                 break;
-            case 7:
+            case Calendar.SATURDAY:
                 weekStr = "星期六";
                 break;
         }
