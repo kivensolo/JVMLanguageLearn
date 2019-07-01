@@ -1,4 +1,4 @@
-package com.concurrent.thread;
+package com.concurrent.executors;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * 加入线程池的线程属于托管状态，[线程的运行不受加入顺序的影响]
  * Executor执行Callable任务
  */
-public class ExecutorRunnable {
+public class ExecutorRunnable_Base {
     public static void main(String[] args) {
         //CachedThreadPoolTest.start();
         //FixedThreadPoolTest.start();
@@ -29,21 +29,19 @@ public class ExecutorRunnable {
     static void printMsg(ExecutorService executor) {
         final int[] id = {0};
         for (int i = 0; i < 1; i++) {
-            executor.execute(new Runnable() {
-                public void run() {
-                    try {
-                        while (true) {
-                            id[0]++;
-                            Thread.sleep(2 * 1000);
-                            if (id[0] == 5) {
-                                System.out.println("Finished!");
-                                return;
-                            }
-                            System.out.println("printMsg   " + Thread.currentThread().toString() + "  " + id[0]);
+            executor.execute(() -> {
+                try {
+                    while (true) {
+                        id[0]++;
+                        Thread.sleep(2 * 1000);
+                        if (id[0] == 5) {
+                            System.out.println("Finished!");
+                            return;
                         }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        System.out.println("printMsg   " + Thread.currentThread().toString() + "  " + id[0]);
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             });
         }
@@ -56,7 +54,7 @@ class CachedThreadPoolTest {
     //根据需要创建新线程的线程池，但是在以前构造的线程可用时将重用它们
     static void start() {
         ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
-        ExecutorRunnable.printMsg(cachedThreadPool);
+        ExecutorRunnable_Base.printMsg(cachedThreadPool);
     }
 }
 
@@ -64,14 +62,14 @@ class FixedThreadPoolTest {
     //创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待
     static void start() {
         ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
-        ExecutorRunnable.printMsg(fixedThreadPool);
+        ExecutorRunnable_Base.printMsg(fixedThreadPool);
     }
 }
 
 class SingleThreadExecutor {
     static void start() {
         ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
-        ExecutorRunnable.printMsg(singleThreadExecutor);
+        ExecutorRunnable_Base.printMsg(singleThreadExecutor);
     }
 }
 

@@ -1,4 +1,4 @@
-package com.concurrent.thread;
+package com.concurrent.executors;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,7 +18,7 @@ import java.util.concurrent.*;
  * 而且当获取返回结果时可能会抛出异常。Callable中的call()方法类似Runnable的run()方法，
  * 区别同样是有返回值，后者没有。
  */
-public class ExecutorCallable {
+public class ExecutorCallable_Base {
     public static void main(String[] args) {
         CallableTest.start();
     }
@@ -28,6 +28,7 @@ class CallableTest {
     static void start() {
         ExecutorService executorService  = Executors.newCachedThreadPool();
         List<Future<String>> resultList = new ArrayList<Future<String>>();
+        // 模拟装载20个task
         for (int i = 0; i < 20; i++) {
             Future<String> future = executorService.submit(new TaskWithResult(i));
             resultList.add(future);
