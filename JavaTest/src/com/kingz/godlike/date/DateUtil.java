@@ -1,10 +1,11 @@
-package com.kingz.godlike;
+package com.kingz.godlike.date;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Copyright(C) 2015, 北京视达科科技有限公司
@@ -15,15 +16,16 @@ import java.util.*;
  */
 public class DateUtil {
 
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    public static final int ONE_DAY_MS = 86400000;
+    SimpleDateFormat _ymdHmsFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    SimpleDateFormat _hmsFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final long ONE_DAY_MS = TimeUnit.DAYS.toMillis(1);
     Calendar calendar = Calendar.getInstance();
     String currentSysTime;
     DateFormat df;
     Date date;
 
     /**
-	 * 每日定时定点做事
+	 * 每日定时定点执行
 	 */
 	private void setExpireCheckClock() {
 		Calendar cal = Calendar.getInstance();
@@ -41,43 +43,25 @@ public class DateUtil {
 	}
 
     /**
-     * 获取当前时间的Hour
+     * 获取当前时间的小时值
      * @return
      */
     private int getCurrentTimeHour(){
-        //Calendar.getInstance().getTime().getHours()
         return Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
     }
 
 
     /**
-     * 获取现在的时间
-     * @return 字符串格式  yyyy-MM-dd HH:mm:ss
+     * 获取当前(系统)的时间
+     * @param format 时间格式化样式
+     * @return 字符串格式
+     * 具体格式根据
+     * 如： yyyy-MM-dd HH:mm:ss
      */
-    public String getStringDate(){
-        currentSysTime = sdf.format(new Date());  //new Date为获取当前系统时间
+    public String getStringDate(SimpleDateFormat format){
+        currentSysTime = format.format(new Date());  //new Date为获取当前系统时间
         System.out.println("当前系统时间："+currentSysTime);
-        return currentSysTime;
-    }
-
-    /**
-     * 获取当前时间
-     * @return 字符串格式  yyyy年MM月dd日
-     */
-    public String getCurrentTextDate(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
-        currentSysTime = sdf.format(new Date());
-        System.out.println("当前系统时间："+currentSysTime);
-        return currentSysTime;
-    }
-
-    /**
-     * 获取现在时间
-     * @return 返回短时间字符串格式 yyyy-MM-dd
-     */
-    public static String getStringDateShort() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        return formatter.format(new Date());
+        return format.format(new Date());
     }
 
     /**
@@ -87,7 +71,7 @@ public class DateUtil {
      */
      public long fromDateStringToLong(String inVal) { //此方法计算时间毫秒
          try {
-             date = sdf.parse(inVal); //将字符型转换成日期型
+             date = _ymdHmsFormat.parse(inVal); //将字符型转换成日期型
          } catch (Exception e) {
              e.printStackTrace();
          }
@@ -102,8 +86,8 @@ public class DateUtil {
      */
      public long fromDateStringToLong(String inVal,String format) {
          try {
-             sdf = new SimpleDateFormat(format);
-             date = sdf.parse(inVal);
+             _ymdHmsFormat = new SimpleDateFormat(format);
+             date = _ymdHmsFormat.parse(inVal);
          } catch (Exception e) {
              e.printStackTrace();
          }
@@ -115,9 +99,9 @@ public class DateUtil {
      * @return 返回时间类型 yyyy-MM-dd HH:mm:ss
      */
     public Date getNowDate(){
-        currentSysTime = sdf.format(new Date());
+        currentSysTime = _ymdHmsFormat.format(new Date());
         ParsePosition pos = new ParsePosition(8);
-        Date currentTime_2 = sdf.parse(currentSysTime, pos);
+        Date currentTime_2 = _ymdHmsFormat.parse(currentSysTime, pos);
         return currentTime_2;
     }
 
@@ -171,10 +155,10 @@ public class DateUtil {
      * String 类型的时间转为Date类型
      */
     public void changeString2Date(String strTime){
-        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        _ymdHmsFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date time = null;
         try {
-            time = sdf.parse(strTime);
+            time = _ymdHmsFormat.parse(strTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -197,7 +181,7 @@ public class DateUtil {
      */
     public String getWeek(String strDate){
         try {
-            date = sdf.parse(strDate);
+            date = _ymdHmsFormat.parse(strDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -229,5 +213,34 @@ public class DateUtil {
         }
         System.out.println("星期X：" + weekStr);
         return weekStr;
+    }
+
+     /**
+     * 秒转换为指定格式的日期
+     * @param second 秒数
+     * @param patten 时间格式
+     * @return 指定的时间格式
+      * @Fixme 地区问题
+     */
+    public static String secondToDate(long second,String patten) {
+        Calendar calendar = Calendar.getInstance();
+        //calendar.setTimeInMillis(TimeUnit.SECONDS.toMillis(second) - TimeUnit.HOURS.toMillis(8));
+        calendar.setTimeInMillis(TimeUnit.SECONDS.toMillis(second) - TimeUnit.HOURS.toMillis(8));
+        Date date = calendar.getTime();
+        SimpleDateFormat format = new SimpleDateFormat(patten);
+        return format.format(date);
+    }
+
+    /**
+     * 秒转换为hh:mm:ss的日期
+     * @param second 秒数
+     * @return "02:59:59"
+     */
+    public static String secondToDate(int second) {
+       int h = (int) (second / TimeUnit.HOURS.toSeconds(1));
+       second = (int) (second - TimeUnit.HOURS.toSeconds(h));
+       int m = (int) (second / TimeUnit.MINUTES.toSeconds(1));
+       second = (int) (second - TimeUnit.MINUTES.toSeconds(m));
+       return String.format("%02d:%02d:%02d",h,m,second);
     }
 }
