@@ -13,10 +13,10 @@ public class AESEncryptHelper {
 	public static void main(String[] args) {
 		byte[] encryptBytes;
 		try {
-			encryptBytes = encryptByAes(content, password);
-			String encryprString = parseByte2HexStr(encryptBytes);
-			System.out.println(encryprString);//打印加密后的结果
-			byte[] bytes = parseHexStr2Byte(encryprString);
+			//encryptBytes = encryptByAes(content, password);
+			//String encryprString = parseByte2HexStr(encryptBytes);
+			//System.out.println(encryprString);//打印加密后的结果
+			byte[] bytes = parseHexStr2Byte("F9EB2199B261BA16B92F6861181E3B55515DCD2DC5451D542B46E8CBC89AB3B02702741DA8DF63B5A40492A49820B11BAF003E7EA0A7BF122F509E4694F533B407C532160C535980798BA6187AA36AE2");
 			String decryptString = decryptByAes(bytes, password);
 			System.out.println(decryptString);//打印解密后的结果，用作检验
 		} catch (Exception e) {

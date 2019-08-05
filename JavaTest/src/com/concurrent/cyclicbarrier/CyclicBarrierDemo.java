@@ -12,7 +12,7 @@ import java.util.concurrent.CyclicBarrier;
  */
 public class CyclicBarrierDemo {
     //构造函数指定party个数，并且提供一个可选的Runnable，当barrier打开的时候被调用执行。
-    static final CyclicBarrier cyclicBarrier = new CyclicBarrier(4, () -> {
+    private static final CyclicBarrier cyclicBarrier = new CyclicBarrier(4, () -> {
         System.out.println("Barrier Open !!! go !");         //barrierAction
     });
 
