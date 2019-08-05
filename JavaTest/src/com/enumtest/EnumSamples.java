@@ -13,6 +13,15 @@ public class EnumSamples {
         AccountState accountState = AccountState.valueOf("Normal"); //可以得到Noraml类型的枚举对象
     }
 
+    public enum Operation{
+        PLUS{double apply(double x,double y){return x + y;}},
+        MINUS{double apply(double x,double y){return x - y;}},
+        TIMES{double apply(double x,double y){return x * y;}},
+        DIVIDE{double apply(double x,double y){return x / y;}};
+
+        abstract double apply(double x, double y);
+    }
+
     /**
      * Effect java 示例枚举
      */
