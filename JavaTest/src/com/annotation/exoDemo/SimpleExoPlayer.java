@@ -6,6 +6,7 @@ public class SimpleExoPlayer implements Player {
         //do setRepeatMode(repeatMode);
     }
 
+
     @Override
     public @RepeatMode int getRepeatMode() {
         return 0;
