@@ -23,14 +23,12 @@ public class Clone {
         String json = "{\"com.starcor.xinjiang.gov\": \"http://172.31.15.249/1.3.0.0.0.SC-XJCBC-GOV-STB-QZ.0.0_Beta.apk\",\"com.starcor.xinjiang.dispatcher\": {\"url\": \"http://172.31.15.249/AppDispatcher_0.0.SC-XJCBC-STB-RK.0.0_Beta_1.3.0_SC41383_VC54383.apk\",\"versionCode\": \"54383\"}}";
         try {
             JSONObject object = new JSONObject(json);
-           JSONObject dispatcherData = object.optJSONObject("com.starcor.xinjiang.dispatcher");
+            JSONObject dispatcherData = object.optJSONObject("com.starcor.xinjiang.dispatcher");
             String s = dispatcherData.toString();
             System.out.println("sss ： " + s);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
     }
 
     static class InHe implements  Cloneable{

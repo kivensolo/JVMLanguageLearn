@@ -1,5 +1,7 @@
 package com.data_structure;
 
+import com.data_structure.linked.Node;
+
 /**
  * Copyright(C) 2016, 北京视达科科技有限公司
  * All rights reserved. <br>
@@ -42,7 +44,7 @@ public class LinkedList {
         }
         p = node;
         while (p != null){
-            System.out.println("-----> point:"+p.getName());
+            System.out.println("-----> point:"+p.getData());
             p = p.nextNode;
         }
     }
@@ -83,13 +85,13 @@ public class LinkedList {
         LinkedList  quene = new LinkedList();
         for (int i=0;i<4;i++){
             Node node = new Node();
-            node.setNum(i);
-            node.setName("我是----"+i);
+            node.setnum(i);
+            node.setData("我是----"+i);
             quene.enqueueNode(node);
         }
         quene.foreach(quene.headP);
 
-        System.out.println("第二个节点下一个节点为："+quene.nextNode(quene.headP.nextNode).getName());
+        System.out.println("第二个节点下一个节点为："+quene.nextNode(quene.headP.nextNode).getData());
 
     }
 

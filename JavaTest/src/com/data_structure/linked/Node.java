@@ -1,4 +1,4 @@
-package com.data_structure;
+package com.data_structure.linked;
 
 /**
  * Copyright(C) 2016, 北京视达科科技有限公司
@@ -12,7 +12,7 @@ public class Node {
     public  Node preNode;
     public  Node nextNode;
 
-    private String name;
+    private String data;
     private int num;
 
     public Node getNextNode(){
@@ -23,19 +23,20 @@ public class Node {
         return preNode;
     }
 
-    public String getName() {
-        return name;
+    public String getData() {
+        return data;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setData(String name) {
+        this.data = name;
     }
 
     public int getNum() {
         return num;
     }
 
-    public void setNum(int num) {
+    public void setnum(int num) {
         this.num = num;
     }
+
 }
