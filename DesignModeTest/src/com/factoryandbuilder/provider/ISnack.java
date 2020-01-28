@@ -3,7 +3,7 @@ package com.factoryandbuilder.provider;
 /**
  * author: King.Z
  * date:  2016/1/5 14:05
- * description: 店里需要提供三种类型的食物：汉堡、饮料、小吃
+ * description: 小吃产品抽象类
  */
 public interface ISnack {
     String makeSnack();

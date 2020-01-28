@@ -6,7 +6,7 @@ package com.factoryandbuilder.nomalfactory;
  * description: 具体产品类1 <br>
  */
 public class ConcreteProduct1 extends Product {
-    public void method2() {
+    public void create() {
         //业务逻辑处理
     }
 }

@@ -3,7 +3,7 @@ package com.proxy.dynamic_proxy;
 /**
  * author: King.Z <br>
  * date:  2017/10/1 17:26 <br>
- * description: <br>
+ * description: 需要代理得具体对象 <br>
  */
 public class GamePlayer implements IGamePlayer {
     private String name = "";

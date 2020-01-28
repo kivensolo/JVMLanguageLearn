@@ -12,7 +12,7 @@ public class GamePlayHandler implements InvocationHandler {
     //被代理对象
     Object target = null;
 
-    //我要代理谁
+    //指定代理对象
     public GamePlayHandler(Object _obj){
         this.target = _obj;
     }
