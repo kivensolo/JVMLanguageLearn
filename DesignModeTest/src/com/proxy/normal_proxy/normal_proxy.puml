@@ -1,0 +1,14 @@
+@startuml
+
+interface IGamePlayer{
+    login(String user, String psd);
+    killBoss();
+    upgrade();
+}
+class GamePlayerProxy implements IGamePlayer{
+    ReallyGamePlayer _gamePlayer;
+}
+
+class ReallyGamePlayer implements IGamePlayer
+GamePlayerProxy o-- ReallyGamePlayer:聚合(关联特例)
+@enduml

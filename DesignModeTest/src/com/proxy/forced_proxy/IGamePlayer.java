@@ -3,7 +3,8 @@ package com.proxy.forced_proxy;
 /**
  * author: King.Z <br>
  * date:  2017/6/24 17:26 <br>
- * description: 强制代理   需要明确自定的代理者才能执行行为 <br>
+ * description: 代理行为抽象层
+ *  <br>
  */
 public interface IGamePlayer {
     void login(String user, String psd);

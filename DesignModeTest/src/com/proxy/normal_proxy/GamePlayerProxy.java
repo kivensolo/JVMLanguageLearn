@@ -3,21 +3,22 @@ package com.proxy.normal_proxy;
 /**
  * author: King.Z <br>
  * date:  2017/10/1 17:23 <br>
- * description: <br>
+ * description: 具体代理商,实现真实游戏玩家的功能代理。<br>
+ *    实现代理对象的抽象行为接口
  */
 public class GamePlayerProxy implements IGamePlayer {
 
-    private BaseGamePlayer player;
+    private ReallyGamePlayer player;
 
     public GamePlayerProxy(String name) {
         //可以创建具体的游戏者对象  此处我用Base类代替
-        player = new BaseGamePlayer(name);
+        player = new ReallyGamePlayer(name);
     }
 
     @Override
     public void login(String user, String psd) {
         doBeforThing();
-        this.player.login(user, psd);
+        player.login(user, psd);
         doAfterThing();
     }
 

@@ -21,10 +21,9 @@ public class GamePlayHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         System.out.println("invoke() ---->" + "Method = " + method.getName());
-        Object result = method.invoke(this.target, args);
         if(method.getName().equalsIgnoreCase("login")){
             System.out.println("---->有人在用账号登陆<----");
         }
-        return result;
+        return method.invoke(this.target, args);
     }
 }

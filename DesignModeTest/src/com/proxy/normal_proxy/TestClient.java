@@ -1,8 +1,6 @@
 package com.proxy.normal_proxy;
 
 /**
- * Copyright(C) 2017, 北京视达科科技有限公司
- * All rights reserved. <br>
  * author: King.Z <br>
  * date:  2017/10/1 17:30 <br>
  * description: 普通代理模式用户不需要知道具体的代理者 <br>

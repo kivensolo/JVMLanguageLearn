@@ -3,13 +3,13 @@ package com.proxy.normal_proxy;
 /**
  * author: King.Z <br>
  * date:  2017/6/24 17:27 <br>
- * description: 具体游戏对象A <br>
+ * description: 真实代理对象 <br>
  */
-public class BaseGamePlayer implements IGamePlayer {
+public class ReallyGamePlayer implements IGamePlayer {
     String name = "";
     String pwd = "";
 
-    public BaseGamePlayer(String name) {
+    public ReallyGamePlayer(String name) {
         this.name = name;
     }
 
