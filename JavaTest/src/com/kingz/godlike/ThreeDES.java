@@ -10,8 +10,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 
 /**
- * Copyright(C) 2016, 北京视达科科技有限公司
- * All rights reserved. <br>
  * author: King.Z <br>
  * date:  2016/6/6 11:42 <br>
  * description: 3DES加密 <br>

@@ -2,12 +2,6 @@ package com.kingz.godlike;
 
 public class Test_20 {
 
-    /**
-     * @param args
-     * @Description�� ��Ŀ����һ�������У�2/1��3/2��5/3��8/5��13/8��21/13...���������е�ǰ20��֮�͡�
-     * 1.�����������ץס�������ĸ�ı仯���ɡ�
-     * @Return void
-     */
     public static void main(String[] args) {
         // TODO Auto-generated method stub
         float top = 2;

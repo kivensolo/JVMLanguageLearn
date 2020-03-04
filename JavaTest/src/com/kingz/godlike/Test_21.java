@@ -2,11 +2,6 @@ package com.kingz.godlike;
 
 public class Test_21 {
 
-    /**
-     * @param args��Ŀ����1+2!+3!+...+20!�ĺ͡� 1.����������˳���ֻ�ǰ��ۼӱ�����۳ˡ�
-     * @Description��
-     * @Return void
-     */
     public static void main(String[] args) {
         int sum = 0;
         int values = 1;

@@ -2,9 +2,6 @@ package com.kingz.godlike;
 
 import java.util.Scanner;
 
-/*
-��Ŀ����s = a + aa + aaa + aaaa + aa...a��ֵ������a��һ�����֡�����2 + 22 + 222 + 2222 + 22222(��ʱ����5�������)������������м��̿��ơ�
-1.����������ؼ��Ǽ����ÿһ���ֵ��*/
 public class Test_6 {
 
     public static int total = 0;

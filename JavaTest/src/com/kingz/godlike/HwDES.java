@@ -3,8 +3,6 @@ package com.kingz.godlike;
 import java.security.MessageDigest;
 
 /**
- * Copyright(C) 2016, 北京视达科科技有限公司
- * All rights reserved. <br>
  * author: King.Z <br>
  * date:  2016/6/14 17:36 <br>
  * description: XXXXXXX <br>

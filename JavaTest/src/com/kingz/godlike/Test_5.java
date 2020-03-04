@@ -3,17 +3,6 @@ package com.kingz.godlike;
 
 import java.util.Scanner;
 
-/**
- * Copyright (c) 2015, �����Ӵ�ƿƼ��������ι�˾
- * All rights reserved.
- * author��zhi.wang
- * date��2015-9-24
- * description��
- */
-/*��Ŀ����������������m��n���������Լ��m����С������n��
-        1.�������������շ������
-        ��󹫱��� = a * b / ���Լ����
-*/
 public class Test_5 {
 
     public static int m;

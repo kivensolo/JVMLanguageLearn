@@ -1,8 +1,6 @@
 package com.kingz.godlike;
 
 /**
- * Copyright(C) 2016, 北京视达科科技有限责任公司
- * All rights reserved.<br>
  * @author King.Z<br>
  * date:  2016/3/20 11:46<br>
  * description: javaDoc测试

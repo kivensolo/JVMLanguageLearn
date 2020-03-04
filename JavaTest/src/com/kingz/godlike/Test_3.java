@@ -2,13 +2,6 @@ package com.kingz.godlike;
 
 import java.util.Scanner;
 
-/**
- * Copyright (c) 2015, �����Ӵ�ƿƼ��������ι�˾
- * All rights reserved.
- * author��zhi.wang
- * date��2015-9-24
- * description��
- */
 public class Test_3 {
 
     private int innum;
