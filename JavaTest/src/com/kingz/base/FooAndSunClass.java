@@ -1,4 +1,4 @@
-package com.about_class;
+package com.kingz.base;
 //内部类访问外部类同名变量
 
 class FooAndSunClass {
