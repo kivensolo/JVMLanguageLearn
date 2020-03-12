@@ -10,8 +10,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 
 /**
- * Copyright(C) 2016, 北京视达科科技有限公司
- * All rights reserved.
  * author: King.Z
  * date:  2016/2/25 10:55
  * description: XML解析

@@ -1,15 +1,15 @@
 package com.code.pice;
 
 /**
- * Copyright(C) 2016, 北京视达科科技有限公司
- * All rights reserved.
  * author: King.Z
  * date:  2016/2/25 10:53
  * description: 创建Zip和Jar文件
  */
 
-import java.util.zip.*;
 import java.io.*;
+import java.util.zip.CRC32;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class ZipIt {
     public static void main(String args[]) throws IOException {
