@@ -3,6 +3,9 @@ package com.kingz.rxjava;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author: King.Z
@@ -14,22 +17,25 @@ import io.reactivex.disposables.Disposable;
  */
 public class RxJavaTest {
     public static void main(String[] args) {
-        new Operators().testOperators();
+        Operators operators = new Operators();
+        //operators.just();
+        operators.Interval();
     }
 }
 class Operators {
     Disposable disposable;
 
     // 验证各个操作符效果
-    public void testOperators() {
+    public void just() {
         //Observable observable = Observable.create((ObservableOnSubscribe) emitter -> {
         //    System.out.println("subscribe");
         //});
         Observable.just(1, 3, 5, 7)
-                .map(data -> {
+          .map(data -> {
                     System.out.println("apply(): 2 * " + data);
                     return data * 2;
-                }).filter(data -> {
+                })
+          .filter(data -> {
             System.out.println("filter: 10 >= " + data);
             return data <= 10;
         }).subscribe(new Observer<Integer>() {
@@ -76,4 +82,47 @@ class Operators {
     //  apply(): 2 * 7
     //  filter: 10 >= 14
     //  onComplete() <--------
+
+
+    /**
+     * 创建一个可以按照给定时间间隔来不间断发送数字序列的可观察对象
+     */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public void Interval(){
+        Observable.interval(0,2000, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                // Consumer
+                .subscribe(time -> System.out.println("Consumer accept:" + time));
+                // Observer
+                //.subscribe(new Observer<Long>() {
+                //    @Override
+                //    public void onSubscribe(Disposable disposable) {
+                //        System.out.println("onSubscribe()");
+                //    }
+                //
+                //    @Override
+                //    public void onNext(Long aLong) {
+                //        System.out.println("onNext() " + aLong);
+                //
+                //    }
+                //
+                //    @Override
+                //    public void onError(Throwable throwable) {
+                //
+                //    }
+                //
+                //    @Override
+                //    public void onComplete() {
+                //        System.out.println("onComplete() ");
+                //
+                //    }
+                //});
+
+        try {
+            Thread.sleep(20000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }
