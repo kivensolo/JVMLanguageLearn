@@ -1,4 +1,4 @@
-package com.kingz.kt.`class`.enum
+package com.kingz.kt.clazz.enum
 
 import java.util.*
 
