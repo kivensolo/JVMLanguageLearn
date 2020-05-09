@@ -1,4 +1,7 @@
 package com.kingz.kt.coroutines
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 fun main() {
     GlobalScope.launch { // 在后台启动⼀个新的协程并继续
