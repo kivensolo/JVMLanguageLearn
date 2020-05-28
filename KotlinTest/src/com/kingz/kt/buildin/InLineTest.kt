@@ -12,10 +12,10 @@ object InLineTest {
     @JvmStatic
     fun main(args: Array<String>) {
         letFunction()
+        alsoFunction()
         withFunction()
         runFunction()
         applyFunction()
-        alsoFunction()
     }
 
     /**
@@ -59,7 +59,8 @@ object InLineTest {
      *    // todo
      *  }
      *
-     * 适用于调用同一个类的多个方法时，可以省去类名重复，直接调用类的方法即可，
+     * 适用于调用同一个类的多个方法时，
+     * 可以省去类名重复，直接调用类的方法即可，
      * 经常用于Android中RecyclerView中onBinderViewHolder中，数据model的属性映射到UI上。
      */
     private fun withFunction() {
@@ -79,9 +80,10 @@ object InLineTest {
     private fun runFunction() {
         println("---- run_Function:")
         val kt = People("run", 2, 10000)
-        val result = kt.run {
+        val result = kt.run  {
             println("my name is $name, I am $age years old, my phone number is $phoneNum")
             "end"
+//            return@run "end"
         }
         println("result: $result")
     }
