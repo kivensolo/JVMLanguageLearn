@@ -39,7 +39,7 @@ object InLineTest {
     }
 
     /**
-     * 和let很像  就是返回值不同
+     * 和let很像  就是返回值不同, alse返回对象自身
      * 适用场景:
      *  适用于let函数的任何场景。
      *  一般可用于多个扩展函数链式调用
@@ -56,7 +56,7 @@ object InLineTest {
     /**
      * with 函数使用: <p/>
      *  with(object){
-     *    // todo
+     *    // doSomething
      *  }
      *
      * 适用于调用同一个类的多个方法时，可以省去类名重复，直接调用类的方法即可，
@@ -75,6 +75,7 @@ object InLineTest {
     /**
      * run是let和with两个函数函数结合体
      * 适用于let,with函数任何场景。
+     * 返回值为最后一行代码
      */
     private fun runFunction() {
         println("---- run_Function:")
@@ -87,7 +88,7 @@ object InLineTest {
     }
 
     /**
-     * apply函数 和 run函数很像
+     * apply函数 和 run函数很像，也是let和with两个函数函数结合体
      * 区别在于返回值为对象本身
      */
     private fun applyFunction() {
