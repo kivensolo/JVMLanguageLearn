@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Copyright(C) 2018, 北京视达科科技有限公司
- * All rights reserved. <br>
  * author: King.Z <br>
  * date:  2018/2/13 15:00 <br>
  * description: XXXXXXX <br>
