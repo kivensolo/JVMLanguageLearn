@@ -1,0 +1,57 @@
+@startuml
+package "CoroutineContext" #ABDDDD{
+    interface CoroutineContext{
+    }
+    note left: 协程上下文\n顶层接口
+    interface Element implements CoroutineContext{}
+    CoroutineContext +-- Element
+
+
+    class EmptyCoroutineContext
+    note left: 空协程上下文
+
+    class EmptyCoroutineContext implements Element
+
+
+    abstract class AbstractCoroutineContextElement
+    note top: CoroutineContext.Element \n的基类实现
+
+    class AbstractCoroutineContextElement extends Element{
+    }
+
+    'Job
+    package "Jobs" #CCAAEE{
+        interface Job
+        note right: background job interfaces
+        interface Job implements Element
+
+        abstract class AbstractCoroutine implements Job
+
+        class XXXXXCoroutine extends AbstractCoroutine
+        class ScopeCoroutine extends AbstractCoroutine
+        class TimeoutCoroutine extends AbstractCoroutine
+        class StandaloneCoroutine extends AbstractCoroutine
+
+        ' ScopeCoroutine 实现类
+        class DispatchedCoroutine extends ScopeCoroutine
+        class UndispatchedCoroutine extends ScopeCoroutine
+        class SupervisorCoroutine extends ScopeCoroutine
+        class FlowCoroutine extends ScopeCoroutine
+
+
+        ' StandaloneCoroutine 实现类
+        class LazyStandaloneCoroutine extends StandaloneCoroutine
+    }
+
+
+    package "Dispatchers" #99BBFF{
+        abstract class CoroutineDispatcher
+        note right: 抽象的协程调度器
+        abstract class CoroutineDispatcher extends AbstractCoroutineContextElement
+
+        abstract class ExecutorCoroutineDispatcher extends CoroutineDispatcher
+        class ThreadPoolDispatcher extends ExecutorCoroutineDispatcher
+    }
+}
+
+@enduml
