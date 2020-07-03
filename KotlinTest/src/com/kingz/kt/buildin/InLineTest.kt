@@ -54,6 +54,7 @@ object InLineTest {
     }
 
     /**
+     * 这个标准函数的作用是Lambda中的代码会持有对象的上下文，其最后一行代码为返回值。
      * with 函数使用: <p/>
      *  with(object){
      *    // doSomething
@@ -64,13 +65,29 @@ object InLineTest {
      */
     private fun withFunction() {
         println("---- with_Function:")
-        val kt = People("Kotlin", 1, 10086)
-        val result = with(kt) {
-            println("my name is $name, I am $age years old, my phone number is $phoneNum")
-            1000
-        }
+//        val kt = People("Kotlin", 1, 10086)
+//        val result = with(kt) {
+//            println("my name is $name, I am $age years old, my phone number is $phoneNum")
+//            1000
+//        }
+        val result = "Kotlin".times(2)
         println("result: $result")
     }
+    // with效果对比
+    operator fun String.times(n: Int): String {
+//        val sb = StringBuilder()
+//        repeat(n) {
+//            sb.append(this)
+//        }
+//        return sb.toString()
+        return with(StringBuilder()) {
+            repeat(n) {
+                append(this@times)
+            }
+            toString()
+        }
+    }
+
 
     /**
      * run是let和with两个函数函数结合体
