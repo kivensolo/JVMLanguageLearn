@@ -1,0 +1,110 @@
+@startuml
+package "【CoroutineContext】" #ABDDDD{
+    interface CoroutineContext{
+        + get(key key): Element
+        + fold()
+        + plus(CoroutineContext context) : CoroutineContext
+    }
+    note left: "协程上下文顶层接口\n上下文是各种不同元素的集合\n其中主元素是协程中得Job"
+
+    'Element
+    package "Elements" #CCEEBB{
+
+        interface Element {
+            + Key<*> Key
+
+            + get(key key): Element
+        }
+        interface Element implements CoroutineContext{}
+        CoroutineContext +-- Element
+
+        class EmptyCoroutineContext{
+            - 空协程上下文
+        }
+
+        class EmptyCoroutineContext implements Element
+
+        abstract class AbstractCoroutineContextElement{
+            - CoroutineContext.Element的基类实现
+        }
+
+        abstract class AbstractCoroutineContextElement extends Element{
+        }
+        class CoroutineName extends AbstractCoroutineContextElement
+    }
+
+    'Job
+    package "Jobs" #CCAAEE{
+
+        'Jobs interfaces
+        package "Job interfaces" #FFBEA8{
+            interface Job
+            note right: background job interfaces
+            interface Job implements Element
+            interface ChildJob implements Job
+            interface ParentJob implements Job
+            interface CompletableJob implements Job
+        }
+
+        abstract class AbstractCoroutine implements Job
+        abstract class AbstractCoroutine implements CoroutineScope
+
+        ' Job 实现类
+        class JobSupport implements Job
+        class JobSupport implements ChildJob
+        class JobImpl extends JobSupport
+        class JobImpl implements CompletableJob
+        class SupervisorJobImpl extends JobImpl
+
+
+
+        ' ScopeCoroutine 的实现类
+        package "ScopeCoroutineImpl" #FFBEA8{
+            class XXXXXCoroutine extends AbstractCoroutine
+            class ScopeCoroutine{
+                + 实例用于管理协程的生命周期
+            }
+            class ScopeCoroutine extends AbstractCoroutine
+            class TimeoutCoroutine extends AbstractCoroutine
+            class StandaloneCoroutine extends AbstractCoroutine
+
+            ' BlockingCoroutine
+             class BlockingCoroutine extends AbstractCoroutine
+
+            class DispatchedCoroutine extends ScopeCoroutine
+            class UndispatchedCoroutine extends ScopeCoroutine
+            class SupervisorCoroutine extends ScopeCoroutine
+            class FlowCoroutine extends ScopeCoroutine
+
+
+            ' StandaloneCoroutine 的实现类
+            class LazyStandaloneCoroutine extends StandaloneCoroutine
+
+        }
+    }
+
+
+    package "Dispatchers" #99BBFF{
+        abstract class CoroutineDispatcher
+        note right: 抽象的协程调度器
+        abstract class CoroutineDispatcher extends AbstractCoroutineContextElement
+
+        abstract class ExecutorCoroutineDispatcher extends CoroutineDispatcher
+        class ThreadPoolDispatcher extends ExecutorCoroutineDispatcher
+    }
+}
+
+package "CoroutineScope" #F1F1A7{
+    ' 【为新的协程定义范围】
+    ' 每个coroutine构建器都是CoroutineScope上的扩展，
+    ' 并继承其coroutineContext来自动继承 context elements和取消
+    ' 获得作用域的独立实例的最佳方法是CoroutineScope()和MainScope()工厂函数。
+    ' 可以使用加号操作符将其他上下文元素添加到范围中。
+
+    interface CoroutineScope{
+        - CoroutineContext coroutineContext
+    }
+    CoroutineContext --> CoroutineScope
+
+}
+@enduml
