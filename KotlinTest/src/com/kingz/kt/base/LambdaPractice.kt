@@ -10,7 +10,7 @@ package com.kingz.kt.base
 
 fun baseUse() {
     // Kotlin 使用类似  (Int) -> String  的一系列函数类型来处理函数的声明：
-    // 所有函数类型都有一个圆括号括起来的参数类型列表以及一个返回类型： (A, B) -> C
+    // 所有函数类型都有一个圆括号括起来的参数类型列表以及一个返回类型： (A_KT, B) -> C
 
     // 1. 内外的都显示调用的lambda
     val upperCase1: (String, Int) -> String = {  //外
