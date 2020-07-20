@@ -41,13 +41,15 @@ private suspend fun CoroutineScope.printWithDebugName() {
     log("Started main coroutine")
     // 运行两个后台值计算
     val jobA = async(CoroutineName("coroutine-jobA")) {
+        log("JobA async befor delay.")
         delay(500)
-        log("Computing v1")
+        log("JobA async after delay.")
         252
     }
     val jobB = async(CoroutineName("coroutine-jobB")) {
+        log("JobB async befor delay.")
         delay(1000)
-        log("Computing v2")
+        log("JobB async after delay.")
         6
     }
     log("The answer for jobA / jobB = ${jobA.await() / jobB.await()}")

@@ -1,11 +1,13 @@
 @startuml
 package "【CoroutineContext】" #ABDDDD{
+    ' 协程的 context 可以认为是协程的“线程私有变量”，同时这个私有变量是不可变的。
+    ' 就是说，在创建一个协程的时候，它的 context 携带的信息就已经确定了下来。
     interface CoroutineContext{
         + get(key key): Element
         + fold()
         + plus(CoroutineContext context) : CoroutineContext
     }
-    note left: "协程上下文顶层接口\n上下文是各种不同元素的集合\n其中主元素是协程中得Job"
+    note left: "协程context顶层接口\n是各种不同元素的集合(可以认为是个map)\n通过get方法可以取出集合里的内容\n其中主元素是协程中的Job"
 
     'Element
     package "Elements" #CCEEBB{
@@ -16,6 +18,7 @@ package "【CoroutineContext】" #ABDDDD{
             + get(key key): Element
         }
         interface Element implements CoroutineContext{}
+        'Element是CoroutineContext的内部类
         CoroutineContext +-- Element
 
         class EmptyCoroutineContext{
@@ -85,9 +88,21 @@ package "【CoroutineContext】" #ABDDDD{
 
 
     package "Dispatchers" #99BBFF{
+        interface Continuation<T>{
+            public val context: CoroutineContext
+            public fun resumeWith(result: Result<T>)
+        }
+        interface ContinuationInterceptor{
+            + interceptContinuation(Continuation<T> continuation):Continuation<T>
+            // Continuation 代表着协程运行的某个中间运行状态
+        }
+        note right: 分发器接口(也是context)
+        interface ContinuationInterceptor implements Element
         abstract class CoroutineDispatcher
         note right: 抽象的协程调度器
+
         abstract class CoroutineDispatcher extends AbstractCoroutineContextElement
+        abstract class CoroutineDispatcher implements ContinuationInterceptor
 
         abstract class ExecutorCoroutineDispatcher extends CoroutineDispatcher
         class ThreadPoolDispatcher extends ExecutorCoroutineDispatcher
