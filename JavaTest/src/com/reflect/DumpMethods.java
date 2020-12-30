@@ -13,14 +13,21 @@ import java.lang.reflect.Method;
  */
 public class DumpMethods {
     public static void main(String[] args) {
-        methodOverload();
+        testKotlinReflect();
+        //methodOverload();
         //findAnnotationMethods();
+    }
+
+    private static void testKotlinReflect() {
+        RelectClient relectClient = new RelectClient();
+        relectClient.invokeKotlinMethod();
     }
 
     private static void test() {
         //ILoginApi mLogApi = create();
         //mLogApi.login("kingz","123456");
     }
+
 
     /**
      * 方法重载测试

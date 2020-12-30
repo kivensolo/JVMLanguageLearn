@@ -11,6 +11,7 @@ class ClassA {
             return "B"
         }
     }
+
     inner class ClassC{
         var name = "Name of inner class."
         fun  getSelfName():String{
