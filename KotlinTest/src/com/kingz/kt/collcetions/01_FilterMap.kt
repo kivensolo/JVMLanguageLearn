@@ -22,6 +22,10 @@ fun Shop.getCitiesCustomersFrom(city: City): List<Customer> {
     }
 }
 
+//fun Shop.getCitiesCustomersFrom(city: City): List<Customer> = customers.filter {
+//        it.city == city
+//    }
+
 val numbers = listOf(1, -1, 2)
 fun main() {
     println(numbers.filter { it > 0 })  // [1, 2]

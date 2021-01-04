@@ -19,3 +19,15 @@ fun main() {
     println(listOf("a", "ab").minBy { it.length }) // == "a"
 }
 
+// 返回订单总数最多的客户
+fun Shop.getCustomerWithMaximumNumberOfOrders(): Customer? = customers.maxBy {
+    it.orders.size
+}
+
+// 返回用户买的价格最贵的产品
+fun Customer.getMostExpensiveOrderedProduct(): Product? = orders.flatMap {
+    it.products
+}.maxBy {
+    it.price
+}
+

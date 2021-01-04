@@ -37,9 +37,12 @@ fun shop(name: String, vararg customers: Customer): Shop {
 
 
 val shop = shop("JD shop",
-        customer(lucas, Chengdu, order(idea),order(idea,pyCharm,webStorm)),
+        customer(lucas, Chengdu,
+                order(idea),
+                order(idea,pyCharm,webStorm)),
         customer(cooper, Tokyo),
-        customer(asuka, BeiJing,order(pyCharm,webStorm)))
+        customer(asuka, BeiJing,
+                order(pyCharm,webStorm)))
 
 val customers: Map<String, Customer> = shop.customers.fold(hashMapOf<String,Customer>(),{
     map, customer ->
@@ -48,7 +51,12 @@ val customers: Map<String, Customer> = shop.customers.fold(hashMapOf<String,Cust
 })
 
 
-val orseredProducts = setOf(idea, pyCharm, webStorm)
+val orderedProducts = setOf(idea, pyCharm, webStorm)
 val sortedCustomer = listOf(cooper, lucas, asuka)
 
+fun main(){
+    val richMan = shop.getCustomerWithMaximumNumberOfOrders()
+    println("订单总数最多的客户是：${richMan?.name}")
+    println("他买的价格最贵的产品是：${richMan?.getMostExpensiveOrderedProduct()}")
+}
 
