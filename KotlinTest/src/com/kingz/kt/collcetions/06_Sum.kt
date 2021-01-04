@@ -11,3 +11,6 @@ fun main() {
     println(listOf(1.23, 5.2, 3.3).sumByDouble { it })  // == 9.73
     println(listOf("a", "b", "cc").sumBy{ it.length })  // == 4
 }
+
+// 获取某一客户的所有订单总价格
+fun Customer.getTotalOrderPrice(): Double = orders.flatMap{ it.products }.sumByDouble{ it.price }
