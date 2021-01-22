@@ -12,10 +12,12 @@ import java.io.IOException;
  * netstat -ano // 查看所有端口及占用情况
  */
 public class NIOServerTest {
+    public static final String HOST = "127.0.0.1";
+    public static final int PORT = 58889;
     public static void main(String[] args) {
         NIOServer nioServer = new NIOServer();
         try {
-            nioServer.initServer("127.0.0.1", 58889);
+            nioServer.initServer(HOST, PORT);
             nioServer.listen();
         } catch (IOException e) {
             e.printStackTrace();
