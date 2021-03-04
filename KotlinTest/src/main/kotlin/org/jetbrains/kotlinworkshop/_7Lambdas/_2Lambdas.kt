@@ -1,3 +1,6 @@
+/**
+ * lambda 表达式之 ----- 基础语法格式
+ */
 fun basicSyntax() {
     val sum = { x: Int, y: Int -> x + y }
 
@@ -6,6 +9,7 @@ fun basicSyntax() {
     println(sum(1, 2)) // 3
 }
 
+
 fun shortSyntax() {
     val string = "one, two, three"
 
@@ -13,9 +17,9 @@ fun shortSyntax() {
 
     string.filter() { c: Char -> c in 'a'..'z' }
 
-    string.filter { c: Char -> c in 'a'..'z' }
+    string.filter { c: Char -> c in 'a'..'z' }  // 常见类型1
 
-    string.filter { c -> c in 'a'..'z' }
+    string.filter { c -> c in 'a'..'z' }    // 常见类型2
 
     string.filter { it in 'a'..'z' }
 
