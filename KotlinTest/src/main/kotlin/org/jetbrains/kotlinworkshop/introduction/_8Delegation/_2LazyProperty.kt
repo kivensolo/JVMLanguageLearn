@@ -9,6 +9,9 @@ package org.jetbrains.kotlinworkshop.introduction._8Delegation
  *
  * by lazy{} 只有第一次执行的时候，代码块中才执行。
  * 内部的实现是通过SynchronizedLazyImpl类。
+ *
+ * 是标准代理的一种，另一种是Observable.
+ * https://kotlinlang.org/docs/delegated-properties.html#standard-delegates
  */
 class LazyProperty {
     val lazy: Int by lazy {
