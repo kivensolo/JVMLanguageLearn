@@ -38,7 +38,7 @@ private suspend fun CoroutineScope.printWithDebugFlag() {
  * 命名协程以用于调试
  */
 private suspend fun CoroutineScope.printWithDebugName() {
-    log("Started main coroutine")
+    log("Started org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main coroutine")
     // 运行两个后台值计算
     val jobA = async(CoroutineName("coroutine-jobA")) {
         log("JobA async befor delay.")

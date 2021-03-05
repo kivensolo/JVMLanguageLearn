@@ -35,8 +35,8 @@ fun main() = runBlocking<Unit> {
         }
     }
     delay(500)
-    println("main: Do cancel action for jobs.")
+    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main: Do cancel action for jobs.")
     request.cancel() // 取消请求（request）的执行
     delay(2000) // 延迟2秒钟来看看发生了什么
-    println("main: Who has survived request cancellation?")
+    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main: Who has survived request cancellation?")
 }

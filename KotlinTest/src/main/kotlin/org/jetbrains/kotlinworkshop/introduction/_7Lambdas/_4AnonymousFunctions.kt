@@ -8,16 +8,17 @@ fun op(x: Int, op: (Int) -> Int): Int {
 
 fun main() {
 
-    op(3, { x -> x * x })
+    op(3) { x -> x * x }
 
+    /**
+     * 匿名函数
+     */
     op(2, fun(x): Int {
-
-        if (x > 10) {
-            return 0
+        return if (x > 10) {
+            0
         } else {
-            return x * x
+            x * x
         }
-
     })
 
 }

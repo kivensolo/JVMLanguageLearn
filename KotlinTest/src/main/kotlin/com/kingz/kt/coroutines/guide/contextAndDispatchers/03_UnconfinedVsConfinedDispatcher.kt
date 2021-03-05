@@ -35,17 +35,17 @@ private fun CoroutineScope.launchWithUnconfined() {
 
    launch {
         // 父协程的上下文，主 runBlocking 协程
-        println("main runBlocking: I'm working in thread ${Thread.currentThread().name}")
+        println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main runBlocking: I'm working in thread ${Thread.currentThread().name}")
         delay(1000)
-        println("main runBlocking: After delay in thread ${Thread.currentThread().name}")
+        println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main runBlocking: After delay in thread ${Thread.currentThread().name}")
     }
 
 /**
  * 输出结果：
- *  Unconfined      : I'm working in thread main
- *  main runBlocking: I'm working in thread main
+ *  Unconfined      : I'm working in thread org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main
+ *  org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main runBlocking: I'm working in thread org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main
  *  Unconfined      : After delay in thread kotlinx.coroutines.DefaultExecutor
- *  main runBlocking: After delay in thread main
+ *  org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main runBlocking: After delay in thread org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main
  *
  *
  *  思考一下，前后两个 Unconfined 的Dispatcher的运行线程不一样。

@@ -1,9 +1,14 @@
+package org.jetbrains.kotlinworkshop.introduction._8Delegation
+
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 
+/**
+ * Delegates.observable 的使用
+ *
+ */
 class Person(val name: String, age: Int, salary: Int) {
-    private val observer = {
-        prop: KProperty<*>, oldValue: Int, newValue: Int ->
+    private val observer = {prop: KProperty<*>, oldValue: Int, newValue: Int ->
         println("Property value $oldValue has changed to $newValue")
     }
     var age: Int by Delegates.observable(age, observer)
@@ -16,7 +21,7 @@ fun main() {
     person.salary += 100
 }
 // OutPut:
-//Property value 25 has changed to 26
-//Property value 2000 has changed to 2100
+// Property value 25 has changed to 26
+// Property value 2000 has changed to 2100
 
 

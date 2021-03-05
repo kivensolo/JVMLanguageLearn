@@ -1,4 +1,4 @@
-package org.jetbrains.kotlinworkshop._Shared
+package org.jetbrains.kotlinworkshop.introduction._Shared
 
 
 data class Album(val title: String, val year: Int, val chartUK: Int, val chartUS: Int, val tracks: List<Track> = listOf())

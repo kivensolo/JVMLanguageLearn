@@ -37,13 +37,13 @@ private suspend fun CoroutineScope.cancelJob() {
             delay(500L)
         }
     }
-    println("main: wait job.")
+    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main: wait job.")
     delay(1300L)
-    println("main: I'm tired of waiting!")
+    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main: I'm tired of waiting!")
     job.cancel() // 取消该作业
     job.join()   // 等待job执行结束，阻塞主线程
 //    job.cancelAndJoin() // 合并了对 cancel 以及 join 的调用
-    println("main: Now I can quit.")
+    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main: Now I can quit.")
 }
 
 //协程的取消是 协作(cooperative) 的。一段协程代码必须协作才能被取消。
@@ -64,9 +64,9 @@ private suspend fun CoroutineScope.cancelJobWithNoCheck() {
         }
     }
     delay(1300L)    // 等待一段时间
-    println("main: I'm tired of waiting!")
+    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main: I'm tired of waiting!")
     job.cancelAndJoin()  // 取消一个作业并且等待它结束
-    println("main: Now I can quit.")
+    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main: Now I can quit.")
 }
 
 private suspend fun CoroutineScope.cancelJobWithCheck() {
@@ -84,9 +84,9 @@ private suspend fun CoroutineScope.cancelJobWithCheck() {
         }
     }
     delay(1300L)    // 等待一段时间
-    println("main: I'm tired of waiting!")
+    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main: I'm tired of waiting!")
     job.cancelAndJoin()  // 取消一个作业并且等待它结束
-    println("main: Now I can quit.")
+    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main: Now I can quit.")
 }
 
 private suspend fun CoroutineScope.cancelJobWithFinally() {
@@ -101,9 +101,9 @@ private suspend fun CoroutineScope.cancelJobWithFinally() {
         }
     }
     delay(1300L) // 延迟一段时间
-    println("main: I'm tired of waiting!  job pls stop.")
+    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main: I'm tired of waiting!  job pls stop.")
     job.cancelAndJoin() // 取消该作业并且等待它结束
-    println("main: Now I can quit.")
+    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main: Now I can quit.")
 }
 
 private suspend fun CoroutineScope.cancelWithContext() {
@@ -130,7 +130,7 @@ private suspend fun CoroutineScope.cancelWithContext() {
         }
     }
     delay(1300L) // 延迟一段时间
-    println("main: I'm tired of waiting!  job pls stop.")
+    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main: I'm tired of waiting!  job pls stop.")
     job.cancelAndJoin() // 取消该作业并且等待它结束
-    println("main: Now I can quit.")
+    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main: Now I can quit.")
 }

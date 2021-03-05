@@ -15,7 +15,7 @@ import kotlinx.coroutines.runBlocking
  * 有一个更好的解决办法。可以在代码中使用结构化并发。
  * 可以在执行操作所在的【指定作用域内启动协程】， 而不是像通常使用线程（线程总是全局的）那样在 GlobalScope 中启动。
  *
- * 在之前的示例中，使用 runBlocking 协程构建器将 main 函数转换为协程。
+ * 在之前的示例中，使用 runBlocking 协程构建器将 org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main 函数转换为协程。
  * 包括 runBlocking 在内的【每个协程构建器】都将 CoroutineScope 的实例添加到其代码块所在的作用域中。
  * 我们可以在这个作用域中启动协程而无需显式 join 之，因为外部协程（示例中的 runBlocking）直到在其作用域中启动的所有协程都执行完毕后才会结束。
  * 因此可以将前面的示例简化为：

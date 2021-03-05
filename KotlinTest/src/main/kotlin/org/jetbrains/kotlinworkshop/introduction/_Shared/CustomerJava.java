@@ -1,4 +1,4 @@
-package org.jetbrains.kotlinworkshop._Shared;
+package org.jetbrains.kotlinworkshop.introduction._Shared;
 
 public class CustomerJava {
     public CustomerJava(int id, String name) {

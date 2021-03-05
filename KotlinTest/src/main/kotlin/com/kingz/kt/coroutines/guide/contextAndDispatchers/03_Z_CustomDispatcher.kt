@@ -48,8 +48,8 @@ fun main() = runBlocking {
 
     job.join()
 
-//      [main @coroutine#1] which thread am I in?
-//      [main @coroutine#1] launch before delay
+//      [org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main @coroutine#1] which thread am I in?
+//      [org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main @coroutine#1] launch before delay
 //      [kotlinx.coroutines.DefaultExecutor] launch after delay
 
     customDispatcher()
@@ -70,7 +70,7 @@ private suspend fun customDispatcher() {
     job.join()
     dispatcher.close()
 
-// [main @coroutine#1] which thread am I in?
+// [org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main @coroutine#1] which thread am I in?
 // [SingleThreadedDispatcher] launch before delay
 // [SingleThreadedDispatcher] launch after delay
 }

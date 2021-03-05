@@ -15,8 +15,8 @@ import kotlinx.coroutines.*
 val threadLocal = ThreadLocal<String?>() // 声明线程局部变量
 
 fun main() = runBlocking<Unit> {
-    threadLocal.set("main")
-    println("Pre-main, current thread: ${Thread.currentThread()}, thread local value: '${threadLocal.get()}'")
+    threadLocal.set("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main")
+    println("Pre-org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main, current thread: ${Thread.currentThread()}, thread local value: '${threadLocal.get()}'")
 
     // 在后台线程池中启动了一个新的协程,它工作在线程池中的不同线程中，但它仍然具有线程局部变量的值
     // 指定使用 threadLocal.asContextElement(value = "launch")， 无论协程执行在什么线程中都是没有问题的。
@@ -27,5 +27,5 @@ fun main() = runBlocking<Unit> {
     }
 
     job.join()
-    println("Post-main, current thread: ${Thread.currentThread()}, thread local value: '${threadLocal.get()}'")
+    println("Post-org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main, current thread: ${Thread.currentThread()}, thread local value: '${threadLocal.get()}'")
 }
