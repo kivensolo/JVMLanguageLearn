@@ -41,6 +41,7 @@ class InitAndConstructor private constructor(name : String = "default"){  // 主
     }
 }
 
+
 object TestClient{
     @JvmStatic
     fun main(args: Array<String>) {
