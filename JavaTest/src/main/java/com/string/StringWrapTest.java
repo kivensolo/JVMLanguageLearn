@@ -1,6 +1,7 @@
 package com.string;
 
-import org.apache.commons.lang.WordUtils;
+
+import org.apache.commons.lang3.text.WordUtils;
 
 /**
  * author: King.Z <br>

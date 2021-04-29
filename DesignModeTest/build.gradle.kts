@@ -23,5 +23,5 @@ dependencies {
 //    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // About JUnit
-    testImplementation("junit:junit:4.13")
+//    testImplementation("junit:junit:4.13")
 }

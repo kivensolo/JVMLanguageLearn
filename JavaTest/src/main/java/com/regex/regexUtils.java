@@ -23,4 +23,14 @@ public class regexUtils {
         return "";
     }
 
+    public static void main(String[] args) {
+        String id = "{\"TemplateId\":\"mgyys_data_template\",\"TemplateInstanceId\":\"5f41de4723c446acd8d16da0a2c44f77\"}";
+        Pattern compile = Pattern.compile("^.*(?:TemplateInstanceId\":\")+(.*)\"}$");
+        Matcher matcher = compile.matcher(id);
+        if(matcher.matches()){
+            String subId = matcher.group(1);
+            System.out.println("subId="+subId);
+        }
+    }
+
 }

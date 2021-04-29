@@ -1,8 +1,12 @@
 plugins {
-    // 使用Kotlin插件，以Java VM为目标
+    // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
     kotlin("jvm") version "1.3.61"
+
+    //	Apply the java-library plugin for API and implementation separation.
+    `java-library`
+
     // application插件用于创建可执行的JVM应用程序
-    application
+//    application
 }
 
 repositories {
@@ -60,4 +64,19 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     // Use the Kotlin JUnit integration.
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+    
+    
+        // About JUnit
+    implementation("junit:junit:4.13")
+    testImplementation("junit:junit:4.13")
+
+     // About RxJava
+    implementation("io.reactivex.rxjava2:rxjava:2.2.2")
+
+    // About Json
+    implementation("com.google.code.gson:gson:2.8.5")
+    implementation("org.json:json:20160212")
+
+    implementation("commons-codec:commons-codec:1.10")
+    implementation("org.apache.commons:commons-lang3:3.4")
 }

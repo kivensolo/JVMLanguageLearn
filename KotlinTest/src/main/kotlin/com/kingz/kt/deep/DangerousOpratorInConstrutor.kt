@@ -10,7 +10,7 @@ package com.kingz.kt.deep
  *
  * 这些操作是危险的，因为类可以继承，而派生类此时尚未初始化。
  * 典型例子如下：
- * 如果调用 println(Derived(42).codeError) ，输出结果为0，与预期的42不一致。
+ * 如果调用 print(Derived(42).codeError) ，输出结果为0，与预期的42不一致。
  */
 abstract class BaseClass{
     init {
@@ -46,6 +46,7 @@ abstract class BaseClass{
 class Derived(private val x: Int) : BaseClass() {
     init {
         println("Derived init")
+        codeError
     }
     override fun config(): Int{
         println("config() current x:$x")
