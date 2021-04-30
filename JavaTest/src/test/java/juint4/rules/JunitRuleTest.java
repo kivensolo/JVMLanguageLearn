@@ -1,4 +1,4 @@
-package com.java.juint4.rules;
+package juint4.rules;
 
 import org.junit.Rule;
 import org.junit.Test;

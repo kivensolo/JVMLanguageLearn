@@ -1,4 +1,4 @@
-package com.java.juint4.rules;
+package juint4.rules;
 
 import org.junit.Assert;
 import org.junit.Rule;
