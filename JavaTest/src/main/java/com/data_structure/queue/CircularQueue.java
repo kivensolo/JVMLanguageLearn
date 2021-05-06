@@ -144,6 +144,7 @@ public class CircularQueue<T> {
             queue[pointPos] = queue[prePos];
             pointPos = prePos;
         }
+        queue[pointPos] = null;
         mFront = (front + 1) % queue.length;
         return (T) target;
     }
