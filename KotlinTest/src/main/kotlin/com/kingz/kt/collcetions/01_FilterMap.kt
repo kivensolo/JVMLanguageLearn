@@ -9,7 +9,6 @@ package com.kingz.kt.collcetions
 
 // 返回消费者City的集合
 fun Shop.getCitiesCustomersAreFrom(): Set<City> {
-    // 使用map平铺数据
     return customers.map {
         it.city
     }.toSet()

@@ -5,8 +5,8 @@ package com.kingz.kt.collcetions
  * @author: King.Z
  * @since: 2020/7/4 17:07 <br>
  * @desc:
- * 常用的 predicates
- * all, any, count, find.
+ * 常用的Kotlin标准库条件查找API：
+ * all, any, count, find等
  */
 // Example
 val isZero: (Int) -> Boolean = { it == 0 }

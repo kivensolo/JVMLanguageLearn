@@ -17,6 +17,5 @@ interface Logger {
 /**
  * 这是什么玩法 ？？？？
  */
-class Controller(repository: Repository, logger: Logger)
-    : Repository by repository, Logger by logger {
+class Controller(repository: Repository, logger: Logger): Repository by repository, Logger by logger {
 }
