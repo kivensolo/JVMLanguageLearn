@@ -1,32 +1,37 @@
 package com.kingz.kt.clazz
 
 /**
- * Kotlin嵌套类和内部类的区别
+ * Kotlin嵌套类和内部类的区别：
+ * 1. 访问外部类成员变量时有区别；
+ * 2. 创建嵌套类和内部类的方式有区别；
+ *
  */
-class ClassA {
+class Parent {
     val name = "Name of out class."
-    class ClassB {
+
+
+    class NestedChild { // Default is nested classes
         fun getName():String{
-            // can't get A name attr.
+            // can't get parent's name attr.
             return "B"
         }
     }
 
-    inner class ClassC{
+    inner class InnerChild{
         var name = "Name of inner class."
         fun  getSelfName():String{
             return name
         }
+
         fun  getOutName():String{
-            return this@ClassA.name
+            return this@Parent.name
         }
     }
 }
 
 fun main() {
-    println(ClassA.ClassB().getName())
-    println(ClassA().ClassC().getSelfName())
-    println(ClassA().ClassC().getOutName())
+    println(Parent.NestedChild().getName())
+    println(Parent().InnerChild().getSelfName())
+    println(Parent().InnerChild().getOutName())
 }
 
-// 默认为嵌套类
