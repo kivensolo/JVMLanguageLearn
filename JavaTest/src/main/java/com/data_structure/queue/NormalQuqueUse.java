@@ -8,11 +8,9 @@ import java.util.concurrent.DelayQueue;
 import java.util.concurrent.Delayed;
 
 /**
- * Copyright(C) 2016, 北京视达科科技有限公司
- * All rights reserved.
  * author: King.Z
  * date:  2017/1/5 21:01
- * description:
+ * description: JDK提供的常规队列的使用
  *  	  抛出异常  |   返回特殊值 |
 	| 插入   add(e) | offer(e) 	  |
 	| 移除  remove()| poll() 	  |

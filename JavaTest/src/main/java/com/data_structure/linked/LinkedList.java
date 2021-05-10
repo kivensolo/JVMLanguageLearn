@@ -1,10 +1,6 @@
-package com.data_structure;
-
-import com.data_structure.linked.Node;
+package com.data_structure.linked;
 
 /**
- * Copyright(C) 2016, 北京视达科科技有限公司
- * All rights reserved. <br>
  * author: King.Z <br>
  * date:  2016/11/25 22:34 <br>
  * description: 单链表的创建和遍历 <br>

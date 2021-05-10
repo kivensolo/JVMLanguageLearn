@@ -34,8 +34,7 @@ public class KingZQueueArray {
      */
     public boolean add(Object obj) {
         if ((rear + 1) % mQueue.length == front) {
-            //没有可用空间
-            throw new IllegalStateException("Queue full");
+            return false; //Queue is full
         }
         mQueue[rear] = obj;
         rear = (rear + 1) % mQueue.length; //更新游标位置
