@@ -8,7 +8,7 @@ package com.string;
  */
 public class StringOfCreate {
     public static void main(String[] args) {
-        test_2();
+        test_intern();
     }
 
     /**
@@ -37,5 +37,17 @@ public class StringOfCreate {
         System.out.println("u == m ----> " + (u == m)); // false
 
         // 所以， m,u,v都是不同的对象  m和n相同
+    }
+
+    /**
+     * intern()
+     */
+    private static void test_intern(){
+        String s1 = "hello,world";
+        //编译器会提示使用"He"+"llo"
+        String s2 = new StringBuffer("He").append("llo").toString();
+        String s3 = s2.intern();
+        System.out.println("s1 == s2 ?" + (s1 == s2)); // false
+        System.out.println("s2 == s3 ?" + (s2 == s3)); // true
     }
 }
