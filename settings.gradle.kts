@@ -1,5 +1,5 @@
 //rootProject.name = "JVM_Language"
-include(":DesignModeTest")
+include(":DesignMode")
 include(":JavaTest")
 include(":KotlinTest")
 
