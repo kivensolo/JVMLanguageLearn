@@ -14,17 +14,17 @@ import java.util.concurrent.Phaser;
  * 5个loler 开始一场比赛需要分为3个阶段: 接受游戏匹配、选择英雄、进入游戏
  */
 public class PhaserTest {
-    //游泳选手个数
-    private static int swimmerNum = 5;
+    //LOL选手个数
+    private static int playerNum = 5;
 
     public static void main(String[] args) {
 
-        MyPhaser phaser = new MyPhaser(swimmerNum);
+        MyPhaser phaser = new MyPhaser(playerNum);
         System.out.println("===== 匹配到玩家 =====");
 
-        for (int i = 0; i < swimmerNum; i++) {
+        for (int i = 0; i < playerNum; i++) {
             SingleExecutorSender sender = SingleExecutorSender.getInstance();
-            sender.execute(new Swimmer(phaser));
+            sender.execute(new Player(phaser));
         }
     }
 }
@@ -32,9 +32,6 @@ public class PhaserTest {
 class MyPhaser extends Phaser {
     //定义结束阶段.这里是完成3个阶段以后结束
     private int phaseToTerminate = 2;
-
-    public MyPhaser() {
-    }
 
     public MyPhaser(int parties) {
         super(parties);
@@ -59,10 +56,10 @@ class MyPhaser extends Phaser {
     }
 }
 
-class Swimmer implements Runnable {
+class Player implements Runnable {
     private Phaser phaser;
 
-    public Swimmer(Phaser phaser) {
+    public Player(Phaser phaser) {
         this.phaser = phaser;
     }
 

@@ -1,9 +1,0 @@
-CountDownLatch
-主要有await()/await(timeMs,TimeUnit)/countDown() 三个方法
-
-final CountDownLatch countDownLatch = new CountDownLatch(4); //初始化拦截数为4的Latch
-
-当调用countDownLatch.await()方法时，会block。 until the specified number of releases is counted.
-也就是block,直到counted的次数释放完。
-
-当countDownLatch.countDown() 4次的时候 它就已经无拦截作用了。
