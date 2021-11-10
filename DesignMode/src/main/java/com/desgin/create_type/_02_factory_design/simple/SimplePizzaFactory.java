@@ -9,9 +9,9 @@ import com.desgin.create_type._02_factory_design.products.HotPizza;
  * date:  2017/3/31 21:05 <br>
  * description: 简单工厂 <br>
  * 工厂模式按照《Java与模式》中的提法分为三类：
- * 1. 简单(静态)工厂模式(Simple Factory)
- * 2. 工厂方法模式(Factory Method)
- * 3. 抽象工厂模式(Abstract Factory)
+ * 1. 简单(静态)工厂模式 (Simple Factory)
+ * 2. 工厂方法模式      (Factory Method)
+ * 3. 抽象工厂模式      (Abstract Factory)
  * 这三种模式从上到下逐步抽象，并且更具一般性。
  *
  * 简单(静态)工厂模式总结：

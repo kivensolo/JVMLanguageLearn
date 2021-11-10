@@ -1,10 +1,9 @@
 package com.desgin.structure_type._04_adapter.objectAdapter;
 
 import com.desgin.structure_type._04_adapter.adapter.ITargetable;
-import com.desgin.structure_type._04_adapter.adapter.Source;
+import com.desgin.structure_type._04_adapter.adapter.NewSource;
 
 /**
- * Copyright(C) 2016, 北京视达科科技有限公司
  * All rights reserved. <br>
  * author: King.Z <br>
  * date:  2016/8/24 14:12 <br>
@@ -12,7 +11,7 @@ import com.desgin.structure_type._04_adapter.adapter.Source;
  */
 public class ObjectAdapterTest {
     public static void main(String[] args) {
-        Source source = new Source();
+        NewSource source = new NewSource();
         ITargetable target = new SourceWrapper(source);
         target.method1();
         target.method2();

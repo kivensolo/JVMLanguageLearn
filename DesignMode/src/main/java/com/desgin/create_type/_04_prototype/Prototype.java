@@ -1,4 +1,4 @@
-package com.desgin.create_type._04___prototype;
+package com.desgin.create_type._04_prototype;
 
 import java.io.*;
 
