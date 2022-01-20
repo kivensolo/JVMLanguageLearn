@@ -4,6 +4,7 @@ import com.annotation.requestDemo.ReqType;
 import com.annotation.requestDemo.ReqTypeEnum;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 /**
  * date:  2016/9/4 17:42
@@ -12,11 +13,13 @@ import java.lang.reflect.Method;
 public class RelectClient {
     private int num = 555;
     private String str = "hello";
+    private ArrayList<String> innerList = new ArrayList<>();
+    private native void testFunc();
 
     //没有这个无参构造函数 会导致class.newInstance的时候抛出InstantiationException异常
     //在Class的getConstructor0方法中会抛出异常
     public RelectClient(){
-
+        innerList.add("HELLO");
     }
     public RelectClient(int num, String str) {
         this.num = num;
@@ -58,5 +61,14 @@ public class RelectClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "RelectClient{" +
+                "num=" + num +
+                ", str='" + str + '\'' +
+                ", innerList=" + innerList +
+                '}';
     }
 }
