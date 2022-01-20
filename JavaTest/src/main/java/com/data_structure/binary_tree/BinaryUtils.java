@@ -6,7 +6,7 @@ import java.util.Stack;
  * 二叉树工具类
  *
  * https://www.jianshu.com/p/0190985635eb
- *
+ * https://zhuanlan.zhihu.com/p/345665233/
  * 知识点掌握：
  * 1. 二叉树的遍历（前中后序，以及递归、非递归模式）
  */
