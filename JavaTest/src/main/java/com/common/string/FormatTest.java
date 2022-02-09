@@ -1,4 +1,4 @@
-package com.think.in;
+package com.common.string;
 
 import java.util.ArrayList;
 import java.util.Formatter;

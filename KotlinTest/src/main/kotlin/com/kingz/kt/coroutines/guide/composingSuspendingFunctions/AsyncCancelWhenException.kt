@@ -35,7 +35,7 @@ suspend fun failedConcurrentSum(): Int = coroutineScope {
     val two = async<Int> {
         println("Second child throws an exception")
         throw ArithmeticException()
-        // v1.3.72版本中，其中一个子协程（即 two）失败，第一个 async 以及等待中的父协程都会被取消。
+        // v1.3.72版本中，其中一个子协程失败，第一个 async 以及等待中的父协程都会被取消。
         // 但是实际运行的时候，发现第一个async的任务还在执行，并没有被取消。
     }
     one.await() + two.await()

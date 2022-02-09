@@ -2,6 +2,7 @@
 include(":DesignMode")
 include(":JavaTest")
 include(":KotlinTest")
+include(":OkHttpTest")
 
 //var rootDir = settingsDir
 //project("DESIGN_MODE").projectDir = File(rootDir,"DesignModeTest")

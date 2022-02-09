@@ -40,7 +40,7 @@ private suspend fun CoroutineScope.cancelJob() {
     println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main: wait job.")
     delay(1300L)
     println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main: I'm tired of waiting!")
-    job.cancel() // 取消该作业
+    job.cancel() // 取消该job
     job.join()   // 等待job执行结束，阻塞主线程
 //    job.cancelAndJoin() // 合并了对 cancel 以及 join 的调用
     println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main: Now I can quit.")
