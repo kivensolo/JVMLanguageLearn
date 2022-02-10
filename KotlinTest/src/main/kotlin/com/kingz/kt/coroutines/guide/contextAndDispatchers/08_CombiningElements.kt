@@ -15,7 +15,7 @@ import kotlinx.coroutines.runBlocking
  */
 
 fun main() = runBlocking<Unit> {
-    launch(Dispatchers.Default + CoroutineName("test")) {
+    launch(Dispatchers.Default + CoroutineName("CustomName")) {
         println("I'm working in thread ${Thread.currentThread().name}")
     }
 }

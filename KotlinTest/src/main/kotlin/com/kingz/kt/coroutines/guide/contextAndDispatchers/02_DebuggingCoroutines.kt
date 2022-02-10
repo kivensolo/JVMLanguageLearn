@@ -36,6 +36,7 @@ private suspend fun CoroutineScope.printWithDebugFlag() {
 
 /**
  * 命名协程以用于调试
+ * 自定义CoroutineScopeContext元素
  */
 private suspend fun CoroutineScope.printWithDebugName() {
     log("Started org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main coroutine")
