@@ -9,7 +9,7 @@ import java.io.IOException
 object OkHttpDemo {
     @JvmStatic
     fun main(args: Array<String>) {
-        testOKHttp()
+
         Thread.sleep(10 * 1000)
     }
 

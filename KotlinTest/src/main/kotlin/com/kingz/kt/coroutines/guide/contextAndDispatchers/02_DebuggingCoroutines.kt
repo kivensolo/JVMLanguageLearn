@@ -39,7 +39,7 @@ private suspend fun CoroutineScope.printWithDebugFlag() {
  * 自定义CoroutineScopeContext元素
  */
 private suspend fun CoroutineScope.printWithDebugName() {
-    log("Started org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main coroutine")
+    log("Started org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.com.kingz.kt.operators.main coroutine")
     // 运行两个后台值计算
     val jobA = async(CoroutineName("coroutine-jobA")) {
         log("JobA async befor delay.")

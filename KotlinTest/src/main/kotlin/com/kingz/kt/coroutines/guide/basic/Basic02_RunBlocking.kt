@@ -21,7 +21,7 @@ fun main() {
     }
     printlnWithTime("Hello,") // 主线程中的代码会立即执行
 
-    printlnWithTime("------ runBlocking()  org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main thread blocked 2s--->")
+    printlnWithTime("------ runBlocking()  org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.com.kingz.kt.operators.main thread blocked 2s--->")
     runBlocking {
         // 但是这个表达式阻塞了主线程
         delay(2000L)  // ……我们延迟 2 秒来保证 JVM 的存活
@@ -29,7 +29,7 @@ fun main() {
     printlnWithTime("runBlocking end!")
 }
 
-// 上面这个示例可以用更惯用的方式重写，使用 runBlocking 来包装 org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main 函数的执行
+// 上面这个示例可以用更惯用的方式重写，使用 runBlocking 来包装 org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.com.kingz.kt.operators.main 函数的执行
 fun main2() = runBlocking<Unit> {// 开始执行主协程
     GlobalScope.launch {
         // 在后台启动一个新的协程并继续

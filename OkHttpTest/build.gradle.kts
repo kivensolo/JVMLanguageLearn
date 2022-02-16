@@ -19,11 +19,11 @@ compileTestKotlin.kotlinOptions {
     jvmTarget = "1.8"
 }
 
-// Gradle 默认原代码集是 src/main/java 自定义代码目录的话，需要修改sourceSets
 sourceSets{
     main{
         java{
-            srcDirs("src") //自定义源码目录
+            //自定义打包源码目录
+            srcDirs("src/main/kotlin")
         }
     }
 }
@@ -74,4 +74,9 @@ dependencies {
     implementation("com.squareup.okio:okio:2.1.0")
     implementation("com.squareup.okhttp3:logging-interceptor:3.12.1")
     implementation("com.facebook.stetho:stetho-okhttp3:1.5.0")
+
+    //retrofit2
+    implementation("com.squareup.retrofit2:retrofit:2.6.1")
+    implementation("com.squareup.retrofit2:converter-gson:2.6.1")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:2.2.0")
 }

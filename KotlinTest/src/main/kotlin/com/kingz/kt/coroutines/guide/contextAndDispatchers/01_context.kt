@@ -20,11 +20,11 @@ fun main() = runBlocking<Unit> {
     launch {
         // 当调用 launch { …… } 时不传参数，它从启动了它的 CoroutineScope 中承袭了上下文（以及调度器）
         // 此案例中，运行在父协程的上下文中，即 runBlocking 主协程
-        println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main runBlocking      : I'm working in thread ${Thread.currentThread().name}")
+        println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.com.kingz.kt.operators.main runBlocking      : I'm working in thread ${Thread.currentThread().name}")
     }
     launch(Dispatchers.Unconfined) {
         // 不受限的——将工作在主线程中
-        // 是一个特殊的调度器且似乎也运行在 org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.main 线程中，但实际上， 它是一种不同的机制
+        // 是一个特殊的调度器且似乎也运行在 org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.com.kingz.kt.operators.main 线程中，但实际上， 它是一种不同的机制
         println("Unconfined            : I'm working in thread ${Thread.currentThread().name}")
     }
     launch(Dispatchers.Default) {
