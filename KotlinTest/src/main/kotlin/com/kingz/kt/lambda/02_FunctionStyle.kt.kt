@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package com.kingz.kt.lambda
 
 import kotlinx.coroutines.runBlocking
@@ -16,8 +18,19 @@ fun main() = runBlocking{
         }
     }
     wrapperFun(function0)
+
+
+
+    hightFunTest("Invoke test"){
+        println("高级回调函数被调用")
+        onSuccess {
+            println("Invoked onSuccess callback.")
+            println("返回数据是：$it")
+        }
+     }
 }
 
+// <editor-fold defaultstate="collapsed" desc="Invoke 特性">
 fun doSomething() {
     println("Invoked by function method.")
 }
@@ -30,4 +43,26 @@ fun wrapperFun(block: () -> Unit) {
      */
     block() // 等同于block.invoke()
 }
+// </editor-fold>
 
+
+// <editor-fold defaultstate="collapsed" desc="高阶函数应用测试">
+
+class RequestCallback<DATA>(internal var onSuccess: ((DATA?) -> Unit)? = null){
+    fun onSuccess(block: (data: DATA?) -> Unit) {
+        println("设置onsuccess 的回调函数")
+        this.onSuccess = block
+    }
+}
+
+fun <DATA> hightFunTest(data: DATA, callbackFun:(RequestCallback<DATA>.()-> Unit)? = null){
+    val callback = if(callbackFun == null){
+        null
+    }else{
+        RequestCallback<DATA>().apply {
+            callbackFun.invoke(this)
+        }
+    }
+    callback?.onSuccess?.invoke(data)
+}
+// </editor-fold>

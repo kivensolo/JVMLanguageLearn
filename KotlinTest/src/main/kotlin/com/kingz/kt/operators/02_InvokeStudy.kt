@@ -25,6 +25,3 @@ data class TestInvoke(val name: String, val age: Int){
     }
 }
 
-data class InvokeWithLambda(){
-
-}
