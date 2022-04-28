@@ -5,26 +5,47 @@ import com.annotation.requestDemo.ReqTypeEnum;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * date:  2016/9/4 17:42
- * description:反射测试
+ * description:反射目标测试类
  */
-public class RelectClient {
+public class RelectTarget {
+
+    static class Cat {
+        @Override
+        public String toString() {
+            return "i'm cat!";
+        }
+    }
+
+    // 基础数据类型
     private int num = 555;
-    private String str = "hello";
+    public String str = "hello";
+    private final boolean DEBUG_MODE = false;
+    private final Cat finalCat = new Cat();
+
+    // 泛型类类型
     private ArrayList<String> innerList = new ArrayList<>();
+    private List<Cat> ketty;
+
+    // native方法
     private native void testFunc();
 
-    //没有这个无参构造函数 会导致class.newInstance的时候抛出InstantiationException异常
-    //在Class的getConstructor0方法中会抛出异常
-    public RelectClient(){
+    /**
+     * 没有这个无参构造函数 会导致class.newInstance的时候抛出InstantiationException异常
+     * 在Class的getConstructor0方法中会抛出异常
+     */
+    public RelectTarget(){
         innerList.add("HELLO");
     }
-    public RelectClient(int num, String str) {
+
+    public RelectTarget(int num, String str) {
         this.num = num;
-        this.str = str;
+        //this.str = str;
     }
+
     public String getDumpStr(){
         return str;
     }
@@ -33,6 +54,7 @@ public class RelectClient {
         return num;
     }
 
+    // <editor-fold defaultstate="collapsed" desc="重载的方法">
     public void numPrint(int num1){
         System.out.println("num1:" + num1);
     }
@@ -40,11 +62,17 @@ public class RelectClient {
         System.out.println("num1:" + num1 + "num2:" + num2);
     }
 
+    // </editor-fold>
+
+
+    // <editor-fold defaultstate="collapsed" desc="带注解的方法">
     @ReqType({ReqTypeEnum.POST})
     public void findRequestType(String name){
         System.out.println(" ----- findRequestType() has been invoked!!");
         System.out.println(" ----- name:" + name);
     }
+    // </editor-fold>
+
 
     /**
      * Kotlin静态反射方法测试
@@ -65,10 +93,13 @@ public class RelectClient {
 
     @Override
     public String toString() {
-        return "RelectClient{" +
+        return "RelectTarget{" +
                 "num=" + num +
                 ", str='" + str + '\'' +
+                ", DEBUG_MODE=" + DEBUG_MODE +
+                ", cat=" + finalCat +
                 ", innerList=" + innerList +
+                ", ketty=" + ketty +
                 '}';
     }
 }
