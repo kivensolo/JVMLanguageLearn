@@ -1,9 +1,7 @@
 package com.kingz.kt.coroutines.guide.scope
 
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
+import kotlin.concurrent.thread
 
 /**
  * author: King.Z <br>
@@ -20,7 +18,7 @@ import kotlinx.coroutines.runBlocking
  */
 
 fun main() = runBlocking {
-    coroutineScopeSequence()
+    coroutineScopeSequenceTest()
 }
 
 /**
@@ -39,4 +37,33 @@ private suspend fun coroutineScopeSequence() {
         return@coroutineScope
     }
     println("4")
+}
+
+/**
+ * 测试局部返回带来的影响
+ */
+private suspend fun coroutineScopeSequenceTest() {
+    coroutineScope { // block A
+        println("1")
+        if (false) {
+            FunB(this)
+            launch {
+                println("2.5")
+            }
+//            return@coroutineScope
+        }else{
+            println("3")
+        }
+    }
+    println("4")
+}
+
+suspend fun FunB( scope: CoroutineScope){ // block A
+    thread {
+//        sleep(500)
+        println("1.5")
+        scope.launch {
+            println("2")
+        }
+    }
 }
