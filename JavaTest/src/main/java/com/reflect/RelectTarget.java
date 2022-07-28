@@ -13,6 +13,9 @@ import java.util.List;
  */
 public class RelectTarget {
 
+    /**
+     * 静态内部类
+     */
     static class Cat {
         @Override
         public String toString() {
@@ -20,45 +23,29 @@ public class RelectTarget {
         }
     }
 
-    // 基础数据类型
+    // <editor-fold defaultstate="collapsed" desc="基础数据类型">
     private int num = 555;
     public String str = "hello";
     private final boolean DEBUG_MODE = false;
+// </editor-fold>
+
     private final Cat finalCat = new Cat();
 
-    // 泛型类类型
+    // <editor-fold defaultstate="collapsed" desc="泛型类类型">
     private ArrayList<String> innerList = new ArrayList<>();
     private List<Cat> ketty;
+// </editor-fold>
 
-    // native方法
+    // <editor-fold defaultstate="collapsed" desc="native方法">
     private native void testFunc();
-
-    /**
-     * 没有这个无参构造函数 会导致class.newInstance的时候抛出InstantiationException异常
-     * 在Class的getConstructor0方法中会抛出异常
-     */
-    public RelectTarget(){
-        innerList.add("HELLO");
-    }
-
-    public RelectTarget(int num, String str) {
-        this.num = num;
-        //this.str = str;
-    }
-
-    public String getDumpStr(){
-        return str;
-    }
-
-    private int getDumpNum(){
-        return num;
-    }
+// </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="重载的方法">
-    public void numPrint(int num1){
+    public void numPrint(int num1) {
         System.out.println("num1:" + num1);
     }
-    public void numPrint(int num1,int num2){
+
+    public void numPrint(int num1, int num2) {
         System.out.println("num1:" + num1 + "num2:" + num2);
     }
 
@@ -67,11 +54,32 @@ public class RelectTarget {
 
     // <editor-fold defaultstate="collapsed" desc="带注解的方法">
     @ReqType({ReqTypeEnum.POST})
-    public void findRequestType(String name){
+    public void findRequestType(String name) {
         System.out.println(" ----- findRequestType() has been invoked!!");
         System.out.println(" ----- name:" + name);
     }
     // </editor-fold>
+
+    /**
+     * 没有这个无参构造函数 会导致class.newInstance的时候抛出InstantiationException异常
+     * 在Class的getConstructor0方法中会抛出异常
+     */
+    public RelectTarget() {
+        innerList.add("HELLO");
+    }
+
+    public RelectTarget(int num, String str) {
+        this.num = num;
+        //this.str = str;
+    }
+
+    public String getDumpStr() {
+        return str;
+    }
+
+    private int getDumpNum() {
+        return num;
+    }
 
 
     /**
@@ -81,7 +89,7 @@ public class RelectTarget {
         ClassLoader classLoader = getClass().getClassLoader();
         try {
             Class<?> classObj = classLoader.loadClass("com.reflect.KtTarget");
-            if(KtTarget.class.isAssignableFrom(classObj)){
+            if (KtTarget.class.isAssignableFrom(classObj)) {
                 Method method = classObj.getMethod("registerStatic");
                 method.setAccessible(true);
                 method.invoke(null);

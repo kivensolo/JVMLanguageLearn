@@ -11,7 +11,7 @@ import java.lang.reflect.Modifier;
 /**
  * author: King.Z
  * date:  2016/4/24 22:26
- * description:反射测试客户顿
+ * description:反射测试客户端
  */
 public class RF_TestClient {
 
