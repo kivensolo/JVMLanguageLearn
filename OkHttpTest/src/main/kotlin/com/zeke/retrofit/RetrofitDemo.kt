@@ -10,7 +10,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.net.SocketTimeoutException
 
 /**
  * 最原始的请求方式:
@@ -42,17 +41,24 @@ fun main() = runBlocking {
     }
 //  val result =  async { requestBase(apiService) }
     val result = async(handler) {
-        throw SocketTimeoutException("TTTT")
-//        requestDirectly(apiService)
+//        throw SocketTimeoutException("TTTT")
+        requestDirectly(apiService)
     }
     println("Scope end: " + result.await())
 }
 
+/**
+ * 直接请求，返回数据对象
+ */
 private suspend fun requestDirectly(apiService: IWanAndroidApiService) {
     val result = apiService.requestArticles(1)
     println("Result:$result")
 }
 
+/**
+ * 以最基础的方式请求
+ * 返回Call对象
+ */
 private suspend fun requestBase(apiService: IWanAndroidApiService) {
     //step3 构建具体网络请求对象Request（service)
     val defaultOkHttpCall = apiService.requestArticlesWithCall(1)
