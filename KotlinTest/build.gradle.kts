@@ -5,7 +5,7 @@ plugins {
 
 repositories {
     maven("https://maven.aliyun.com/repository/public")
-    
+
     maven("https://maven.aliyun.com/repository/google")
 }
 
@@ -47,6 +47,9 @@ sourceSets{
 //}
 
 dependencies {
+    //单元测试依赖库
+    testImplementation("junit:junit:4.13.2")
+
 //    implementation fileTree(include: ['*.jar'], dir: 'libs')
     // Kotlin标准库
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61")
@@ -54,7 +57,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.3.61")
     // Kotlin协程核心库
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2")
-    
+
     // About JUnit
     testImplementation("junit:junit:4.13")
     implementation("com.google.guava:guava:29.0-jre")

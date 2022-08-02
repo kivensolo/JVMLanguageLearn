@@ -1,4 +1,4 @@
-package test.kotlin.com.demo
+package com.kingz.kt
 
 //import kotlin.test.assertNotNull
 

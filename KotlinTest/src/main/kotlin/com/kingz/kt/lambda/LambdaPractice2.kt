@@ -15,7 +15,7 @@ interface ILambdaPractice {
 class LambdaPractice2 : ILambdaPractice {
     override fun setIntentName(excParms: (intent: Intent) -> Unit) {
         println("1. setIntentName 被调用~ 初始化intent;")
-        val intent = Intent("test")
+        val intent = Intent("")
         println("2. intent.name = ${intent.name}, 调用函数参数代码修改数据(参数类型和返回值类型为Intent类型);")
         excParms(intent) //对象类型数据就会改变
         print("4. 处理完毕，输出baseNum的最终结果:${intent.name}")
