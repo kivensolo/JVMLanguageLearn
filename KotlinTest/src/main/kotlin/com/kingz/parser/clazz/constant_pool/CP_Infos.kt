@@ -19,9 +19,10 @@ class CP_Infos{
         var length = ByteArray(2)
 
         //长度为length的UTF-8编码的字符串
-        var bytes = ByteArray(1)
+        var bytesLegth = 0
+
         override fun size(): Int {
-            return tag.size + length.size + bytes.size
+            return tag.size + length.size + bytesLegth
         }
     }
 

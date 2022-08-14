@@ -186,11 +186,14 @@ object HexUtil {
      * @param srcBytes 目标字节数组，size 可以是3、4、5....
      * @param littleEndian 是否小端排序
      */
-    fun readInt(srcBytes:ByteArray, littleEndian:Boolean):Int{
+    fun readInt(srcBytes:ByteArray, littleEndian:Boolean = false):Int{
         var bytes = srcBytes
         if(srcBytes.size > 4){
             bytes = ByteArray(4)
             System.arraycopy(srcBytes, 0, bytes, 0, bytes.size)
+        }else if(srcBytes.size < 4){
+            bytes = ByteArray(4)
+            System.arraycopy(srcBytes, 0, bytes, 4 - srcBytes.size, srcBytes.size)
         }
         val buffer = ByteBuffer.wrap(bytes)
         if(littleEndian){

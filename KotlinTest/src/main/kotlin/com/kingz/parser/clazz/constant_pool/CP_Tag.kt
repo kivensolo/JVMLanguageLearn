@@ -31,7 +31,29 @@ enum class CP_Tag(internal val value: Int){
                 valueTypeMap.put(it.value, it)
             }
         }
+
+        private val typeMap = mutableMapOf(
+            Pair(1,"UTF-8"),
+            Pair(3,"Integer"),
+            Pair(4,"Float"),
+            Pair(5,"Long"),
+            Pair(6,"Double"),
+            Pair(7,"Class"),
+            Pair(9,"Fieldref"),
+            Pair(10,"Methodref"),
+            Pair(11,"InterfaceMethodref"),
+            Pair(12,"NameAndType"),
+            Pair(15,"MethodHandle"),
+            Pair(16,"MethodType"),
+            Pair(18,"InvokeDynamic")
+        )
+
+        @JvmStatic
+        fun getTypeName(type:Int):String{
+            return valueTypeMap[type]?.name?:"unKnow"
+        }
     }
+
 
     override fun toString(): String {
         return name
