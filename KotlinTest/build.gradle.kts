@@ -50,6 +50,9 @@ dependencies {
     //单元测试依赖库
     testImplementation("junit:junit:4.13.2")
 
+    //fastJson
+    implementation("com.alibaba:fastjson:1.2.76")
+
 //    implementation fileTree(include: ['*.jar'], dir: 'libs')
     // Kotlin标准库
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61")

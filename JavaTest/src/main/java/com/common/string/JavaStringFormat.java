@@ -20,12 +20,15 @@ public class JavaStringFormat {
      * 搭配转换符的标志
      */
     private static void changeFlagFromat() {
-        str=String.format("格式参数$:(被格式化的参数索引)的使用：%2$d,%1$s","abc",99);
+        str=String.format("格式参数$:(被格式化的参数索引)的使用：%2$5d,%1$s","abc",99);
         System.out.println(str);
         //+使用 对于负数无效
         System.out.printf("格式参数+:显示正负数的符号：%+d与%d  和%+d %n", 99,-99,-99);
         //-使用
         System.out.printf("格式参数-:左对齐:     %-5d  %n",15);
+        System.out.println(String.format("右对齐的使用：%5d",1));
+        System.out.println(String.format("右对齐的使用：%5d",99));
+        System.out.println(String.format("右对齐的使用：%5d",100));
         //补O使用
         System.out.printf("格式参数0:数字前面补0,最牛的编号是：%03d  %n", 7);
         //(使用
