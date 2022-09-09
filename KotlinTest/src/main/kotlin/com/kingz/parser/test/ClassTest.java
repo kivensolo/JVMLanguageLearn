@@ -1,4 +1,4 @@
-package com.kingz.parser.clazz.test;
+package com.kingz.parser.test;
 
 public class ClassTest {
     private int m;
