@@ -14,6 +14,7 @@ class ConstantPoolParser : IBytesHandler {
     override fun order() = 2
 
     override fun handle(codeBuf: ByteBuffer, classFile: ClassFile) {
+        println("解析常量池信息>>>>>>")
         val bytes = byteArrayOf(codeBuf.get(), codeBuf.get())
         //常量池计数器大小 等于常量池数据区条目个数+1
         val cpCount = HexUtil.readInt(bytes)
@@ -31,5 +32,6 @@ class ConstantPoolParser : IBytesHandler {
             println(String.format("%3s = %s","#"+(index+1),cpInfo.toString()))
             classFile.cp_infos[index] = cpInfo
         }
+        println("<<<<<<<解析完毕")
     }
 }

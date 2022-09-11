@@ -94,56 +94,27 @@ class CPInfos{
          * Create CpInfo Object by tag.
          */
         fun createCpInfo(tag:Byte):CPInfo{
-            val _cpInfo: CPInfo
+            val info: CPInfo
             when (tag.toInt()) {
-                0x01 -> {
-                    _cpInfo = CONSTANT_Utf8_Info()
-                }
-                0x03 -> {
-                    _cpInfo = CONSTANT_Integer_Info()
-                }
-                0x04 -> {
-                    _cpInfo = CONSTANT_Float_Info()
-                }
-                0x05 -> {
-                    _cpInfo = CONSTANT_Long_Info()
-                }
-                0x06 -> {
-                    _cpInfo = CONSTANT_Double_Info()
-                }
-                0x07 -> {
-                    _cpInfo = CONSTANT_Class_Info()
-                }
-                0x08 -> {
-                    _cpInfo = CONSTANT_String_Info()
-                }
-                0x09 -> {
-                    _cpInfo = CONSTANT_Fieldref_Info()
-                }
-                0x0A -> {
-                    _cpInfo = CONSTANT_Methodref_Info()
-                }
-                0x0B -> {
-                    _cpInfo = CONSTANT_InterfaceMethodref_Info()
-                }
-                0x0C -> {
-                    _cpInfo = CONSTANT_NameAndType_Info()
-                }
-                0x0F -> {
-                    _cpInfo = CONSTANT_MethodHandle_Info()
-                }
-                0x10 -> {
-                    _cpInfo = CONSTANT_MethodType_Info()
-                }
-                0x12 -> {
-                    _cpInfo = CONSTANT_InvokeDynamic_Info()
-                }
-
+                0x01 -> info = CONSTANT_Utf8_Info()
+                0x03 -> info = CONSTANT_Integer_Info()
+                0x04 -> info = CONSTANT_Float_Info()
+                0x05 -> info = CONSTANT_Long_Info()
+                0x06 -> info = CONSTANT_Double_Info()
+                0x07 -> info = CONSTANT_Class_Info()
+                0x08 -> info = CONSTANT_String_Info()
+                0x09 -> info = CONSTANT_Fieldref_Info()
+                0x0A -> info = CONSTANT_Methodref_Info()
+                0x0B -> info = CONSTANT_InterfaceMethodref_Info()
+                0x0C -> info = CONSTANT_NameAndType_Info()
+                0x0F -> info = CONSTANT_MethodHandle_Info()
+                0x10 -> info = CONSTANT_MethodType_Info()
+                0x12 -> info = CONSTANT_InvokeDynamic_Info()
                 else -> {
                     throw Exception("没有找到该TAG[$tag.toInt()]对应的常量类型")
                 }
             }
-            return _cpInfo
+            return info
         }
     }
 
