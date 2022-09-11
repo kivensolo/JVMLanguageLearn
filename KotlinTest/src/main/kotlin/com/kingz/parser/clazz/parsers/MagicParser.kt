@@ -4,6 +4,7 @@ import com.kingz.kt.utils.HexUtil
 import com.kingz.parser.clazz.ClassFile
 import com.kingz.parser.clazz.base.IBytesHandler
 import com.kingz.parser.clazz.base.Parser
+import com.kingz.parser.clazz.utils.ParserOrder
 import java.nio.ByteBuffer
 
 /**
@@ -11,7 +12,7 @@ import java.nio.ByteBuffer
  */
 @Parser(name = "Magic")
 class MagicParser : IBytesHandler {
-    override fun order() = 0
+    override fun order() = ParserOrder.Magic
 
     override fun handle(codeBuf: ByteBuffer, classFile: ClassFile) {
         val bytes = byteArrayOf(codeBuf.get(),codeBuf.get(),codeBuf.get(),codeBuf.get())

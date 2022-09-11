@@ -4,6 +4,7 @@ import com.kingz.kt.utils.HexUtil
 import com.kingz.parser.clazz.ClassFile
 import com.kingz.parser.clazz.base.IBytesHandler
 import com.kingz.parser.clazz.cp.CPInfos
+import com.kingz.parser.clazz.utils.ParserOrder
 import java.nio.ByteBuffer
 
 /**
@@ -11,7 +12,7 @@ import java.nio.ByteBuffer
  * 计数器+数据区数据
  */
 class ConstantPoolParser : IBytesHandler {
-    override fun order() = 2
+    override fun order() = ParserOrder.ConstantPool
 
     override fun handle(codeBuf: ByteBuffer, classFile: ClassFile) {
         println("解析常量池信息>>>>>>")
@@ -21,7 +22,7 @@ class ConstantPoolParser : IBytesHandler {
         val poolSize = cpCount - 1
         classFile.constant_pool_count = bytes
         classFile.cp_infos = arrayOfNulls(poolSize)
-        println("\nConstant Pool($poolSize):")
+        println("Constant Pool($poolSize):")
 
         //Analytical constant pool in sequence of the constants
         for (index in 0 until poolSize) {
@@ -32,6 +33,6 @@ class ConstantPoolParser : IBytesHandler {
             println(String.format("%3s = %s","#"+(index+1),cpInfo.toString()))
             classFile.cp_infos[index] = cpInfo
         }
-        println("<<<<<<<解析完毕")
+        println("<<<<<<<常量池解析完毕")
     }
 }

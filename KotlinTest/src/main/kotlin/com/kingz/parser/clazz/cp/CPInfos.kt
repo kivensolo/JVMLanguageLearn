@@ -152,9 +152,11 @@ class CPInfos{
         }
 
         override fun toString(): String {
+            val value = bytes.toString(Charset.forName("UTF-8"))
             return super.toString() +
 //                    ",length=${HexUtil.readInt(length)}" +
-                    bytes.toString(Charset.forName("UTF-8"))
+                    //转移反斜杠
+                    value.replace("\n","\\n")
         }
     }
 
