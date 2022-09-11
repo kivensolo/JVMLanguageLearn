@@ -8,7 +8,7 @@ import java.nio.ByteBuffer
 
 /**
  * 访问标识符号解析器
- * 解析我们的class文件是类还是接口，是否定义为public的,是否是abstract,是否被 final修饰。
+ * 解析class文件是类还是接口，是否定义为public的,是否是abstract,是否被 final修饰。
  */
 class AccessFlagsParser:IBytesHandler {
     override fun order() = ParserOrder.AccessFlags

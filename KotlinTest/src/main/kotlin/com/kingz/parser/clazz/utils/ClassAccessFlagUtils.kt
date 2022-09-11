@@ -15,9 +15,15 @@ object ClassAccessFlagUtils {
         classAccessFlagMap[0x0001] = "ACC_PUBLIC"
         // 不允许继承
         classAccessFlagMap[0x0010] = "ACC_FINAL"
-        // JDK1.0.2之后编译的文件都会有这个值
+        // 为老版本(<1.0.2)编译器兼容的标志，目前暂时无用
         classAccessFlagMap[0x0020] = "ACC_SUPER"
-        // 接口
+        /**
+         * An interface is distinguished by this flag being set.
+         * if not set, this class file defines a class, not an interface.
+         *
+         * if set, the ACC_ABSTRACT flag must also be set,and
+         * the ACC_FINAL, ACC_SUPER, and ACC_ENUM flags set must not be set.
+         */
         classAccessFlagMap[0x0200] = "ACC_INTERFACE"
         // 抽象类
         classAccessFlagMap[0x0400] = "ACC_ABSTRACT"
