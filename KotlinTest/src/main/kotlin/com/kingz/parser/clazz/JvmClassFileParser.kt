@@ -1,10 +1,7 @@
 package com.kingz.parser.clazz
 
 import com.kingz.parser.clazz.base.IBytesHandler
-import com.kingz.parser.clazz.parsers.AccessFlagsParser
-import com.kingz.parser.clazz.parsers.ConstantPoolParser
-import com.kingz.parser.clazz.parsers.MagicParser
-import com.kingz.parser.clazz.parsers.VersionParser
+import com.kingz.parser.clazz.parsers.*
 import com.kingz.parser.clazz.utils.BufferedInputStream
 import java.io.File
 import java.io.FileInputStream
@@ -23,6 +20,7 @@ class JvmClassFileParser {
             handlers.add(VersionParser())
             handlers.add(ConstantPoolParser())
             handlers.add(AccessFlagsParser())
+            handlers.add(ThisAndSuperParser())
             // 解析器排序，要按顺序调用
             handlers.sortWith((Comparator.comparingInt(IBytesHandler::order)))
         }

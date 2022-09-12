@@ -15,6 +15,7 @@ class AccessFlagsParser:IBytesHandler {
 
     override fun handle(codeBuf: ByteBuffer, classFile: ClassFile) {
         val flags = byteArrayOf(codeBuf.get(),codeBuf.get())
+        classFile.access_flags = flags
         val flasStr = ClassAccessFlagUtils.toClassAccString(flags)
         println("\n  flags:$flasStr")
     }

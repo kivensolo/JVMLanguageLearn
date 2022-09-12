@@ -8,4 +8,5 @@ object ParserOrder {
     const val Version = 1
     const val ConstantPool = 2
     const val AccessFlags = 3
+    const val ThisAndSuper = 4
 }
