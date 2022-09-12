@@ -30,7 +30,7 @@ class ClassFile {
 
     // 类的接口计数器
     var interfaces_count:ByteArray = ByteArray(2)
-    var interfaces:ByteArray = ByteArray(2)
+    var interfaces = arrayOfNulls<ByteArray>(0)
 
     var fields_count:ByteArray = ByteArray(2)      //字段个数
     // field_info     fields[fields_count];            //每个字段的详细信息 field_info

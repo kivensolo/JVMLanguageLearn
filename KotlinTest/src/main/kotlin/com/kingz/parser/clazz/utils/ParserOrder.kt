@@ -9,4 +9,5 @@ object ParserOrder {
     const val ConstantPool = 2
     const val AccessFlags = 3
     const val ThisAndSuper = 4
+    const val InterfacesInfo = 5
 }
