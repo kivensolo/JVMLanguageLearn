@@ -3,6 +3,7 @@ package com.kingz.parser.clazz.parsers
 import com.kingz.kt.utils.HexUtil
 import com.kingz.parser.clazz.ClassFile
 import com.kingz.parser.clazz.base.IBytesHandler
+import com.kingz.parser.clazz.cp.CPInfos
 import com.kingz.parser.clazz.utils.ParserOrder
 import java.nio.ByteBuffer
 
@@ -16,14 +17,28 @@ import java.nio.ByteBuffer
  * 只有Object类的super_class可以为0，接口的super_class指向常量池中
  * Object类的CONSTANT_Class_info常量。
  */
-class ThisAndSuperParser:IBytesHandler {
+class ThisAndSuperParser : IBytesHandler {
     override fun order() = ParserOrder.ThisAndSuper
     override fun handle(codeBuf: ByteBuffer, classFile: ClassFile) {
-        val thisClassBytes = byteArrayOf(codeBuf.get(),codeBuf.get())
-        val superClassBytes = byteArrayOf(codeBuf.get(),codeBuf.get())
+        println("This and Super ClassParser:")
+        //Find the index value of this and super class.
+        val thisClassBytes = byteArrayOf(codeBuf.get(), codeBuf.get())
         classFile.this_class = thisClassBytes
+        val superClassBytes = byteArrayOf(codeBuf.get(), codeBuf.get())
         classFile.super_class = superClassBytes
-        println("this_class = #${HexUtil.readInt(thisClassBytes)}")
-        println("super_class = #${HexUtil.readInt(superClassBytes)}")
+
+        val thisClassIndex = HexUtil.readInt(thisClassBytes)
+        val classCpInfo = classFile.cp_infos[thisClassIndex - 1]
+        val indexOfThisClass = (classCpInfo as CPInfos.CONSTANT_Class_Info).getIndexValue()
+        val utf8CpInfo = classFile.cp_infos[indexOfThisClass - 1]
+        val thisClassName = (utf8CpInfo as CPInfos.CONSTANT_Utf8_Info).getValue()
+        println("  this_class = #${HexUtil.readInt(thisClassBytes)}  //$thisClassName")
+
+        val superClassIndex = HexUtil.readInt(superClassBytes)
+        val classCpInfo2 = classFile.cp_infos[superClassIndex - 1]
+        val indexOfSuperClass = (classCpInfo2 as CPInfos.CONSTANT_Class_Info).getIndexValue()
+        val utf8CpInfo2 = classFile.cp_infos[indexOfSuperClass - 1]
+        val thisSuperName = (utf8CpInfo2 as CPInfos.CONSTANT_Utf8_Info).getValue()
+        println("  super_class = #${HexUtil.readInt(superClassBytes)} //$thisSuperName")
     }
 }

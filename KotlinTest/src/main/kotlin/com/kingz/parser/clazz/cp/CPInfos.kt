@@ -152,11 +152,13 @@ class CPInfos{
         }
 
         override fun toString(): String {
-            val value = bytes.toString(Charset.forName("UTF-8"))
-            return super.toString() +
-//                    ",length=${HexUtil.readInt(length)}" +
-                    //转移反斜杠
-                    value.replace("\n","\\n")
+            return super.toString() + getValue()
+        }
+
+        fun getValue():String{
+            return  bytes.toString(Charset.forName("UTF-8"))
+                //转移反斜杠
+                .replace("\n","\\n")
         }
     }
 
@@ -230,6 +232,10 @@ class CPInfos{
 
         override fun toString(): String {
             return super.toString() + "#${HexUtil.readInt(name_index)}"
+        }
+
+        fun getIndexValue():Int {
+            return HexUtil.readInt(name_index)
         }
     }
 
