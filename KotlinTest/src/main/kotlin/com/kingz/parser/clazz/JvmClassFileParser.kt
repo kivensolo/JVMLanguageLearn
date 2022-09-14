@@ -22,6 +22,7 @@ class JvmClassFileParser {
             handlers.add(AccessFlagsParser())
             handlers.add(ThisAndSuperParser())
             handlers.add(InterfacesParser())
+            handlers.add(FiledsParser())
             // 解析器排序，要按顺序调用
             handlers.sortWith((Comparator.comparingInt(IBytesHandler::order)))
         }

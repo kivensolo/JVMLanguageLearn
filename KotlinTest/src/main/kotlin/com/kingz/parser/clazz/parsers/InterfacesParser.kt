@@ -21,7 +21,7 @@ class InterfacesParser:IBytesHandler {
 
         //创建接口表interfaces, 每项都是一个常量索引，指向常量池表中CONSTANT_Class_info结构的常量
         if(interfaceCount > 0){
-            val interfacesArray = arrayOfNulls<ByteArray>(interfaceCount)
+            val interfacesArray = Array(interfaceCount) { ByteArray(0) }
             classFile.interfaces = interfacesArray
             for(index in 0 until interfaceCount) {
                 interfacesArray[index] = byteArrayOf(codeBuf.get(), codeBuf.get())

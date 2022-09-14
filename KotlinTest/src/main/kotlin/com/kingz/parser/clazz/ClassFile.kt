@@ -3,6 +3,7 @@
 package com.kingz.parser.clazz
 
 import com.kingz.parser.clazz.cp.CPInfos
+import com.kingz.parser.clazz.info_structure.FieldInfo
 
 /**
  * A class file consists of a single ClassFile structure:
@@ -30,10 +31,11 @@ class ClassFile {
 
     // 类的接口计数器
     var interfaces_count:ByteArray = ByteArray(2)
-    var interfaces = arrayOfNulls<ByteArray>(0)
+    var interfaces:Array<ByteArray>? = null
 
-    var fields_count:ByteArray = ByteArray(2)      //字段个数
-    // field_info     fields[fields_count];            //每个字段的详细信息 field_info
+    // 字段
+    var fields_count:ByteArray = ByteArray(2)      //个数
+    var field_info:Array<FieldInfo>? = null
 
     var methods_count:ByteArray = ByteArray(2)
     //method_info

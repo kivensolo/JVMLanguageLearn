@@ -2,7 +2,7 @@ package com.kingz.parser.clazz.parsers
 
 import com.kingz.parser.clazz.ClassFile
 import com.kingz.parser.clazz.base.IBytesHandler
-import com.kingz.parser.clazz.utils.ClassAccessFlagUtils
+import com.kingz.parser.clazz.utils.AccessFlagUtils
 import com.kingz.parser.clazz.utils.ParserOrder
 import java.nio.ByteBuffer
 
@@ -16,7 +16,7 @@ class AccessFlagsParser:IBytesHandler {
     override fun handle(codeBuf: ByteBuffer, classFile: ClassFile) {
         val flags = byteArrayOf(codeBuf.get(),codeBuf.get())
         classFile.access_flags = flags
-        val flasStr = ClassAccessFlagUtils.toClassAccString(flags)
+        val flasStr = AccessFlagUtils.toClassAccString(flags)
         println("\n  flags:$flasStr")
     }
 }

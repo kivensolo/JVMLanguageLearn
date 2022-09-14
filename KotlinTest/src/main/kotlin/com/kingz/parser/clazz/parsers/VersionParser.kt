@@ -20,7 +20,6 @@ class VersionParser: IBytesHandler{
         val desc = (major - 45).toFloat()
         val jdkMajorVersion = 1.1f + (desc/10)
         println("  minor version: $minor")
-        println("  major version: $major")
-        println("  Aka: $jdkMajorVersion.$minor")
+        println("  major version: $major [$jdkMajorVersion]")
     }
 }
