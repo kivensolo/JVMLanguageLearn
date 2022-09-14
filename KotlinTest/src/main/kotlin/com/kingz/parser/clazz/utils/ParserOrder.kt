@@ -11,4 +11,5 @@ object ParserOrder {
     const val ThisAndSuper = 4
     const val InterfacesInfo = 5
     const val FiledsTable = 6
+    const val Methods = 7
 }

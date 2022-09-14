@@ -10,7 +10,7 @@ package com.kingz.parser.clazz.info_structure
  *     attribute_info attributes[attributes_count];
  * }
  */
-class FieldInfo {
+open class FieldInfo {
     var access_flags = ByteArray(2)
     //字段名,指向常量池某个Utf8_info类型的索引
     var name_index = ByteArray(2)
