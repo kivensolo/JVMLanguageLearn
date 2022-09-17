@@ -1,7 +1,7 @@
 package com.kingz.parser.clazz.parsers
 
-import com.kingz.kt.utils.HexUtil
 import com.kingz.parser.clazz.ClassFile
+import com.kingz.parser.clazz.U4
 import com.kingz.parser.clazz.base.IBytesHandler
 import com.kingz.parser.clazz.base.Parser
 import com.kingz.parser.clazz.utils.ParserOrder
@@ -15,9 +15,8 @@ class MagicParser : IBytesHandler {
     override fun order() = ParserOrder.Magic
 
     override fun handle(codeBuf: ByteBuffer, classFile: ClassFile) {
-        val bytes = byteArrayOf(codeBuf.get(),codeBuf.get(),codeBuf.get(),codeBuf.get())
-        classFile.magic = bytes
-        val maigcHex = HexUtil.hexBytesToString(bytes)
+        classFile.magic = U4(codeBuf.get(),codeBuf.get(),codeBuf.get(),codeBuf.get())
+        val maigcHex = classFile.magic!!.toHexString()
         if("CAFEBABE" != maigcHex){
             throw Exception("This is not a Class file !!!")
         }

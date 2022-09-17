@@ -1,7 +1,8 @@
 package com.kingz.parser.clazz.parsers
 
-import com.kingz.kt.utils.HexUtil
 import com.kingz.parser.clazz.ClassFile
+import com.kingz.parser.clazz.U2
+import com.kingz.parser.clazz.U4
 import com.kingz.parser.clazz.base.IBytesHandler
 import com.kingz.parser.clazz.cp.CPInfos
 import com.kingz.parser.clazz.info_structure.AttributeInfo
@@ -19,9 +20,9 @@ class MethodsParser:IBytesHandler {
     override fun order() = ParserOrder.Methods
 
     override fun handle(codeBuf: ByteBuffer, classFile: ClassFile) {
-        val countBytes = byteArrayOf(codeBuf.get(),codeBuf.get())
-        val methodsConuts = HexUtil.readInt(countBytes)
-        classFile.fields_count = countBytes
+        val counts = U2(codeBuf.get(),codeBuf.get())
+        val methodsConuts = counts.toInt()
+        classFile.fields_count = counts
         if(methodsConuts == 0){
             return
         }
@@ -33,28 +34,28 @@ class MethodsParser:IBytesHandler {
             //循环解析方法数据
             val _mInfo = MethodInfo()
 
-            val flags = byteArrayOf(codeBuf.get(),codeBuf.get())
+            val flags = U2(codeBuf.get(),codeBuf.get())
             _mInfo.access_flags = flags
-            val fieldAcc = AccessFlagUtils.toFieldsAccString(flags)
+            val fieldAcc = AccessFlagUtils.toFieldsAccString(flags.bytes)
 
             //name_index
-            val nameIndexBytes = byteArrayOf(codeBuf.get(),codeBuf.get())
-            _mInfo.name_index = nameIndexBytes
-            val nameIndex = HexUtil.readInt(nameIndexBytes)
+            val nameIdx = U2(codeBuf.get(),codeBuf.get())
+            _mInfo.name_index = nameIdx
+            val nameIndex = nameIdx.toInt()
             val nameInfo = classFile.cp_infos[nameIndex - 1] as CPInfos.CONSTANT_Utf8_Info
             val name = nameInfo.getValue()
 
             //descriptor_index
-            val descriptorBytes = byteArrayOf(codeBuf.get(),codeBuf.get())
-            _mInfo.descriptor_index = descriptorBytes
-            val descriptorIndex = HexUtil.readInt(descriptorBytes)
+            val desc = U2(codeBuf.get(),codeBuf.get())
+            _mInfo.descriptor_index = desc
+            val descriptorIndex = desc.toInt()
             val descriptorInfo = classFile.cp_infos[descriptorIndex - 1] as CPInfos.CONSTANT_Utf8_Info
             val descriptorValue = descriptorInfo.getValue()
 
             //attributes info
-            val attributesCountBytes = byteArrayOf(codeBuf.get(),codeBuf.get())
-            _mInfo.attributes_count = attributesCountBytes
-            val attrCounts = HexUtil.readInt(attributesCountBytes)
+            val attrCount = U2(codeBuf.get(),codeBuf.get())
+            _mInfo.attributes_count = attrCount
+            val attrCounts = attrCount.toInt()
 
             //Create attrbutes table
             val attributesArray = Array(attrCounts){ AttributeInfo() }
@@ -64,11 +65,11 @@ class MethodsParser:IBytesHandler {
                 attributesArray[attrIndex] = attrInfo
 
                 //解析字段属性
-                attrInfo.attribute_name_index = byteArrayOf(codeBuf.get(),codeBuf.get())
-                val attrTypeIndex = HexUtil.readInt(attrInfo.attribute_name_index)
+                attrInfo.attribute_name_index = U2(codeBuf.get(),codeBuf.get())
+                val attrTypeIndex = attrInfo.attribute_name_index!!.toInt()
                 val attrType = (classFile.cp_infos[attrTypeIndex - 1] as CPInfos.CONSTANT_Utf8_Info).getValue()
-                attrInfo.attribute_length = byteArrayOf(codeBuf.get(),codeBuf.get(),codeBuf.get(),codeBuf.get())
-                val attrLen = HexUtil.readInt(attrInfo.attribute_length)
+                attrInfo.attribute_length = U4(codeBuf.get(),codeBuf.get(),codeBuf.get(),codeBuf.get())
+                val attrLen = attrInfo.attribute_length!!.toInt()
                 println("  包含方法属性: ${attrType.toUpperCase()} 数据长度: $attrLen")
                 if(attrLen == 0){
                     return
@@ -80,7 +81,7 @@ class MethodsParser:IBytesHandler {
             }
             methodInfoArray[index] = _mInfo
             println("  Name     : cp_info#${index+1} $name:$descriptorValue")
-            println("  Acc flags: 0x${HexUtil.hexBytesToString(flags)}[$fieldAcc]")
+            println("  Acc flags: 0x${flags.toHexString()}[$fieldAcc]")
             println("  Attr counts: $attrCounts")
         }
     }

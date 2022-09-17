@@ -1,7 +1,7 @@
 package com.kingz.parser.clazz.parsers
 
-import com.kingz.kt.utils.HexUtil
 import com.kingz.parser.clazz.ClassFile
+import com.kingz.parser.clazz.U2
 import com.kingz.parser.clazz.base.IBytesHandler
 import com.kingz.parser.clazz.cp.CPInfos
 import com.kingz.parser.clazz.utils.ParserOrder
@@ -22,23 +22,23 @@ class ThisAndSuperParser : IBytesHandler {
     override fun handle(codeBuf: ByteBuffer, classFile: ClassFile) {
         println("This and Super ClassParser:")
         //Find the index value of this and super class.
-        val thisClassBytes = byteArrayOf(codeBuf.get(), codeBuf.get())
-        classFile.this_class = thisClassBytes
-        val superClassBytes = byteArrayOf(codeBuf.get(), codeBuf.get())
-        classFile.super_class = superClassBytes
+        val thisClass = U2(codeBuf.get(), codeBuf.get())
+        classFile.this_class = thisClass
+        val superClass = U2(codeBuf.get(), codeBuf.get())
+        classFile.super_class = superClass
 
-        val thisClassIndex = HexUtil.readInt(thisClassBytes)
+        val thisClassIndex = superClass.toInt()
         val classCpInfo = classFile.cp_infos[thisClassIndex - 1]
         val indexOfThisClass = (classCpInfo as CPInfos.CONSTANT_Class_Info).getIndexValue()
         val utf8CpInfo = classFile.cp_infos[indexOfThisClass - 1]
         val thisClassName = (utf8CpInfo as CPInfos.CONSTANT_Utf8_Info).getValue()
-        println("  this_class = #${HexUtil.readInt(thisClassBytes)}  //$thisClassName")
+        println("  this_class = #${thisClass.toInt()}  //$thisClassName")
 
-        val superClassIndex = HexUtil.readInt(superClassBytes)
+        val superClassIndex = superClass.toInt()
         val classCpInfo2 = classFile.cp_infos[superClassIndex - 1]
         val indexOfSuperClass = (classCpInfo2 as CPInfos.CONSTANT_Class_Info).getIndexValue()
         val utf8CpInfo2 = classFile.cp_infos[indexOfSuperClass - 1]
         val thisSuperName = (utf8CpInfo2 as CPInfos.CONSTANT_Utf8_Info).getValue()
-        println("  super_class = #${HexUtil.readInt(superClassBytes)} //$thisSuperName")
+        println("  super_class = #${superClass.toInt()} //$thisSuperName")
     }
 }

@@ -1,6 +1,7 @@
 package com.kingz.parser.clazz.parsers
 
 import com.kingz.parser.clazz.ClassFile
+import com.kingz.parser.clazz.U2
 import com.kingz.parser.clazz.base.IBytesHandler
 import com.kingz.parser.clazz.utils.AccessFlagUtils
 import com.kingz.parser.clazz.utils.ParserOrder
@@ -14,9 +15,9 @@ class AccessFlagsParser:IBytesHandler {
     override fun order() = ParserOrder.AccessFlags
 
     override fun handle(codeBuf: ByteBuffer, classFile: ClassFile) {
-        val flags = byteArrayOf(codeBuf.get(),codeBuf.get())
-        classFile.access_flags = flags
-        val flasStr = AccessFlagUtils.toClassAccString(flags)
+        val flagsBytes = U2(codeBuf.get(),codeBuf.get())
+        classFile.access_flags = flagsBytes
+        val flasStr = AccessFlagUtils.toClassAccString(flagsBytes.bytes)
         println("\n  flags:$flasStr")
     }
 }

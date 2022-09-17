@@ -1,7 +1,7 @@
 package com.kingz.parser.clazz.parsers
 
-import com.kingz.kt.utils.HexUtil
 import com.kingz.parser.clazz.ClassFile
+import com.kingz.parser.clazz.U2
 import com.kingz.parser.clazz.base.IBytesHandler
 import com.kingz.parser.clazz.cp.CPInfos
 import com.kingz.parser.clazz.utils.ParserOrder
@@ -16,11 +16,10 @@ class ConstantPoolParser : IBytesHandler {
 
     override fun handle(codeBuf: ByteBuffer, classFile: ClassFile) {
         println("解析常量池信息>>>>>>")
-        val bytes = byteArrayOf(codeBuf.get(), codeBuf.get())
+        val cpCountsU2 = U2(codeBuf.get(), codeBuf.get())
+        classFile.constant_pool_count = cpCountsU2
         //常量池计数器大小 等于常量池数据区条目个数+1
-        val cpCount = HexUtil.readInt(bytes)
-        val poolSize = cpCount - 1
-        classFile.constant_pool_count = bytes
+        val poolSize = cpCountsU2.toInt() - 1
         classFile.cp_infos = arrayOfNulls(poolSize)
         println("Constant Pool($poolSize):")
 

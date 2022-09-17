@@ -2,6 +2,7 @@ package com.kingz.parser.clazz.parsers
 
 import com.kingz.kt.utils.HexUtil
 import com.kingz.parser.clazz.ClassFile
+import com.kingz.parser.clazz.U2
 import com.kingz.parser.clazz.base.IBytesHandler
 import com.kingz.parser.clazz.utils.ParserOrder
 import java.nio.ByteBuffer
@@ -13,9 +14,9 @@ class InterfacesParser:IBytesHandler {
     override fun order()= ParserOrder.InterfacesInfo
 
     override fun handle(codeBuf: ByteBuffer, classFile: ClassFile) {
-        val bytes = byteArrayOf(codeBuf.get(), codeBuf.get())
-        classFile.interfaces_count = bytes
-        val interfaceCount = HexUtil.readInt(bytes) //类实现的接口总数,max 65535
+        val facesCount = U2(codeBuf.get(), codeBuf.get())
+        classFile.interfaces_count = facesCount
+        val interfaceCount = facesCount.toInt() //类实现的接口总数,max 65535
         println("Interfaces info:")
         println("  size=$interfaceCount")
 
@@ -25,7 +26,7 @@ class InterfacesParser:IBytesHandler {
             classFile.interfaces = interfacesArray
             for(index in 0 until interfaceCount) {
                 interfacesArray[index] = byteArrayOf(codeBuf.get(), codeBuf.get())
-                println("  Iface_$index = #${HexUtil.readInt(interfacesArray[index]!!)}")
+                println("  Iface_$index = #${HexUtil.readInt(interfacesArray[index])}")
             }
         }
     }

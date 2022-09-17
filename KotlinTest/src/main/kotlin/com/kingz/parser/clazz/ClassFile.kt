@@ -12,34 +12,33 @@ import com.kingz.parser.clazz.info_structure.FieldInfo
  * com.sun.java.util.jar.pack.PackageReader 可以参考
  */
 class ClassFile {
-
-    var magic:ByteArray = ByteArray(4)          //class文件标识:0xCAFEBABE。
-    var minor_version:ByteArray = ByteArray(2)  //Minor Version
-    var major_version:ByteArray = ByteArray(2)  //Major Version 十进制52对应的JDK版本为1.8
+    var magic:U4?= null          //class文件标识:0xCAFEBABE。
+    var minor_version:U2?= null  //Minor Version
+    var major_version:U2?= null  //Major Version 十进制52对应的JDK版本为1.8
 
     // 常量池计数器(常量池实际大小为该值减1  排除了下标0)
-    var constant_pool_count:ByteArray = ByteArray(2)
+    var constant_pool_count:U2?= null
     // 常量池数据区数据 size = constant_pool_count - 1
     var cp_infos = arrayOfNulls<CPInfos.CPInfo>(0)
 
     // 访问标志: 类还是接口, 以及是否被 Public、Abstract、Final 等修饰符修饰
-    var access_flags:ByteArray = ByteArray(2)
+    var access_flags:U2?= null
     // 当前类的全限定名，值为常量池中的索引值
-    var this_class:ByteArray = ByteArray(2)
+    var this_class:U2?= null
     // 父类的全限定名,值也是在常量池中的索引值
-    var super_class:ByteArray = ByteArray(2)
+    var super_class:U2?= null
 
     // 类的接口计数器
-    var interfaces_count:ByteArray = ByteArray(2)
+    var interfaces_count:U2?= null
     var interfaces:Array<ByteArray>? = null
 
     // 字段
-    var fields_count:ByteArray = ByteArray(2)      //个数
+    var fields_count:U2?= null    //个数
     var field_info:Array<FieldInfo>? = null
 
-    var methods_count:ByteArray = ByteArray(2)
+    var methods_count:U2?= null
     //method_info
 
-    var attributes_count:ByteArray = ByteArray(2)
+    var attributes_count:U2?= null
     //attribute_info
 }
