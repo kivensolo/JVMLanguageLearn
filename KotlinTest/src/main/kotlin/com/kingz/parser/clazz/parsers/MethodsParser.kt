@@ -22,14 +22,14 @@ class MethodsParser:IBytesHandler {
     override fun handle(codeBuf: ByteBuffer, classFile: ClassFile) {
         val counts = U2(codeBuf.get(),codeBuf.get())
         val methodsConuts = counts.toInt()
-        classFile.fields_count = counts
+        classFile.methods_count = counts
         if(methodsConuts == 0){
             return
         }
 
         println("Method counts:$methodsConuts")
         //Create method table
-        val methodInfoArray = Array<MethodInfo?>(methodsConuts){ null }
+        val methodsInfoArray = Array(methodsConuts){ MethodInfo() }
         for(index in 0 until methodsConuts) {
             //循环解析方法数据
             val _mInfo = MethodInfo()
@@ -66,23 +66,30 @@ class MethodsParser:IBytesHandler {
 
                 //解析字段属性
                 attrInfo.attribute_name_index = U2(codeBuf.get(),codeBuf.get())
-                val attrTypeIndex = attrInfo.attribute_name_index!!.toInt()
-                val attrType = (classFile.cp_infos[attrTypeIndex - 1] as CPInfos.CONSTANT_Utf8_Info).getValue()
                 attrInfo.attribute_length = U4(codeBuf.get(),codeBuf.get(),codeBuf.get(),codeBuf.get())
                 val attrLen = attrInfo.attribute_length!!.toInt()
-                println("  包含方法属性: ${attrType.toUpperCase()} 数据长度: $attrLen")
                 if(attrLen == 0){
                     return
                 }
-                // 解析Info[TODO info的数据含义，还未进一步处理]
+                // 解析Info[TODO info的数据含义，还未进一步处理  比如CODE下面有 lineNumberTable等]
                 val infoBytes = ByteArray(attrLen)
                 codeBuf.get(infoBytes,0,attrLen)
                 attrInfo.info = infoBytes
             }
-            methodInfoArray[index] = _mInfo
-            println("  Name     : cp_info#${index+1} $name:$descriptorValue")
-            println("  Acc flags: 0x${flags.toHexString()}[$fieldAcc]")
-            println("  Attr counts: $attrCounts")
+            methodsInfoArray[index] = _mInfo
+            println(" ╔═══════════════════════════════════════════════════════════════")
+            println(" ║Name     : cp_info#${index+1} $name:$descriptorValue")
+            println(" ║Acc flags: 0x${flags.toHexString()}[$fieldAcc]")
+            println(" ║Attr counts: $attrCounts")
+            for(_index in 0 until attrCounts) {
+                val attr = _mInfo.attributes!![_index]
+                val attrTypeIndex = attr.attribute_name_index!!.toInt()
+                val attrType = (classFile.cp_infos[attrTypeIndex - 1] as CPInfos.CONSTANT_Utf8_Info).getValue()
+                val attrLen = attr.attribute_length!!.toInt()
+                println(" ╠--- Attr[$_index]:${attrType.toUpperCase()} 数据长度: $attrLen")
+            }
+            println(" ╚═══════════════════════════════════════════════════════════════")
         }
+        classFile.methods = methodsInfoArray
     }
 }

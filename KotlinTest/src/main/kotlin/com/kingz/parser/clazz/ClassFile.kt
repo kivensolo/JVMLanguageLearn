@@ -3,7 +3,9 @@
 package com.kingz.parser.clazz
 
 import com.kingz.parser.clazz.cp.CPInfos
+import com.kingz.parser.clazz.info_structure.AttributeInfo
 import com.kingz.parser.clazz.info_structure.FieldInfo
+import com.kingz.parser.clazz.info_structure.MethodInfo
 
 /**
  * A class file consists of a single ClassFile structure:
@@ -33,12 +35,14 @@ class ClassFile {
     var interfaces:Array<ByteArray>? = null
 
     // 字段
-    var fields_count:U2?= null    //个数
-    var field_info:Array<FieldInfo>? = null
+    var fields_count:U2?= null
+    var fields:Array<FieldInfo>? = null
 
+    //方法
     var methods_count:U2?= null
-    //method_info
+    var methods:Array<MethodInfo>? = null
 
+    //属性
     var attributes_count:U2?= null
-    //attribute_info
+    var attributes:Array<AttributeInfo>? = null
 }
