@@ -28,7 +28,7 @@ class FiledsParser:IBytesHandler {
 
         println("Fileds counts:$filedConuts")
         //Create fields table
-        val fieldInfoArray = Array<FieldInfo?>(filedConuts){ null }
+        val fieldInfoArray = Array(filedConuts){ FieldInfo() }
         for(index in 0 until filedConuts) {
             //循环解析字段数据
 
@@ -90,5 +90,6 @@ class FiledsParser:IBytesHandler {
             }
             println(" ╚═══════════════════════════════════════════════════════════════")
         }
+        classFile.fields = fieldInfoArray
     }
 }

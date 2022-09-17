@@ -26,7 +26,7 @@ class ClassAttributesParser:IBytesHandler {
             return
         }
         println("字节码文件属性总数为${len}")
-        val attributeInfos = arrayOfNulls<AttributeInfo>(len)
+        val attributeInfos = Array(len) { AttributeInfo() }
         for(i in 0 until len) {
             val attrInfo = AttributeInfo()
             attributeInfos[i] = attrInfo
@@ -52,6 +52,7 @@ class ClassAttributesParser:IBytesHandler {
             println(" ╚═══════════════════════════════════════════════════════════════")
 
         }
+        classFile.attributes = attributeInfos
 
         val remainingSize = codeBuf.remaining()
         println("字节码剩余字节：$remainingSize")
