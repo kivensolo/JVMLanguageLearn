@@ -77,9 +77,18 @@ class FiledsParser:IBytesHandler {
                 attrInfo.info = infoBytes
             }
             fieldInfoArray[index] = fieldInfo
-            println("  Name     : cp_info#${index+1} $name:<$descriptorValue>")
-            println("  Acc flags: 0x${flags.toHexString()}[$fieldAcc]")
-            println("  Attr size: $attrCounts")
+            println(" ╔═══════════════════════════════════════════════════════════════")
+            println(" ║Name     : cp_info#${nameIndex} $name:<$descriptorValue>")
+            println(" ║Acc flags: 0x${flags.toHexString()}[$fieldAcc]")
+            println(" ║Attr size: $attrCounts")
+            for(_index in 0 until attrCounts) {
+                val attr = fieldInfo.attributes!![_index]
+                val attrTypeIndex = attr.attribute_name_index!!.toInt()
+                val attrType = (classFile.cp_infos[attrTypeIndex - 1] as CPInfos.CONSTANT_Utf8_Info).getValue()
+                val attrLen = attr.attribute_length!!.toInt()
+                println(" ╠--- Attr[$_index]:${attrType.toUpperCase()} 数据长度: $attrLen")
+            }
+            println(" ╚═══════════════════════════════════════════════════════════════")
         }
     }
 }
