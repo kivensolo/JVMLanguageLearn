@@ -1,4 +1,4 @@
-package com.memoryleak;
+package com.thread;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
