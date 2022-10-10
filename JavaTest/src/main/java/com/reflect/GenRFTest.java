@@ -5,12 +5,17 @@ import java.lang.reflect.Type;
 
 /**
  * 通过反射实例化泛型类
+ * 为了做软终端框架加的测试代码
  */
 public class GenRFTest {
     public static void main(String[] args) {
-        new Transformer<RelectTarget>().load(RelectTarget.class);
+        BankHacker load = new Transformer<BankHacker>().load(BankHacker.class);
     }
 
+    /**
+     * 目的，通过注解或者特定配置，将泛型实例化为对象
+     * @param <T>
+     */
     static class Transformer<T>{
         String className = "";
         public T load(Class<T> clazz){

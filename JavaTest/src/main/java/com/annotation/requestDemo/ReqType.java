@@ -1,7 +1,6 @@
 package com.annotation.requestDemo;
 
 import com.annotation.Orange;
-import com.reflect.RF_TestClient;
 
 import java.lang.annotation.*;
 
@@ -10,7 +9,7 @@ import java.lang.annotation.*;
  * description: 模拟一个网络请求的注解 <br>
  *      1.自定义注解 {@link ReqUrl,ReqType,ReqParam}
  *      2.使用自定义注解 {@link ILoginApi,Orange}
- *      3.获取注解参数  {@link RF_TestClient#findAnnotationMethods()}
+ *      3.获取注解参数
  *      4.具体实现注解接口调用
  */
 @Documented

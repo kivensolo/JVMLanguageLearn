@@ -2,7 +2,6 @@ package com.reflect.clazz;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -11,31 +10,31 @@ import java.util.Map;
  */
 public class ClassRelationship {
 
+    static class Cat {}
+    static class Dog{}
+
     class Animal{
         List<Cat> cats;
         List<Dog>  dogs;
-        //    List l ;
         Map<Integer, String> map ;
         int type;
     }
 
-    class Cat {}
-    class Dog{}
 
     public static void main(String[] args) {
-        Class tc = Animal.class;
-        Field[] fields = tc.getDeclaredFields();
+        Class<Animal> animalClass = Animal.class;
+        Field[] fields = animalClass.getDeclaredFields();
         for (Field f : fields) {
-            Class fc = f.getType();
-            if(fc.isPrimitive()){ //是否为基本数据类型
-                System.out.println("基本数据类型： " + f.getName() + "  变量名:" + fc.getName());
+            Class<?> classType = f.getType();
+            if(classType.isPrimitive()){ //是否为基本数据类型
+                System.out.println("基本数据类型:" + classType.getName() + ",变量名:" + f.getName());
             }else{
-                if(fc.isAssignableFrom(List.class)){ //判断是否为List的类型
+                if(classType.isAssignableFrom(List.class)){ //判断是否为List的类型
                     System.out.println("发现List类型：" + f.getName());
-                    Type gt = f.getGenericType();    //得到泛型类型
-                    ParameterizedType pt = (ParameterizedType)gt;
+                    //Tyoe是Java中所有类型的公共超级接口。这些类型包括原始类型、参数化类型、数组类型、类型变量和基本类型。
+                    ParameterizedType pt = (ParameterizedType) f.getGenericType();    //得到泛型类型
                     Class lll = (Class)pt.getActualTypeArguments()[0];
-                    System.out.println("\t\t" + lll.getName());
+                    System.out.println("\t name = " + lll.getName());
                 }
             }
         }
