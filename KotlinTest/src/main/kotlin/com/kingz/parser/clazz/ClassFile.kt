@@ -10,8 +10,6 @@ import com.kingz.parser.clazz.info_structure.MethodInfo
 /**
  * A class file consists of a single ClassFile structure:
  * https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html
- *
- * com.sun.java.util.jar.pack.PackageReader 可以参考
  */
 class ClassFile {
     var magic:U4?= null          //class文件标识:0xCAFEBABE。
