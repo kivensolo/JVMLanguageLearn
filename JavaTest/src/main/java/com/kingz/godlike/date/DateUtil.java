@@ -13,6 +13,12 @@ import java.util.concurrent.TimeUnit;
  * author: King.Z
  * date:  2016/2/16 17:23
  * description: 时间工具类
+ *
+ * Date 类中的 compareTo() 方法用于比较两个日期的先后顺序。
+ *      它返回一个 int 类型的值，表示两个日期之间的差距。
+ *      如果当前日期小于另一个日期，则返回负数；
+ *      如果当前日期大于另一个日期，则返回正数；
+ *      如果两个日期相等，则返回 0。
  */
 public class DateUtil {
 
@@ -41,15 +47,6 @@ public class DateUtil {
 			}
 		}, cal.getTime(), ONE_DAY_MS);
 	}
-
-    /**
-     * 获取当前时间的小时值
-     * @return
-     */
-    private int getCurrentTimeHour(){
-        return Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-    }
-
 
     /**
      * 获取当前(系统)的时间
@@ -104,6 +101,7 @@ public class DateUtil {
         Date currentTime_2 = _ymdHmsFormat.parse(currentSysTime, pos);
         return currentTime_2;
     }
+
 
     /**
      * 获取现在时间
@@ -176,6 +174,14 @@ public class DateUtil {
     }
 
     /**
+     * 获取当前时间的小时值
+     * @return
+     */
+    private int getCurrentTimeHour(){
+        return Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+    }
+
+    /**
      * 根据日期返回星期几
      * @return 星期X
      */
@@ -243,4 +249,44 @@ public class DateUtil {
        second = (int) (second - TimeUnit.MINUTES.toSeconds(m));
        return String.format("%02d:%02d:%02d",h,m,second);
     }
+
+
+    public static void dumpCurrentWeekDate() {
+        // 获取当前系统时间
+        Calendar calendar = Calendar.getInstance();
+        // 创建日期格式化字符串
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        // 计算本周第一天的日期（以周一为起始点）
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        String firstDayOfWeek = dateFormat.format(calendar.getTime());
+        // 输出本周日期
+        System.out.println("This week:");
+        for (int i = 0; i < 7; i++) {
+            String dayOfWeek = dateFormat.format(calendar.getTime());
+            System.out.println(dayOfWeek);
+            calendar.add(Calendar.DAY_OF_WEEK, 1);
+        }
+    }
+
+    public static void dumpCurrentWeekDateUntilToday() {
+        Calendar calendar = Calendar.getInstance();
+        Date todayDate = calendar.getTime(); //当前时间
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        // 计算本周第一天的日期（以周一为起始点）
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        // 输出本周日期
+        System.out.println("This week:");
+        for (int i = 0; i < 7; i++) {
+            Date tmpDate = calendar.getTime();
+            if(tmpDate.compareTo(todayDate) < 0){
+                String dayOfWeek = dateFormat.format(tmpDate);
+                System.out.println(dayOfWeek);
+            }else{
+                break;
+            }
+            calendar.add(Calendar.DAY_OF_WEEK, 1);
+        }
+    }
+
+
 }

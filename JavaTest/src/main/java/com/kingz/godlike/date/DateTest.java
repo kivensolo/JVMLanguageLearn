@@ -31,8 +31,6 @@ public class DateTest {
         //System.out.println("current = " + current);
         //System.out.println(""+current.compareTo(endDate));
 
-        System.out.println(DateUtil.secondToDate(61L,"HH:mm:ss"));
-        System.out.println(DateUtil.secondToDate(3599));
-
+        DateUtil.dumpCurrentWeekDateUntilToday();
     }
 }
