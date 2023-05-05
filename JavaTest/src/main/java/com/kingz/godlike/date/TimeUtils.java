@@ -1,6 +1,5 @@
 package com.kingz.godlike.date;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -8,27 +7,62 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Copyright(C) 2015, 北京视达科科技有限公司
- * All rights reserved.
  * author: King.Z
- * date:  2016/2/16 17:23
+ * date:  2023/4/23 14:23
  * description: 时间工具类
  *
- * Date 类中的 compareTo() 方法用于比较两个日期的先后顺序。
- *      它返回一个 int 类型的值，表示两个日期之间的差距。
- *      如果当前日期小于另一个日期，则返回负数；
- *      如果当前日期大于另一个日期，则返回正数；
- *      如果两个日期相等，则返回 0。
+ * 【Date类】:
+ *  是Java中最早的日期时间处理类之一，可以用于表示时间戳（即从1970年1月1日00:00:00开始的毫秒数）。
+ *  Date类的主要作用是对时间戳进行操作，比如获取当前时间戳、将时间戳转换为Date对象等。
+ *  [优点]：方便地进行时间戳的转换和比较;
+ *  [缺点]：对于日期和时间信息的操作不如Calendar类方便;
+ *
+ *  常用API:
+ *   {@link Date#compareTo(Date)} 用于比较两个日期的先后顺序，方式为前Date与后Date比较，如何前Date小，则返回负数。
+ *
+ * 【Calendar类】:
+ *  Java中用于操作日期和时间信息的主要类之一。
+ *  它提供了丰富的日期和时间操作方法，包括获取年、月、日、小时、分钟、秒等各种时间信息、设置指定时间、计算时间差等等。
+ *  与Date类不同，Calendar类允许开发者在一个独立于特定时区的环境下进行日期和时间计算，并且支持国际化。
+ *  同时，Calendar还提供了许多静态工厂方法，方便创建和获取Calendar实例。
+ *
+ * Java 8及以后版本增加了对新的日期时间API的支持:
+ *  可以使用 instant 代替 Date;
+ *  Localdatetime 代替 Calendar;
+ *  Datetimeformatter 代替 Simpledateformatter，官方给出的解释：simple beautiful strong
+ *  immutable thread-safe。
+ *
+ *  LocalDate、LocalTime、LocalDateTime等类
  */
-public class DateUtil {
-
-    SimpleDateFormat _ymdHmsFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    SimpleDateFormat _hmsFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+public class TimeUtils {
     private static final long ONE_DAY_MS = TimeUnit.DAYS.toMillis(1);
+
+    /**
+     * 注意:  SimpleDateFormat 的format和parse方法，并非是线程安全
+     */
+    SimpleDateFormat ymdHmsFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+
+    Date date;
+    public String parseDate(Date date){
+        return parseDate(date, ymdHmsFormat);
+    }
+
+    public String parseDate(Date date,SimpleDateFormat format){
+        return parseDate(date, format, new ParsePosition(8));
+    }
+
+    public String parseDate(Date date,SimpleDateFormat format, ParsePosition parsePosition){
+        if(format == null){
+            format = ymdHmsFormat;
+        }
+        //Date parsedDate = _ymdHmsFormat.parse(currentTime, parsePosition);
+        return format.format(new Date()); //自动地将时间转换为系统默认时区的时间;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="Calendar使用">
     Calendar calendar = Calendar.getInstance();
     String currentSysTime;
-    DateFormat df;
-    Date date;
 
     /**
 	 * 每日定时定点执行
@@ -49,26 +83,13 @@ public class DateUtil {
 	}
 
     /**
-     * 获取当前(系统)的时间
-     * @param format 时间格式化样式
-     * @return 字符串格式
-     * 具体格式根据
-     * 如： yyyy-MM-dd HH:mm:ss
-     */
-    public String getStringDate(SimpleDateFormat format){
-        currentSysTime = format.format(new Date());  //new Date为获取当前系统时间
-        System.out.println("当前系统时间："+currentSysTime);
-        return format.format(new Date());
-    }
-
-    /**
      * 计算固定格式的时间毫秒
      * @param inVal
      * @return 距1970年的时间毫秒数
      */
      public long fromDateStringToLong(String inVal) { //此方法计算时间毫秒
          try {
-             date = _ymdHmsFormat.parse(inVal); //将字符型转换成日期型
+             date = ymdHmsFormat.parse(inVal); //将字符型转换成日期型
          } catch (Exception e) {
              e.printStackTrace();
          }
@@ -83,8 +104,8 @@ public class DateUtil {
      */
      public long fromDateStringToLong(String inVal,String format) {
          try {
-             _ymdHmsFormat = new SimpleDateFormat(format);
-             date = _ymdHmsFormat.parse(inVal);
+             ymdHmsFormat = new SimpleDateFormat(format);
+             date = ymdHmsFormat.parse(inVal);
          } catch (Exception e) {
              e.printStackTrace();
          }
@@ -96,9 +117,9 @@ public class DateUtil {
      * @return 返回时间类型 yyyy-MM-dd HH:mm:ss
      */
     public Date getNowDate(){
-        currentSysTime = _ymdHmsFormat.format(new Date());
+        currentSysTime = ymdHmsFormat.format(new Date());
         ParsePosition pos = new ParsePosition(8);
-        Date currentTime_2 = _ymdHmsFormat.parse(currentSysTime, pos);
+        Date currentTime_2 = ymdHmsFormat.parse(currentSysTime, pos);
         return currentTime_2;
     }
 
@@ -153,10 +174,10 @@ public class DateUtil {
      * String 类型的时间转为Date类型
      */
     public void changeString2Date(String strTime){
-        _ymdHmsFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        ymdHmsFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date time = null;
         try {
-            time = _ymdHmsFormat.parse(strTime);
+            time = ymdHmsFormat.parse(strTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -182,16 +203,18 @@ public class DateUtil {
     }
 
     /**
-     * 根据日期返回星期几
+     * 根据yyyy-MM-dd HH:mm:ss格式的日期返回星期几
+     *
      * @return 星期X
      */
-    public String getWeek(String strDate){
+    public String getWeek(String ymdHms){
         try {
-            date = _ymdHmsFormat.parse(strDate);
+            Date date = ymdHmsFormat.parse(ymdHms);
+            calendar.setTime(date);
         } catch (ParseException e) {
             e.printStackTrace();
+            return "星期八";
         }
-        calendar.setTime(date);
         int day = calendar.get(Calendar.DAY_OF_WEEK);
         String weekStr = "";
         switch (day){
@@ -220,6 +243,7 @@ public class DateUtil {
         System.out.println("星期X：" + weekStr);
         return weekStr;
     }
+    // </editor-fold>
 
      /**
      * 秒转换为指定格式的日期
@@ -268,6 +292,9 @@ public class DateUtil {
         }
     }
 
+    /**
+     * 打印本周内周一到当天的日期
+     */
     public static void dumpCurrentWeekDateUntilToday() {
         Calendar calendar = Calendar.getInstance();
         Date todayDate = calendar.getTime(); //当前时间
