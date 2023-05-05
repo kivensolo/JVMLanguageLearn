@@ -6,14 +6,14 @@ import java.lang.reflect.Method;
 /**
  * InvocationHandler是JDK提供的动态代理接口，对被代理类的方法进行代理
  */
-public class GamePlayHandler implements InvocationHandler {
+public class GamePlayInvocationHandler implements InvocationHandler {
     //被代理者
     Class cls =null;
     //被代理对象
     Object target = null;
 
     //指定代理对象
-    public GamePlayHandler(Object _obj){
+    public GamePlayInvocationHandler(Object _obj){
         this.target = _obj;
     }
 

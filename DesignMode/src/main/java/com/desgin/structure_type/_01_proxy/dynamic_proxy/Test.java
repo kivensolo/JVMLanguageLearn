@@ -13,10 +13,10 @@ public class Test {
     public static void main(String[] args) throws Throwable {
         IGamePlayer player = new GamePlayer("张三");
         // 传入具体对象到Handler中，invoke方法回调时，反射调用具体对象的方法。
-        InvocationHandler handler = new GamePlayHandler(player);
+        InvocationHandler handler = new GamePlayInvocationHandler(player);
         System.out.println("开始时间是：2017-6-24 10:45");
         // 获取到具体对象类的ClassLoader
-        ClassLoader cl = player.getClass().getClassLoader();
+        ClassLoader targetLoader = player.getClass().getClassLoader();
         //// 获取具体对象抽象接口的字节码代理对象
         //Class clazz = Proxy.getProxyClass(cl, IGamePlayer.class);
         //// 通过具体对象抽象接口的字节码对象，传入一个InvocationHandler对象，
@@ -25,7 +25,7 @@ public class Test {
         //IGamePlayer proxy = (IGamePlayer)clazz.getConstructor(InvocationHandler.class).newInstance(handler);
         //简洁调用
         IGamePlayer proxy = (IGamePlayer) Proxy.newProxyInstance(
-                cl,  // 被代理对象类的classLoader实例
+                targetLoader,  // 被代理对象类的classLoader实例
                 new Class[] { IGamePlayer.class }, // 被代理对象类的实现接口字节码对象
                 handler); // InvocationHandler通知对象
         proxy.login("张三","123456");
