@@ -30,6 +30,7 @@ import java.util.HashMap;
  *<p> {@link XmlElementRef}
  *<p> {@link XmlElementRefs}
  */
+@SuppressWarnings("Pass")
 @XmlRootElement(name = "Root")
 public class TestJaxbBean {
 

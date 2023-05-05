@@ -87,7 +87,7 @@ public final class PCRemoteServer implements Closeable {
      * @param rcId      接受客户端的Id，一般是包名, *表示不筛选
      */
     public void find(String deviceIp, String rcId) {
-        find(this.tcpIp, this.tcpPort, deviceIp, rcId);
+        find(this.tcpIp, this.tcpPort, deviceIp, rcId, null);
     }
 
     /**
@@ -99,7 +99,7 @@ public final class PCRemoteServer implements Closeable {
      * @return 数据是否发送成功
      */
     private static boolean find(String tcpIp, int tcpPort, String device,
-                                String rcId) {
+                                String rcId,NetworkInterface iface) {
         boolean sendSucess = false;
         DatagramSocket socket = null;
         InetAddress address = null;
@@ -112,14 +112,12 @@ public final class PCRemoteServer implements Closeable {
             //} else if (CommonUtils.isWifi()) {
             } else {
                 type= "组播";
-                // 创建组播Socket并指定端口
-                MulticastSocket ms = new MulticastSocket(IPV4_MULTI_CAST_PROT);
-                // 指定组播地址
                 address = InetAddress.getByName(IPV4_MULTI_CAST_GROUP);
-                // 将socket加入到组播地址中
-                ms.joinGroup(address);
-                // 启用回环模式(组播数据包发送时，将数据包回送给127.0.0.1的网络接口)
-                ms.setLoopbackMode(true);
+                InetSocketAddress inetSocketAddress = new InetSocketAddress(address, IPV4_MULTI_CAST_PROT);
+                MulticastSocket ms = new MulticastSocket(IPV4_MULTI_CAST_PROT);
+                ms.setNetworkInterface(iface);
+                ms.joinGroup(inetSocketAddress, iface);
+                //ms.setLoopbackMode(true);
                 socket = ms;
             }
             //else {
@@ -131,7 +129,7 @@ public final class PCRemoteServer implements Closeable {
             DataPackage pkg = new DataPackage();
             byte[] buf = DataPackage.createBuf();
             DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 0);
-            for (int port = 34850; port <= 34900; port++) {
+            for (int port = 34887; port <= 34888; port++) {
                 packet.setPort(port); //update package
                 pkg.version = DataPackage.VERSION;
                 pkg.len = (short)message.length();
@@ -157,14 +155,19 @@ public final class PCRemoteServer implements Closeable {
     }
 
     public void findSync(){
-        findSync(null, "*");
+        findSync(null, "*", null);
     }
 
-    public void findSync(String device, String rcId) {
+    /**
+     * 异步查找组播数据接收者
+     * @param iface
+     * @param device
+     * @param rcId
+     */
+    public void findSync(String device, String rcId, NetworkInterface iface) {
         new Thread(() -> {
             while (!PCRemoteServer.this.tcpSs.isClosed()) {
-                PCRemoteServer.find(PCRemoteServer.this.tcpIp,
-                        PCRemoteServer.this.tcpPort, device, rcId);
+                PCRemoteServer.find(tcpIp, tcpPort, device, rcId, iface);
                 try {
                     Thread.sleep(5000L);
                 } catch (InterruptedException ignored) {
@@ -185,6 +188,7 @@ public final class PCRemoteServer implements Closeable {
         private int port;
         private String device;
         private String rcId;
+        private NetworkInterface sendInterface;
         private ITCPConnector tcpConnector;
         private Runnable closeAction;
 
@@ -213,6 +217,11 @@ public final class PCRemoteServer implements Closeable {
 
         public TcpBuilder Id(String rcId) {
             this.rcId = rcId;
+            return this;
+        }
+
+        public TcpBuilder networkInterface(NetworkInterface iface) {
+            this.sendInterface = iface;
             return this;
         }
 
@@ -247,7 +256,7 @@ public final class PCRemoteServer implements Closeable {
                 remoteServer.acceptSync(tcpConnector);
             }
 
-            remoteServer.findSync(this.device, this.rcId);
+            remoteServer.findSync(this.device, this.rcId, sendInterface);
             return remoteServer;
         }
     }

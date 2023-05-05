@@ -39,7 +39,7 @@ public class MulticastListener {
             while (true) {
                 try {// 循环监听
                     socket.receive(packet); //阻塞方法，buffer填充满了，才会返回数据
-                    contentData = ggetPacketContentData(packet.getData());
+                    contentData = getPacketContentData(packet.getData());
                     if(!contentData.equals("")){
                         System.out.println("接收到组播数据, 离开组播");
                         destoryMulticast(socket, group);
@@ -104,7 +104,7 @@ public class MulticastListener {
         }
     }
 
-    private static String ggetPacketContentData(byte[] data){
+    private static String getPacketContentData(byte[] data){
         byte[] version = new byte[2];
         byte[] len = new byte[2];
         byte[] content = new byte[512];
