@@ -1,4 +1,4 @@
-package com.io.nio.c_s_mode;
+package com.nio.tcp_server;
 
 import java.io.IOException;
 
@@ -12,12 +12,11 @@ import java.io.IOException;
  * netstat -ano // 查看所有端口及占用情况
  */
 public class NIOServerTest {
-    public static final String HOST = "127.0.0.1";
-    public static final int PORT = 58889;
+
     public static void main(String[] args) {
-        NIOServer nioServer = new NIOServer();
+        SimpleTcpServer nioServer = new SimpleTcpServer();
         try {
-            nioServer.initServer(HOST, PORT);
+            nioServer.start();
             nioServer.listen();
         } catch (IOException e) {
             e.printStackTrace();

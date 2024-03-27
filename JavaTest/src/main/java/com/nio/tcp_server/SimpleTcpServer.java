@@ -1,4 +1,4 @@
-package com.io.nio.c_s_mode;
+package com.nio.tcp_server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -8,46 +8,50 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
-import java.util.Set;
 
 
 /**
- * NIO方式实现的Server
+ * 题目描述：
+ * 设计并实现一个基于Java NIO的非阻塞TCP服务器，能够处理多个客户端并发连接请求。服务器应具备以下功能：
+ * <p>
+ * 1、使用 Selector 选择器监听并管理客户端连接请求。
+ * 2、使用 ServerSocketChannel 接收新连接，并为每个新连接分配一个独立的SocketChannel。
+ * 3、客户端发送字符串消息到服务器时，服务器应能正确接收并回显相同的消息给客户端。
+ * 4、服务器应能够通过复用已注册的Selector在单个线程内高效地处理多个客户端通信。
  */
-public class NIOServer {
+public class SimpleTcpServer {
+
+    public static final String HOST = "localhost";
+    public static final int PORT = 58889;
+
 
     // 1. serverSelector负责轮询是否有新的连接，服务端监测到新的连接之后，不再创建一个新的线程，
     // 而是直接将新连接绑定到clientSelector上，这样就不用 IO 模型中 1w 个 while 循环在死等
     private Selector serverSelector;
-    // 2. clientSelector负责轮询处理已有连接是否有数据可读
-    private Selector clientSelector;
 
-    /**
-     * 获得一个ServerSocket通道，并对该通道做一些初始化的操作
-     * 对应IO编程中服务端启动
-     *
-     * @param port 绑定的端口号
-     * @throws IOException
-     */
-    public void initServer(int port) throws IOException {
-        initServer(null, port);
+    public void start() throws IOException {
+        start(HOST, PORT);
     }
 
-    public void initServer(String addr, int port) throws IOException {
+    /**
+     * 启动服务端监听
+     */
+    public void start(int port) throws IOException {
+        start(null, port);
+    }
+
+    public void start(String addr, int port) throws IOException {
         InetSocketAddress localAddr;
         if (addr == null || addr.equals("")) {
             localAddr = new InetSocketAddress(port);
         } else {
             localAddr = new InetSocketAddress(addr, port);
         }
-        ServerSocketChannel listenerChannel = ServerSocketChannel.open();   //  获得一个ServerSocket通道
-        listenerChannel.socket().bind(localAddr);         //  将该通道对应的ServerSocket绑定到port端口
-        listenerChannel.configureBlocking(false);                           //  设置通道为非阻塞
-        serverSelector = Selector.open();                                   //  获得一个通道管理器
-        listenerChannel.register(serverSelector, SelectionKey.OP_ACCEPT);   //  将通道管理器和该通道绑定
-
-        clientSelector = Selector.open();
-
+        serverSelector = Selector.open();
+        ServerSocketChannel _channel = ServerSocketChannel.open();
+        _channel.configureBlocking(false);
+        _channel.socket().bind(localAddr);
+        _channel.register(serverSelector, SelectionKey.OP_ACCEPT);
     }
 
     /**
@@ -62,45 +66,28 @@ public class NIOServer {
                     // 当该事件到达后,selector.select()会返回, 否则，该方法会一直阻塞
                     if (serverSelector.select(1) > 0) {
                         // 获得selector中选中的项的迭代器，选中的项为注册的事件
-                        Set<SelectionKey> set = serverSelector.selectedKeys();
-                        Iterator<SelectionKey> keyIterator = set.iterator();
+                        Iterator<SelectionKey> keyIterator = serverSelector.selectedKeys().iterator();
 
-                        SelectionKey selectionKey;
                         while (keyIterator.hasNext()) {
-                            selectionKey = keyIterator.next();
-                            hander(selectionKey);
+                            SelectionKey key = keyIterator.next();
                             // 删除已经选择的key，防止重复处理
                             keyIterator.remove();
+                            handleKey(key);
                         }
                     }
                 }
             } catch (IOException ignored) {
             }
         });
-        thread.setName("NIO-Server");
+        thread.setName("NIO_Simple_TCP_Server");
         thread.start();
-
-        // 单独开线程处理read的方式
-        //new Thread(() -> {
-        //    try {
-        //        while (true) {
-        //            // (2) 批量轮询是否有哪些连接有数据可读
-        //            if (clientSelector.select(1) > 0) {
-        //                Set<SelectionKey> set = clientSelector.selectedKeys();
-        //                Iterator<SelectionKey> keyIterator = set.iterator();
-        //
-        //                while (keyIterator.hasNext()) {
-        //                    SelectionKey key = keyIterator.next();
-        //                    handlerRead(keyIterator, key);
-        //                }
-        //            }
-        //        }
-        //    } catch (IOException ignored) {
-        //    }
-        //}).start();
     }
 
-    private void hander(SelectionKey key) throws IOException {
+    /**
+     * 处理操作兴趣集
+     * @param key SelectionKey
+     */
+    private void handleKey(SelectionKey key) throws IOException {
         if (key.isAcceptable()) {
             handlerAccept(key);
         } else if (key.isReadable()) {
@@ -110,27 +97,27 @@ public class NIOServer {
 
     private void handlerRead(SelectionKey key) throws IOException {
         if (key.isReadable()) {
-            try {
-                SocketChannel clientChannel = (SocketChannel) key.channel();
+            try (SocketChannel clientChannel = (SocketChannel) key.channel()) {
                 // 创建读取的缓冲区
                 ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
                 // (3) 面向 Buffer
-                int read = clientChannel.read(byteBuffer);
-                if (read > 0) {
+                int numRead  = clientChannel.read(byteBuffer);
+                if (numRead  > 0) {
                     byteBuffer.flip();
-                    //System.out.print("服务端收到信息：");
+
+                    byte[] data = byteBuffer.array();
+                    String msg = new String(data).trim();
                     //System.out.println(Charset.defaultCharset()
                     //        .newDecoder()
                     //        .decode(byteBuffer)
                     //        .toString());
-
-                    byte[] data = byteBuffer.array();
-                    String msg = new String(data).trim();
                     System.out.println("服务端收到信息：" + msg);
 
                     //回写数据给客户端
-                    ByteBuffer outBuffer = ByteBuffer.wrap("I'm Server, I recevied you message.\n".getBytes());
+                    ByteBuffer outBuffer = ByteBuffer.wrap(("Hi, I recevied you message:\n" + msg).getBytes());
                     clientChannel.write(outBuffer);
+                    outBuffer.clear();
+                    byteBuffer.clear();
                 } else {
                     System.out.println("客户端关闭");
                     key.cancel();
@@ -150,15 +137,15 @@ public class NIOServer {
      * @throws IOException
      */
     private void handlerAccept(SelectionKey selectionKey) throws IOException {
-        // (1) 每来一个新连接，不需要创建一个线程，而是直接注册到clientSelector
+        // (1) 每来一个新连接，不需要创建一个线程，而是直接注册到serverSelector
         // 获得和客户端连接的通道
-        SocketChannel clientChannel = ((ServerSocketChannel) selectionKey.channel()).accept();
-        clientChannel.configureBlocking(false);
-        // 在这里可以给客户端发送信息
-        System.out.println("新的客户端连接");
-
-        // 在和客户端连接成功之后，为了可以接收到客户端的信息，需要给通道设置读的权限
-        clientChannel.register(serverSelector, SelectionKey.OP_READ);
+        try (SocketChannel clientChannel = ((ServerSocketChannel) selectionKey.channel()).accept()) {
+            clientChannel.configureBlocking(false);
+            // 在这里可以给客户端发送信息
+            System.out.println("新的客户端连接+1");
+            // 在和客户端连接成功之后，为了可以接收到客户端的信息，需要给通道设置读的权限
+            clientChannel.register(serverSelector, SelectionKey.OP_READ);
+        }
     }
 }
 
