@@ -1,7 +1,9 @@
 package com.nio.tcp_server;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -19,10 +21,10 @@ import java.util.Iterator;
  * 3、客户端发送字符串消息到服务器时，服务器应能正确接收并回显相同的消息给客户端。
  * 4、服务器应能够通过复用已注册的Selector在单个线程内高效地处理多个客户端通信。
  */
-public class SimpleTcpServer {
+public class SimpleTcpServer implements Closeable {
 
     public static final String HOST = "localhost";
-    public static final int PORT = 58889;
+    public static final int PORT = 59997;
 
 
     // 1. serverSelector负责轮询是否有新的连接，服务端监测到新的连接之后，不再创建一个新的线程，
@@ -48,10 +50,12 @@ public class SimpleTcpServer {
             localAddr = new InetSocketAddress(addr, port);
         }
         serverSelector = Selector.open();
-        ServerSocketChannel _channel = ServerSocketChannel.open();
-        _channel.configureBlocking(false);
-        _channel.socket().bind(localAddr);
-        _channel.register(serverSelector, SelectionKey.OP_ACCEPT);
+
+        //服务端用于监听和接受客户端连接请求的通道对象
+        ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+        serverSocketChannel.configureBlocking(false);
+        serverSocketChannel.socket().bind(localAddr);
+        serverSocketChannel.register(serverSelector, SelectionKey.OP_ACCEPT);
     }
 
     /**
@@ -63,17 +67,19 @@ public class SimpleTcpServer {
         Thread thread = new Thread(() -> {
             try {
                 while (true) {
-                    // 当该事件到达后,selector.select()会返回, 否则，该方法会一直阻塞
-                    if (serverSelector.select(1) > 0) {
-                        // 获得selector中选中的项的迭代器，选中的项为注册的事件
-                        Iterator<SelectionKey> keyIterator = serverSelector.selectedKeys().iterator();
+                    serverSelector.select(); // Wait for events
 
-                        while (keyIterator.hasNext()) {
-                            SelectionKey key = keyIterator.next();
-                            // 删除已经选择的key，防止重复处理
-                            keyIterator.remove();
-                            handleKey(key);
+                    // 获得selector中选中的项的迭代器，选中的项为注册的事件
+                    Iterator<SelectionKey> keyIterator = serverSelector.selectedKeys().iterator();
+
+                    while (keyIterator.hasNext()) {
+                        SelectionKey key = keyIterator.next();
+                        // 删除已经选择的key，防止重复处理
+                        keyIterator.remove();
+                        if (!key.isValid()) {
+                            continue;
                         }
+                        handleKey(key);
                     }
                 }
             } catch (IOException ignored) {
@@ -85,48 +91,14 @@ public class SimpleTcpServer {
 
     /**
      * 处理操作兴趣集
+     *
      * @param key SelectionKey
      */
     private void handleKey(SelectionKey key) throws IOException {
-        if (key.isAcceptable()) {
+        if (key.isAcceptable()) {// Accept new client connection
             handlerAccept(key);
-        } else if (key.isReadable()) {
+        } else if (key.isReadable()) {// Handle read event
             handlerRead(key);
-        }
-    }
-
-    private void handlerRead(SelectionKey key) throws IOException {
-        if (key.isReadable()) {
-            try (SocketChannel clientChannel = (SocketChannel) key.channel()) {
-                // 创建读取的缓冲区
-                ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
-                // (3) 面向 Buffer
-                int numRead  = clientChannel.read(byteBuffer);
-                if (numRead  > 0) {
-                    byteBuffer.flip();
-
-                    byte[] data = byteBuffer.array();
-                    String msg = new String(data).trim();
-                    //System.out.println(Charset.defaultCharset()
-                    //        .newDecoder()
-                    //        .decode(byteBuffer)
-                    //        .toString());
-                    System.out.println("服务端收到信息：" + msg);
-
-                    //回写数据给客户端
-                    ByteBuffer outBuffer = ByteBuffer.wrap(("Hi, I recevied you message:\n" + msg).getBytes());
-                    clientChannel.write(outBuffer);
-                    outBuffer.clear();
-                    byteBuffer.clear();
-                } else {
-                    System.out.println("客户端关闭");
-                    key.cancel();
-                }
-            } finally {
-                // FIXME 客户端kill的时候,会出现
-                //  Exception in thread "NIO-Server" java.nio.channels.CancelledKeyException
-                key.interestOps(SelectionKey.OP_READ);
-            }
         }
     }
 
@@ -139,16 +111,76 @@ public class SimpleTcpServer {
     private void handlerAccept(SelectionKey selectionKey) throws IOException {
         // (1) 每来一个新连接，不需要创建一个线程，而是直接注册到serverSelector
         // 获得和客户端连接的通道
-        try (SocketChannel clientChannel = ((ServerSocketChannel) selectionKey.channel()).accept()) {
-            clientChannel.configureBlocking(false);
-            // 在这里可以给客户端发送信息
-            System.out.println("新的客户端连接+1");
-            // 在和客户端连接成功之后，为了可以接收到客户端的信息，需要给通道设置读的权限
-            clientChannel.register(serverSelector, SelectionKey.OP_READ);
+        SocketChannel sChannel;
+        try (ServerSocketChannel ssChannel = (ServerSocketChannel) selectionKey.channel()) {
+            sChannel = ssChannel.accept();
+            sChannel.configureBlocking(false);
+            SocketAddress remoteAddress = sChannel.getRemoteAddress();
+            System.out.println("检测到新的客户端连接,给数据通道注册OP_READ事件。 Client=" + remoteAddress);
+            sChannel.register(serverSelector, SelectionKey.OP_READ);// Register OP_READ event
+        }
+    }
+
+    private void handlerRead(SelectionKey key) throws IOException {
+        SocketChannel sChannel = (SocketChannel) key.channel();
+        try {
+            // 创建读取的缓冲区
+            ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+            int numRead = sChannel.read(byteBuffer);
+            if (numRead > 0) {
+                byteBuffer.flip(); //切换模式
+
+                byte[] data = byteBuffer.array();
+                String msg = new String(data).trim();
+                //System.out.println(Charset.defaultCharset()
+                //        .newDecoder()
+                //        .decode(byteBuffer)
+                //        .toString());
+                System.out.println("服务端收到信息：" + msg);
+
+                //回写数据给客户端
+                ByteBuffer writeBuffer = ByteBuffer.wrap(("Hi, I recevied you message:\n" + msg).getBytes());
+                sChannel.write(writeBuffer);
+                writeBuffer.clear();
+                byteBuffer.clear();
+                // 如果缓冲区没有全部写出，则再次注册写事件
+//                    if (writeBuffer.hasRemaining()) {
+//                        key.interestOps(SelectionKey.OP_WRITE);
+//                    }
+            } else {
+                System.out.println("客户端关闭");
+                sChannel.close();
+                key.cancel();
+            }
+        } catch (Exception e) {
+//            e.printStackTrace();
+            System.out.println("客户端异常断开");
+            sChannel.close();
+        } finally {
+            // FIXME 客户端kill的时候,会出现
+            //  Exception in thread "NIO-Server" java.nio.channels.CancelledKeyException
+//            key.interestOps(SelectionKey.OP_READ);
+        }
+    }
+
+    @Override
+    public void close() throws IOException {
+        closeResources(null, serverSelector);
+    }
+
+    private static void closeResources(ServerSocketChannel channel, Selector selector) {
+        try {
+            if (channel != null && channel.isOpen()) {
+                channel.close();
+            }
+            if (selector != null && selector.isOpen()) {
+                selector.close();
+            }
+        } catch (IOException e) {
+            System.err.println("Error closing resources: " + e.getMessage());
         }
     }
 }
-
 
 /*
  * 编程复杂、编程模型难
