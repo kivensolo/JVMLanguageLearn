@@ -55,15 +55,15 @@ public class ClassLoaderPathPrint {
         //Step four:printf BootstrapClassLoder load path.
         try {
             Class<?> launcherClass = Class.forName("sun.misc.Launcher");
-            Method methodClassPath = launcherClass.getDeclaredMethod("getBootstrapClassPath", null);
+            Method methodClassPath = launcherClass.getDeclaredMethod("getBootstrapClassPath", (Class<?>) null);
             if (methodClassPath != null) {
                 methodClassPath.setAccessible(true);
-                Object mObj = methodClassPath.invoke(null, null);
+                Object mObj = methodClassPath.invoke(null, (Class<?>) null);
                 if(mObj != null){
-                    Method methodGetUrls = mObj.getClass().getDeclaredMethod("getURLs",null);
+                    Method methodGetUrls = mObj.getClass().getDeclaredMethod("getURLs", (Class<?>) null);
                     if(methodGetUrls != null){
                         methodGetUrls.setAccessible(true);
-                        URL[] murlBoot = (URL[])methodGetUrls.invoke(mObj, null);
+                        URL[] murlBoot = (URL[])methodGetUrls.invoke(mObj, (Class<?>) null);
                         print(murlBoot);
                     }
                 }

@@ -1,7 +1,7 @@
 
-package com.starcor.utils.android;
+package com.kingz.format.xml.jaxb.manifest;
 
-import com.starcor.utils.TextUtils;
+import com.kingz.utils.TextUtils;
 
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
@@ -11,13 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-
-import static com.starcor.apk_builder.Builder.logger;
-
-/**
- * Created by hy on 2015/5/18.
- */
-
 
 @XmlRootElement(name = "manifest")
 public class AndroidManifest {
@@ -66,13 +59,13 @@ public class AndroidManifest {
 	@XmlElement(name = "instrumentation")
 	InstrumentInfo instrumentation;
 
-	@XmlJavaTypeAdapter(value = PermissionsAdapter.class)
+//	@XmlJavaTypeAdapter(value = PermissionsAdapter.class)
 	@XmlElements(@XmlElement(name = "permission"))
-	HashSet<String> permissions;
+	HashSet<Permission> permissions;
 
-	@XmlJavaTypeAdapter(value = PermissionsAdapter.class)
+//	@XmlJavaTypeAdapter(value = PermissionsAdapter.class)
 	@XmlElements(@XmlElement(name = "uses-permission"))
-	HashSet<String> usesPermissions;
+	public HashSet<Permission> usesPermissions;
 
 	@XmlElement(required = true)
 	ApplicationInfo application;
@@ -133,12 +126,6 @@ public class AndroidManifest {
 	//	this._versionName = _versionName;
 	//}
 
-	public void usePermission(String permission) {
-		if (this.usesPermissions == null) {
-			this.usesPermissions = new HashSet<String>();
-		}
-		this.usesPermissions.add(permission);
-	}
 
 	public boolean isPermissionUsed(String permission) {
 		if (this.usesPermissions == null) {
@@ -161,13 +148,6 @@ public class AndroidManifest {
 		return this.permissions.contains(permission);
 	}
 
-	public void definePermission(String permission) {
-		if (this.permissions == null) {
-			this.permissions = new HashSet<String>();
-		}
-		this.permissions.add(permission);
-	}
-
 	public void undefinePermission(String permission) {
 		if (this.permissions == null) {
 			return;
@@ -183,7 +163,7 @@ public class AndroidManifest {
 		if(this.usesSdk == null){
 			return;
 		}
-		logger.d("manifest setTargetSdk"," targetSdk = "+targetSdk);
+		System.out.println("[manifest setTargetSdk] targetSdk = "+targetSdk);
 		this.usesSdk.targetSdkVersion = targetSdk;
 	}
 
@@ -315,28 +295,16 @@ public class AndroidManifest {
 		return application.removeComponent(getReceiver(name));
 	}
 
-	private static class PermissionsAdapter extends XmlAdapter<Permission, String> {
-		@Override
-		public String unmarshal(Permission v) throws Exception {
-			return v.name;
-		}
 
-		@Override
-		public Permission marshal(String v) throws Exception {
-			return new Permission(v);
-		}
-	}
-
-	private static class Permission {
+	@XmlAccessorType(XmlAccessType.FIELD)
+	public static class Permission {
 		@XmlAttribute(namespace = ANDROID_NAMESPACE, required = true)
 		String name;
 
-		public Permission() {
-		}
+		@XmlAnyAttribute()
+		HashMap<QName, String> anyAttribute = new HashMap<>();
 
-		public Permission(String name) {
-			this.name = name;
-		}
+
 	}
 
 	public static class SdkInfo {

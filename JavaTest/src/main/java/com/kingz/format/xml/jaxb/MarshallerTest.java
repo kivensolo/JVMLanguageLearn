@@ -1,4 +1,4 @@
-package com.xml.test.jaxb.base;
+package com.kingz.format.xml.jaxb;
 
 /**
  * author: King.Z <br>
@@ -7,7 +7,8 @@ package com.xml.test.jaxb.base;
  */
 public class MarshallerTest {
     public static void main(String[] args) {
-       JAXBDemo.marshalTest();
+       JAXBDemo.unMarshalAndroidManifest();
+//       JAXBDemo.marshalTest();
        //JAXBDemo.unMarshalTest();
     }
 }

@@ -1,6 +1,6 @@
-package com.xml.test.jaxb.base.dimain;
+package com.kingz.format.xml.jaxb.dimain;
 
-import com.sun.org.apache.xerces.internal.dom.ElementNSImpl;
+//import com.sun.org.apache.xerces.internal.dom.ElementNSImpl;
 
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
@@ -53,7 +53,7 @@ public class TestJaxbBean {
         return "TestJaxbBean{\n" + userInfo.toString() + '\n' +
                 "   birth=" + birth + '\n' +
                 "   games=" + games.toString() + '\n' +
-                "   othersA=" + (otherElements == null ? "null" : ((ElementNSImpl)otherElements[0]).getTextContent()) + '\n' +
+//                "   othersA=" + (otherElements == null ? "null" : ((ElementNSImpl)otherElements[0]).getTextContent()) + '\n' +
                 '}';
     }
 

@@ -64,8 +64,8 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     // Use the Kotlin JUnit integration.
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
-    
-    
+
+
         // About JUnit
     implementation("junit:junit:4.13")
     testImplementation("junit:junit:4.13")
@@ -79,4 +79,8 @@ dependencies {
 
     implementation("commons-codec:commons-codec:1.10")
     implementation("org.apache.commons:commons-lang3:3.4")
+
+
+    //SAM4
+    implementation("org.ow2.asm:asm:4.0")
 }

@@ -1,4 +1,4 @@
-package com.xml.test;
+package com.kingz.format.xml.test;
 
 import org.json.JSONObject;
 

@@ -1,4 +1,4 @@
-package com.starcor.utils;
+package com.kingz.utils;
 
 
 /**

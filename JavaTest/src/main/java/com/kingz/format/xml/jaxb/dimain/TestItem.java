@@ -1,4 +1,4 @@
-package com.xml.test.jaxb.base.dimain;
+package com.kingz.format.xml.jaxb.dimain;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;

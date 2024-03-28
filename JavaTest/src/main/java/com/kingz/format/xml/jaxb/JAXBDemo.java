@@ -1,18 +1,35 @@
-package com.xml.test.jaxb.base;
+package com.kingz.format.xml.jaxb;
 
-import com.xml.test.jaxb.base.dimain.TestItem;
-import com.xml.test.jaxb.base.dimain.TestJaxbBean;
+import com.kingz.format.xml.jaxb.dimain.TestItem;
+import com.kingz.format.xml.jaxb.dimain.TestJaxbBean;
+import com.kingz.format.xml.jaxb.manifest.AndroidManifest;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.*;
+import javax.xml.namespace.QName;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 public class JAXBDemo {
+
+    public static void unMarshalAndroidManifest() {
+        File xmlFile = new File("JavaTest/AndroidManifest.xml");
+        AndroidManifest manifest = JAXB.unmarshal(xmlFile, AndroidManifest.class);
+        System.out.println("解析Android Manifest 完毕!");
+
+        File targetFile = new File("JavaTest/AndroidManifest_Changed.xml");
+        HashSet<AndroidManifest.Permission> usesPermissions = manifest.usesPermissions;
+            for (AndroidManifest.Permission usesPermission : usesPermissions) {
+//                if(usesPermission.getName().equals("android.permission.GET_TASKS")){
+//                    usesPermission.addAttribute(new QName("http://schemas.android.com/tools","node"),"hhhhhhh");
+//                }
+            }
+        JAXB.marshal(manifest, targetFile);
+
+    }
+
     public static void  marshalTest(){
         File xmlFile = new File("TestJaxbBean.xml");
         try {
@@ -60,6 +77,5 @@ public class JAXBDemo {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
-
     }
 }
