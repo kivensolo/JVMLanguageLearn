@@ -9,6 +9,7 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.Charset;
 import java.util.Iterator;
 
 
@@ -20,8 +21,33 @@ import java.util.Iterator;
  * 2、使用 ServerSocketChannel 接收新连接，并为每个新连接分配一个独立的SocketChannel。
  * 3、客户端发送字符串消息到服务器时，服务器应能正确接收并回显相同的消息给客户端。
  * 4、服务器应能够通过复用已注册的Selector在单个线程内高效地处理多个客户端通信。
+ * <p>
+ *
+ * 开启Server后，可使用telnet连接,语法为:
+ * telnet ip prot
+ * 如:
+ * telnet localhost 58889   //"0.0.0.0:58889"
+ * telnet 127.0.0.1 58889   //"127.0.0.1:58889"
+ * <p>
+ * netstat -ano // 查看所有端口及占用情况
+ *
+ * 连接后可以telnet发数据测试;若telnet命令无效:
+ * “控制面板”--->“程序和功能”--->“启用或关闭Windows功能”--->勾选“Telnet客户端”
+ *
+ * FIXME 为什么只能连接一个客户端？
  */
 public class SimpleTcpServer implements Closeable {
+
+    public static void main(String[] args) {
+        //try with resources
+        SimpleTcpServer nioServer = new SimpleTcpServer();
+        try{
+            nioServer.start();
+            nioServer.listen();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static final String HOST = "localhost";
     public static final int PORT = 59997;
@@ -124,29 +150,25 @@ public class SimpleTcpServer implements Closeable {
     private void handlerRead(SelectionKey key) throws IOException {
         SocketChannel sChannel = (SocketChannel) key.channel();
         try {
-            // 创建读取的缓冲区
             ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
             int numRead = sChannel.read(byteBuffer);
             if (numRead > 0) {
                 byteBuffer.flip(); //切换模式
 
-                byte[] data = byteBuffer.array();
-                String msg = new String(data).trim();
-                //System.out.println(Charset.defaultCharset()
-                //        .newDecoder()
-                //        .decode(byteBuffer)
-                //        .toString());
-                System.out.println("服务端收到信息：" + msg);
+                //byte[] data = byteBuffer.array();
+                //String msg = new String(data).trim();
+                String msg = Charset.defaultCharset().newDecoder().decode(byteBuffer).toString();
+                System.out.println("[Recevied]：" + msg);
 
                 //回写数据给客户端
-                ByteBuffer writeBuffer = ByteBuffer.wrap(("Hi, I recevied you message:\n" + msg).getBytes());
+                ByteBuffer writeBuffer = ByteBuffer.wrap(("Hi, I recevied you message:\t" + msg + "\r\n").getBytes());
                 sChannel.write(writeBuffer);
                 writeBuffer.clear();
                 byteBuffer.clear();
                 // 如果缓冲区没有全部写出，则再次注册写事件
-//                    if (writeBuffer.hasRemaining()) {
-//                        key.interestOps(SelectionKey.OP_WRITE);
-//                    }
+//              if (writeBuffer.hasRemaining()) {
+//                  key.interestOps(SelectionKey.OP_WRITE);
+//              }
             } else {
                 System.out.println("客户端关闭");
                 sChannel.close();
@@ -154,7 +176,7 @@ public class SimpleTcpServer implements Closeable {
             }
         } catch (Exception e) {
 //            e.printStackTrace();
-            System.out.println("客户端异常断开");
+            System.out.println("客户端异常断开,关闭当前通道。");
             sChannel.close();
         } finally {
             // FIXME 客户端kill的时候,会出现
@@ -182,7 +204,7 @@ public class SimpleTcpServer implements Closeable {
     }
 }
 
-/*
+/**
  * 编程复杂、编程模型难
  * 还有以下让人诟病的问题：
  * JDK 的 NIO 底层由 epoll 实现，该实现饱受诟病的空轮询 bug 会导致 cpu 飙升 100%

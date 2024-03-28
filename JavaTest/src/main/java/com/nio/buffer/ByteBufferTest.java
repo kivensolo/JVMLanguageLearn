@@ -1,4 +1,4 @@
-package com.nio;
+package com.nio.buffer;
 
 import java.nio.ByteBuffer;
 
@@ -33,7 +33,7 @@ public class ByteBufferTest {
         System.out.println("before alocate:" + Runtime.getRuntime().freeMemory());
         /*
          * 从堆空间中分配一个容量大小为capacity的byte数组作为缓冲区的byte数据存储器
-         * position为0，limit = capacity，标记不确定（默认-1）
+         * position为0，limit = capacity，mark不确定（默认-1）
          */
         ByteBuffer buffer = ByteBuffer.allocate(500 * 1024);
         System.out.println("buffer = " + buffer);

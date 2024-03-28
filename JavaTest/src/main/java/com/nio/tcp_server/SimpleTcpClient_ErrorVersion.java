@@ -7,14 +7,16 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
-import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class SimpleTcpClient {
+/**
+ * 最初编写的无效版本，服务端始终无法接收数据;
+ */
+@Deprecated
+public class SimpleTcpClient_ErrorVersion {
     private static Selector selector;
 
     public static void main(String[] args) throws IOException {
@@ -25,49 +27,63 @@ public class SimpleTcpClient {
         selector = Selector.open();
         clientChannel.register(selector, SelectionKey.OP_CONNECT);
 
-        ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
         new Thread(() -> {
+            ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
             System.out.println("启动客户端");
-            while (true) {
+            //while (true) {
                 try {
-                    selector.select();
-
-                    Set<SelectionKey> selectionKeys = selector.selectedKeys();
-                    if (!selectionKeys.isEmpty()) {
-                        Iterator<SelectionKey> iterator = selectionKeys.iterator();
-                        while (iterator.hasNext()) {
-                            SelectionKey key = iterator.next();
-                            SocketChannel mChannel = (SocketChannel) key.channel();
-                            if (key.isValid() && key.isConnectable()) {
-                                if (!clientChannel.finishConnect()) {
-                                    System.out.println("Failed to finish connect");
-                                } else {
-                                    System.out.println("已成功连接服务端.");
-//                                    clientChannel.register(selector, SelectionKey.OP_WRITE);
-                                }
-                            } else if (key.isValid() && key.isWritable()) {
-//                                if(clientChannel.isConnected()){
-//                                    System.out.println("已成功连接服务端，发送数据...");
-//                                }
-//                                SocketChannel channel = (SocketChannel) key.channel();
-//                                handleWrite(byteBuffer, channel);
-
-                                // 发送完成后，切换到读模式，等待服务器回传消息
-//                                clientChannel.register(selector, SelectionKey.OP_READ);
-//                                System.out.println("key isWritable.");
-                            } else if (key.isValid() && key.isReadable()) {
-                                handleRead(byteBuffer, key, mChannel);
-
-                                // 读取完成后，继续监听写事件，准备发送下一条消息
-//                                key.interestOps(SelectionKey.OP_WRITE);
+                    while (clientChannel.isOpen()) {
+                        if(clientChannel.isConnectionPending()){
+                            System.out.println("连接服务器中....");
+                        }
+                        if(clientChannel.isConnected()){
+                            while (clientChannel.read(byteBuffer) > 0) {
+                                byteBuffer.flip();
+                                byte[] receivedData = new byte[byteBuffer.remaining()];
+                                byteBuffer.get(receivedData);
+                                System.out.println("Received echo: " + new String(receivedData).trim());
+                                byteBuffer.clear();
                             }
-                            iterator.remove();
                         }
                     }
+//                    selector.select();
+//
+//                    Set<SelectionKey> selectionKeys = selector.selectedKeys();
+//                    if (!selectionKeys.isEmpty()) {
+//                        Iterator<SelectionKey> iterator = selectionKeys.iterator();
+//                        while (iterator.hasNext()) {
+//                            SelectionKey key = iterator.next();
+//                            SocketChannel mChannel = (SocketChannel) key.channel();
+//                            if (key.isValid() && key.isConnectable()) {
+//                                if (!clientChannel.finishConnect()) {
+//                                    System.out.println("Failed to finish connect");
+//                                } else {
+//                                    System.out.println("已成功连接服务端.");
+////                                    clientChannel.register(selector, SelectionKey.OP_WRITE);
+//                                }
+//                            } else if (key.isValid() && key.isWritable()) {
+////                                if(clientChannel.isConnected()){
+////                                    System.out.println("已成功连接服务端，发送数据...");
+////                                }
+////                                SocketChannel channel = (SocketChannel) key.channel();
+////                                handleWrite(byteBuffer, channel);
+//
+//                                // 发送完成后，切换到读模式，等待服务器回传消息
+////                                clientChannel.register(selector, SelectionKey.OP_READ);
+////                                System.out.println("key isWritable.");
+//                            } else if (key.isValid() && key.isReadable()) {
+//                                handleRead(byteBuffer, key, mChannel);
+//
+//                                // 读取完成后，继续监听写事件，准备发送下一条消息
+////                                key.interestOps(SelectionKey.OP_WRITE);
+//                            }
+//                            iterator.remove();
+//                        }
+//                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+            //}
         }).start();
 
         AtomicInteger counts = new AtomicInteger();
@@ -117,10 +133,14 @@ public class SimpleTcpClient {
 
     private static void sendMessage(String msg, SocketChannel channel) throws IOException {
         System.out.println("Write to channel...");
+
         ByteBuffer buffer = ByteBuffer.wrap(msg.getBytes());
-        buffer.flip();
-        channel.write(buffer); //写数据到通道里(写给服务器)
-        buffer.clear();
+        while (buffer.hasRemaining()) {
+            channel.write(buffer);
+        }
+        //buffer.flip();
+        //channel.write(buffer); //写数据到通道里(写给服务器)
+        //buffer.clear();
     }
 
     private static void closeResources(SocketChannel channel, Selector selector) {
