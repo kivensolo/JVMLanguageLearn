@@ -38,7 +38,7 @@ public class SimpleTcpServer implements Closeable {
     public static void main(String[] args) {
         //try with resources
         SimpleTcpServer nioServer = new SimpleTcpServer();
-        try{
+        try {
             nioServer.start();
             nioServer.listen();
         } catch (IOException e) {
@@ -50,9 +50,13 @@ public class SimpleTcpServer implements Closeable {
     public static final int PORT = 59997;
 
 
-    // 1. serverSelector负责轮询是否有新的连接，服务端监测到新的连接之后，不再创建一个新的线程，
-    // 而是直接将新连接绑定到clientSelector上，这样就不用 IO 模型中 1w 个 while 循环在死等
+    /**
+     * serverSelector负责轮询是否有新的连接，服务端监测到新的连接之后，不再创建一个新的线程，
+     * 而是直接将新连接绑定到clientSelector上，这样就不用 IO 模型中 1w 个 while 循环在死等
+     */
     private Selector serverSelector;
+
+    private ServerSocketChannel serverSocketChannel;
 
     public void start() throws IOException {
         start(HOST, PORT);
@@ -72,7 +76,7 @@ public class SimpleTcpServer implements Closeable {
         } else {
             localAddr = new InetSocketAddress(addr, port);
         }
-        ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+        serverSocketChannel = ServerSocketChannel.open();
         serverSocketChannel.configureBlocking(false);
         serverSocketChannel.socket().bind(localAddr);
         //[注意]:一定要bind后再打开Selector,否则客户端断开后,Server就不是 LISTENING 的状态了
@@ -86,7 +90,7 @@ public class SimpleTcpServer implements Closeable {
      * 如果有的话，则进行处理
      */
     public void listen() {
-        System.out.println("服务端启动成功！开始监听客户端连接及数据请求");
+        System.out.println("开始监听客户端连接及数据请求 port：" + PORT);
         Thread thread = new Thread(() -> {
             try {
                 while (true) {
@@ -97,15 +101,16 @@ public class SimpleTcpServer implements Closeable {
 
                     while (keyIterator.hasNext()) {
                         SelectionKey key = keyIterator.next();
-                        // 删除已经选择的key，防止重复处理
-                        keyIterator.remove();
+                        keyIterator.remove(); // 删除已经选择的key，防止重复处理
                         if (!key.isValid()) {
+                            System.out.println("key无效了");
                             continue;
                         }
                         handleKey(key);
                     }
                 }
-            } catch (IOException ignored) {
+            } catch (IOException e) {
+                System.out.println("循环异常：" + e);
             }
         });
         thread.setName("NIO_Simple_TCP_Server");
@@ -119,9 +124,11 @@ public class SimpleTcpServer implements Closeable {
      */
     private void handleKey(SelectionKey key) throws IOException {
         if (key.isAcceptable()) {// Accept new client connection
-            handlerAccept(key);
+            acceptNewConnection(key);
         } else if (key.isReadable()) {// Handle read event
-            handlerRead(key);
+            handleRead(key);
+        } else if (key.isWritable()) {
+            handleWrite(key);
         }
     }
 
@@ -131,72 +138,92 @@ public class SimpleTcpServer implements Closeable {
      * @param selectionKey
      * @throws IOException
      */
-    private void handlerAccept(SelectionKey selectionKey) throws IOException {
+    private void acceptNewConnection(SelectionKey selectionKey) throws IOException {
         // (1) 每来一个新连接，不需要创建一个线程，而是直接注册到serverSelector
         // 获得和客户端连接的通道
-        SocketChannel sChannel;
-        try (ServerSocketChannel ssChannel = (ServerSocketChannel) selectionKey.channel()) {
-            sChannel = ssChannel.accept();
-            sChannel.configureBlocking(false);
-            SocketAddress remoteAddress = sChannel.getRemoteAddress();
-            System.out.println("检测到新的客户端连接,给数据通道注册OP_READ事件。 Client=" + remoteAddress);
-            sChannel.register(serverSelector, SelectionKey.OP_READ);// Register OP_READ event
-        }
+        ServerSocketChannel serverSocketChannel = (ServerSocketChannel) selectionKey.channel();
+        SocketChannel clientSocketChannel = serverSocketChannel.accept();
+        clientSocketChannel.configureBlocking(false);
+
+        SocketAddress remoteAddress = clientSocketChannel.getRemoteAddress();
+        // Register OP_READ event
+        clientSocketChannel.register(serverSelector, SelectionKey.OP_READ);
+        System.out.println("Accepted new connection from " + remoteAddress);
     }
 
-    private void handlerRead(SelectionKey key) throws IOException {
+    private void handleRead(SelectionKey key) throws IOException {
         SocketChannel sChannel = (SocketChannel) key.channel();
-        try {
-            ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
-            int numRead = sChannel.read(byteBuffer);
-            if (numRead > 0) {
-                byteBuffer.flip(); //切换模式
-
-                //byte[] data = byteBuffer.array();
-                //String msg = new String(data).trim();
-                String msg = Charset.defaultCharset().newDecoder().decode(byteBuffer).toString();
-                System.out.println("[Recevied]：" + msg);
-
-                //回写数据给客户端
-                ByteBuffer writeBuffer = ByteBuffer.wrap(("Hi, I recevied you message:\t" + msg + "\r\n").getBytes());
-                sChannel.write(writeBuffer);
-                writeBuffer.clear();
-                byteBuffer.clear();
-                // 如果缓冲区没有全部写出，则再次注册写事件
-//              if (writeBuffer.hasRemaining()) {
-//                  key.interestOps(SelectionKey.OP_WRITE);
-//              }
-            } else {
-                System.out.println("客户端关闭");
-                sChannel.close();
-                key.cancel();
-            }
-        } catch (Exception e) {
-//            e.printStackTrace();
-            System.out.println("客户端异常断开,关闭当前通道。");
+        ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+   /*     if (!sChannel.isConnected()) {
+            System.out.println("Channel is not connected，Close client socketChannel.");
             sChannel.close();
-        } finally {
-            // FIXME 客户端kill的时候,会出现
-            //  Exception in thread "NIO-Server" java.nio.channels.CancelledKeyException
-//            key.interestOps(SelectionKey.OP_READ);
+            return;
+        }*/
+        int numRead = sChannel.read(byteBuffer);
+        if (numRead == -1) {
+            //检测到客户端关闭连接，进行通道释放
+            closeClientConnection(key);
+        } else if (numRead > 0) {
+            byteBuffer.flip(); //切换模式
+
+            //byte[] data = byteBuffer.array();
+            //String msg = new String(data).trim();
+            String msg = Charset.defaultCharset().newDecoder().decode(byteBuffer).toString();
+            System.out.println("[Recevied]：" + msg);
+
+            //回写数据给客户端
+            ByteBuffer writeBuffer = ByteBuffer.wrap(("Hi, I recevied you message:\t" + msg + "\r\n").getBytes());
+            sChannel.write(writeBuffer);
+            if (!writeBuffer.hasRemaining()) {
+                key.interestOps(SelectionKey.OP_READ); // 如果缓冲区已清空，恢复到监听读事件
+            }
+            writeBuffer.clear();
+            byteBuffer.clear();
         }
     }
+
+    private void handleWrite(SelectionKey key) throws IOException {
+        // 在本示例中，假定所有的写事件都是回显数据的结果
+        // 实际项目中，写事件可能包含更多复杂的业务逻辑
+        SocketChannel clientSocketChannel = (SocketChannel) key.channel();
+        // 假设在这里处理未完成的写操作
+        // ...
+
+        // 写操作完成后，恢复到监听读事件
+        key.interestOps(SelectionKey.OP_READ);
+    }
+
+    /**
+     * Client closed connection.
+     *
+     * @param key SelectionKey
+     */
+    private void closeClientConnection(SelectionKey key) {
+        SocketAddress remoteAddress = null;
+        try {
+            SocketChannel clientSocketChannel = (SocketChannel) key.channel();
+            remoteAddress = clientSocketChannel.getRemoteAddress();
+            key.cancel();// 取消与该客户端关联的SelectionKey
+            clientSocketChannel.close();
+        } catch (ClosedChannelException e) {
+            System.out.println("Client already disconnected:" + remoteAddress);
+        } catch (Exception e) {
+            System.err.println("Unexpected error closing client connection: " + e);
+        }
+    }
+
 
     @Override
     public void close() throws IOException {
-        closeResources(null, serverSelector);
+        closeResources(serverSocketChannel, serverSelector);
     }
 
-    private static void closeResources(ServerSocketChannel channel, Selector selector) {
-        try {
-            if (channel != null && channel.isOpen()) {
-                channel.close();
-            }
-            if (selector != null && selector.isOpen()) {
-                selector.close();
-            }
-        } catch (IOException e) {
-            System.err.println("Error closing resources: " + e.getMessage());
+    private static void closeResources(ServerSocketChannel channel, Selector selector) throws IOException {
+        if (channel != null && channel.isOpen()) {
+            channel.close();
+        }
+        if (selector != null && selector.isOpen()) {
+            selector.close();
         }
     }
 }
