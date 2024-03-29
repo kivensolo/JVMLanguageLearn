@@ -205,6 +205,7 @@ public class SimpleNioEchoServer implements Closeable {
             remoteAddress = clientSocketChannel.getRemoteAddress();
             key.cancel();// 取消与该客户端关联的SelectionKey
             clientSocketChannel.close();
+            System.out.println("Disconnect with client:" + remoteAddress);
         } catch (ClosedChannelException e) {
             System.out.println("Client already disconnected:" + remoteAddress);
         } catch (Exception e) {

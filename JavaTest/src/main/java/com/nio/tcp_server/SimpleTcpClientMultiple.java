@@ -71,7 +71,7 @@ public class SimpleTcpClientMultiple {
         //if (clientChannel.isConnected()) {
         counts.getAndIncrement();
         //发10次就自动结束
-        if (counts.get() == 10) {
+        if (counts.get() == 5) {
             try {
                 clientChannel.close();
                 System.out.println("客户端主动断开.");
