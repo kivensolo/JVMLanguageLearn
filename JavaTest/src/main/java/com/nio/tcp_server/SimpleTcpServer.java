@@ -5,10 +5,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
+import java.nio.channels.*;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 
@@ -22,7 +19,7 @@ import java.util.Iterator;
  * 3、客户端发送字符串消息到服务器时，服务器应能正确接收并回显相同的消息给客户端。
  * 4、服务器应能够通过复用已注册的Selector在单个线程内高效地处理多个客户端通信。
  * <p>
- *
+ * <p>
  * 开启Server后，可使用telnet连接,语法为:
  * telnet ip prot
  * 如:
@@ -30,11 +27,11 @@ import java.util.Iterator;
  * telnet 127.0.0.1 58889   //"127.0.0.1:58889"
  * <p>
  * netstat -ano // 查看所有端口及占用情况
- *
+ * netstat -ano | findstr ":59997" 过滤此服务端的端口信息
+ * <p>
  * 连接后可以telnet发数据测试;若telnet命令无效:
  * “控制面板”--->“程序和功能”--->“启用或关闭Windows功能”--->勾选“Telnet客户端”
- *
- * FIXME 为什么只能连接一个客户端？
+ * <p>
  */
 public class SimpleTcpServer implements Closeable {
 
@@ -75,13 +72,13 @@ public class SimpleTcpServer implements Closeable {
         } else {
             localAddr = new InetSocketAddress(addr, port);
         }
-        serverSelector = Selector.open();
-
-        //服务端用于监听和接受客户端连接请求的通道对象
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
         serverSocketChannel.configureBlocking(false);
         serverSocketChannel.socket().bind(localAddr);
+        //[注意]:一定要bind后再打开Selector,否则客户端断开后,Server就不是 LISTENING 的状态了
+        serverSelector = Selector.open();
         serverSocketChannel.register(serverSelector, SelectionKey.OP_ACCEPT);
+        System.out.println("服务端启动成功！");
     }
 
     /**
