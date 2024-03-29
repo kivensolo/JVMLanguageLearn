@@ -33,11 +33,11 @@ import java.util.Iterator;
  * “控制面板”--->“程序和功能”--->“启用或关闭Windows功能”--->勾选“Telnet客户端”
  * <p>
  */
-public class SimpleTcpServer implements Closeable {
+public class SimpleNioEchoServer implements Closeable {
 
     public static void main(String[] args) {
         //try with resources
-        SimpleTcpServer nioServer = new SimpleTcpServer();
+        SimpleNioEchoServer nioServer = new SimpleNioEchoServer();
         try {
             nioServer.start();
             nioServer.listen();

@@ -11,7 +11,7 @@ import java.nio.channels.SocketChannel;
 public class SimpleClicentOneshot {
     public static void main(String[] args) throws IOException {
         SocketChannel client = SocketChannel.open();
-        client.connect(new InetSocketAddress(SimpleTcpServer.HOST, SimpleTcpServer.PORT));
+        client.connect(new InetSocketAddress(SimpleNioEchoServer.HOST, SimpleNioEchoServer.PORT));
         client.configureBlocking(false);
 
         String message = "Hello, Server!";

@@ -22,7 +22,7 @@ public class SimpleTcpClient_ErrorVersion {
     public static void main(String[] args) throws IOException {
         SocketChannel clientChannel = SocketChannel.open();
         clientChannel.configureBlocking(false);
-        clientChannel.connect(new InetSocketAddress(SimpleTcpServer.HOST, SimpleTcpServer.PORT));
+        clientChannel.connect(new InetSocketAddress(SimpleNioEchoServer.HOST, SimpleNioEchoServer.PORT));
 
         selector = Selector.open();
         clientChannel.register(selector, SelectionKey.OP_CONNECT);

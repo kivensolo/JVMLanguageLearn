@@ -20,7 +20,7 @@ public class SimpleTcpClientMultiple {
 
     public void start() throws IOException {
         clientChannel = SocketChannel.open();
-        clientChannel.connect(new InetSocketAddress(SimpleTcpServer.HOST, SimpleTcpServer.PORT));
+        clientChannel.connect(new InetSocketAddress(SimpleNioEchoServer.HOST, SimpleNioEchoServer.PORT));
         clientChannel.configureBlocking(false);
 
         // 1. Schedule task to send messages every second
