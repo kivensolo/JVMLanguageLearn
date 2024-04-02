@@ -622,25 +622,26 @@ public class FileIOUtils {
      */
     public static byte[] readFile2BytesByChannel(final File file) {
         if (!isFileExists(file)) return null;
-        FileChannel fc = null;
-        try {
-            fc = new RandomAccessFile(file, "r").getChannel();
-            ByteBuffer byteBuffer = ByteBuffer.allocate((int) fc.size());
-            while (true) {
-                if (!((fc.read(byteBuffer)) > 0)) break;
+        try (RandomAccessFile raf = new RandomAccessFile(file, "r"))  {
+            FileChannel fc = raf.getChannel();
+            long fileSize = fc.size();
+            if (fileSize == 0) {
+                return new byte[0];
             }
-            return byteBuffer.array();
+            int bufferSize = 8 * 1024; // 这里用8KB作为缓冲区大小
+            ByteBuffer byteBuffer = ByteBuffer.allocate(bufferSize);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream((int) Math.min(Integer.MAX_VALUE, fileSize));
+
+            while(fc.read(byteBuffer) > 0){
+                byteBuffer.flip();
+                baos.write(byteBuffer.array(), 0, byteBuffer.remaining());
+                byteBuffer.clear();
+            }
+            fc.close();
+            return baos.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
-        } finally {
-            try {
-                if (fc != null) {
-                    fc.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
