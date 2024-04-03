@@ -13,30 +13,54 @@ public class FileSenderClient {
 
 
     public static void main(String[] args) throws IOException {
-        SocketChannel client = SocketChannel.open();
-        client.connect(new InetSocketAddress(NIOFTPServer.HOST, NIOFTPServer.PORT));
-        client.configureBlocking(false);
+        SocketChannel socketChannel = SocketChannel.open();
+        socketChannel.connect(new InetSocketAddress(NIOFTPServer.HOST, NIOFTPServer.PORT));
+        socketChannel.configureBlocking(false);
 
         //读取本地文件数据传给服务端
-        RandomAccessFile raf = new RandomAccessFile(".\\JavaTest\\java_pid3356.hprof", "r");
-        FileChannel channel = raf.getChannel();
-        long fileSizeBytes = channel.size();
+        RandomAccessFile raf = new RandomAccessFile(".\\JavaTest\\wumeizijiang.mp4", "r");
+        FileChannel fileChannel = raf.getChannel();
+        long fileSizeBytes = fileChannel.size();
+        if(fileSizeBytes == 0){
+            System.err.println("文件为空,请检查文件数据!");
+            return;
+        }
+
+        long time = System.currentTimeMillis();
+        /** 手动版本
         ByteBuffer byteBuffer = ByteBuffer.allocate(8 * 1024);
         long writeSizeBytes = 0;
-        long time = System.currentTimeMillis();
-        while (channel.read(byteBuffer) > 0) {
+        while (fileChannel.read(byteBuffer) > 0) {
             writeSizeBytes += byteBuffer.position();
             byteBuffer.flip();
             while (byteBuffer.hasRemaining()) {
-                client.write(byteBuffer);
+                socketChannel.write(byteBuffer);
             }
             byteBuffer.clear();
 
             updateProgress(writeSizeBytes, fileSizeBytes);
+        }*/
+
+        //高效版本
+        long totalTransferredBytes = 0;
+        while (totalTransferredBytes < fileSizeBytes) {
+            //使用transferTo()方法将文件通道的数据传输到socketChannel
+            long transferredBytes = fileChannel.transferTo(
+                    totalTransferredBytes,
+                    fileChannel.size() - totalTransferredBytes,
+                    socketChannel
+            );
+            if (transferredBytes == -1) {
+                throw new IOException("Error transferring data to the server.");
+            }
+            totalTransferredBytes += transferredBytes;
+            updateProgress(totalTransferredBytes, fileSizeBytes);
         }
+
         long costTime = (System.currentTimeMillis() - time) / 1000;
         System.out.println("\n总耗时：" + costTime +"s");
-        client.close();
+        fileChannel.close();
+        socketChannel.close();
     }
 
     private static final String PROGRESS_BAR = "|---|";

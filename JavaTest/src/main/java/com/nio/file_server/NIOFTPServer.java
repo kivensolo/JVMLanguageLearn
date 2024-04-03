@@ -6,6 +6,9 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Iterator;
 
 /**
@@ -133,9 +136,11 @@ public class NIOFTPServer {
     }
 
     private void handleRead(SelectionKey key) throws IOException {
-        SocketChannel sChannel = (SocketChannel) key.channel();
-        ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+        SocketChannel socketChannel  = (SocketChannel) key.channel();
 
+
+        /* 手动版本
+        ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
         RandomAccessFile raf = new RandomAccessFile("hprof_copy.hprof", "rw");
         FileChannel fileChannel = raf.getChannel();
         while (sChannel.read(byteBuffer) != -1) {
@@ -144,6 +149,27 @@ public class NIOFTPServer {
             byteBuffer.clear();
         }
         raf.close();
+        */
+
+        // Create a temporary File and open the corresponding File Channel
+        Path tempFilePath = Paths.get("received_file_" + System.currentTimeMillis());
+        FileChannel fileChannel = FileChannel.open(tempFilePath,
+                StandardOpenOption.CREATE_NEW,
+                StandardOpenOption.WRITE);
+        ByteBuffer byteBuffer = ByteBuffer.allocate(8196);
+        long position = 0;
+        long remainingBytes = byteBuffer.capacity();
+        while (byteBuffer.hasRemaining()) {
+            // 使用transferFrom()方法高效地从SocketChannel复制数据到FileChannel
+            long transferredBytes = fileChannel.transferFrom(socketChannel,position,remainingBytes);
+            if (transferredBytes == -1) {
+                throw new IOException("Error transferring data from the client.");
+            }
+            position += transferredBytes;
+            remainingBytes -= transferredBytes;
+        }
+        fileChannel.close();
+        socketChannel.close();
         closeClientConnection(key);
     }
 
