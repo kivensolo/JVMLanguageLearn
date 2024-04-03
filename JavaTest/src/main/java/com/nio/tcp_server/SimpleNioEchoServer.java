@@ -78,6 +78,7 @@ public class SimpleNioEchoServer implements Closeable {
         }
         serverSocketChannel = ServerSocketChannel.open();
         serverSocketChannel.configureBlocking(false);
+        //通过传统IO的ServerSocket间接绑定
         serverSocketChannel.socket().bind(localAddr);
         //[注意]:一定要bind后再打开Selector,否则客户端断开后,Server就不是 LISTENING 的状态了
         serverSelector = Selector.open();
