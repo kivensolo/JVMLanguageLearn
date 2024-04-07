@@ -8,15 +8,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.nio.channels.SocketChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -26,7 +22,7 @@ public class XulDebugServer extends XulHttpServer {
 
     public static XulHttpServerResponse PENDING_RESPONSE = new XulHttpServerResponse(null);
     private static XulHttpServer _debugServer;
-    private static ArrayList<IXulDebugCommandHandler> _userHandlers;
+    private static ArrayList<IXulCommandHandler> _userHandlers;
 
     private XulDebugServer(int servPort) {
         super(servPort);
@@ -50,9 +46,9 @@ public class XulDebugServer extends XulHttpServer {
      * @param debugCommandHandler
      * @return
      */
-    public static synchronized boolean registerCommandHandler(IXulDebugCommandHandler debugCommandHandler) {
+    public static synchronized boolean registerCommandHandler(IXulCommandHandler debugCommandHandler) {
         if (_userHandlers == null) {
-            _userHandlers = new ArrayList<IXulDebugCommandHandler>();
+            _userHandlers = new ArrayList<IXulCommandHandler>();
         }
 
         if (_userHandlers.contains(debugCommandHandler)) {
@@ -125,10 +121,10 @@ public class XulDebugServer extends XulHttpServer {
         }
 
 		private XulHttpServerResponse unsupportedCommand(XulHttpServerRequest request) {
-			ArrayList<IXulDebugCommandHandler> userHandlers = _userHandlers;
+			ArrayList<IXulCommandHandler> userHandlers = _userHandlers;
 			if (userHandlers != null) {
 				for (int i = 0, userHandlersSize = userHandlers.size(); i < userHandlersSize; i++) {
-					IXulDebugCommandHandler handler = userHandlers.get(i);
+					IXulCommandHandler handler = userHandlers.get(i);
 					try {
 						XulHttpServerResponse response = handler.execCommand(request.path, this, request);
 						if (response != null) {
