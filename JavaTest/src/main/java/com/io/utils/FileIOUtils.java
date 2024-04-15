@@ -695,6 +695,50 @@ public class FileIOUtils {
         sBufferSize = bufferSize;
     }
 
+    public static byte[] readFileRadom(final String filePath, final int start) {
+        return readFileRadom(filePath, start, -1);
+    }
+
+    /**
+     * Radom read.
+     * @param filePath  文件路径
+     * @param start     起始位置
+     * @param end       结束位置，-1表示读取到文件末尾
+     * @return
+     */
+    public static byte[] readFileRadom(String filePath, long  start, long  end) {
+        try{
+            File file = new File(filePath);
+            if (!file.exists() || !file.isFile()) {
+                throw new IOException("File does not exist or is not a file: " + filePath);
+            }
+            long fileLength = file.length();
+            if (start < 0 || start >= fileLength) {
+                throw new IOException("Start position is out of bounds: " + start);
+            }
+            if (end == -1) {
+                end = (int) (fileLength - 1);
+            } else if (end > fileLength || end < start) {
+                throw new IOException("End position is out of bounds: " + end);
+            }
+
+            long  lengthToRead = end - start + 1;
+            if (lengthToRead > Integer.MAX_VALUE) {
+                throw new IOException("Requested length to read is too large: " + lengthToRead);
+            }
+            byte[] buffer = new byte[(int) lengthToRead];
+            try (RandomAccessFile raf = new RandomAccessFile(file, "r")) {
+                raf.seek(start);// 跳转到起始位置
+                raf.readFully(buffer);// 读取指定长度的字节
+            }
+            return buffer;
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return new byte[0];
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // other utils methods
     ///////////////////////////////////////////////////////////////////////////
