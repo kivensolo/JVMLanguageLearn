@@ -1,6 +1,6 @@
 plugins {
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
-    kotlin("jvm") version "1.3.61"
+    kotlin("jvm") version "1.5.30"
 
     //	Apply the java-library plugin for API and implementation separation.
     `java-library`
@@ -52,7 +52,7 @@ dependencies {
     implementation(kotlin("stdlib"))
 //    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61")
     // Kotlin反射库
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.3.61")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.30")
     // Kotlin协程核心库
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2")
 

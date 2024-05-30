@@ -1,6 +1,7 @@
 plugins {
     maven
-    kotlin("jvm") version "1.3.61"
+    //My target environment is JVM
+    kotlin("jvm") version "1.5.30"
 }
 
 repositories {
@@ -55,11 +56,11 @@ dependencies {
 
 //    implementation fileTree(include: ['*.jar'], dir: 'libs')
     // Kotlin标准库
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.30")
     // Kotlin反射库
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.3.61")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.30")
     // Kotlin协程核心库
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
 
     // About JUnit
     testImplementation("junit:junit:4.13")
