@@ -3,6 +3,8 @@ package com.io;
 import com.io.utils.FileUtils;
 
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * author: King.Z
@@ -14,10 +16,15 @@ import java.io.*;
  * 3） 要求用try-catch-finally 处理异常，并且关闭流应放在finally 块中。
  */
 public class FileTest {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MalformedURLException {
 ////		CreateTestFile();
 //        encryptFile();
-        decryptFile();
+        URL tmpurl = new URL("http://218.201.206.212:22222/data/upload/");
+        String host = tmpurl.getHost();
+        int port = tmpurl.getPort();
+        String dir = tmpurl.getPath();
+        System.out.println("dir="+dir);
+//        decryptFile();
     }
 
     private static void CreateTestFile() {

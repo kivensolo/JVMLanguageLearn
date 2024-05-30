@@ -13,7 +13,7 @@ fun updateWeather(celsiusDegrees: Double) {
             description = "cold"
             color = Color.BLUE
         }
-        celsiusDegrees in 0..15 -> {
+        celsiusDegrees in 0.0..15.0 -> {
             description = "mild"
             color = Color.ORANGE
         }
@@ -28,7 +28,7 @@ fun updateWeather1(celsiusDegrees: Double) {
     val (description, color) =
             when {
                 celsiusDegrees < 0 -> Pair("cold", Color.BLUE)
-                celsiusDegrees in 0..15 -> "mild" to Color.ORANGE
+                celsiusDegrees in 0.0..15.0 -> "mild" to Color.ORANGE
                 else -> "hot" to Color.RED
             }
 }

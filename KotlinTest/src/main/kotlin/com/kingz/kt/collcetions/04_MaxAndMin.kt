@@ -14,20 +14,20 @@ import kotlin.math.abs
  * minBy : 返回给定函数的最小值的第一个元素，如果没有元素，则返回“null”
  */
 fun main() {
-    println(listOf(1, 42, 4).max())  // == 42
-    println(listOf(1, 42, 4).maxBy{ abs(it - 42) })  // == 1
-    println(listOf("a", "ab").minBy { it.length }) // == "a"
+    println(listOf(1, 42, 4).maxOrNull())  // == 42
+    println(listOf(1, 42, 4).maxByOrNull { abs(it - 42) })  // == 1
+    println(listOf("a", "ab").minByOrNull { it.length }) // == "a"
 }
 
 // 返回订单总数最多的客户
-fun Shop.getCustomerWithMaximumNumberOfOrders(): Customer? = customers.maxBy {
+fun Shop.getCustomerWithMaximumNumberOfOrders(): Customer? = customers.maxByOrNull {
     it.orders.size
 }
 
 // 返回用户买的价格最贵的产品
 fun Customer.getMostExpensiveOrderedProduct(): Product? = orders.flatMap {
     it.products
-}.maxBy {
+}.maxByOrNull {
     it.price
 }
 
