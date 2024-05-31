@@ -47,6 +47,9 @@ fun main() {
     val numbers = listOf(4, 9, 1, 3, 2, 5, 3, 4, 5, 6, 7, 8)
     //从前往后拿取集合中的前n个元素 [4,9,1,3]
     println(numbers.take(4))
+    println(numbers.takeIf {
+        return@takeIf it[0] > 10
+    })
     //从前往后拿取元素，直到第一个不符合lambda表达式条件的元素为止  [4,9]
     println(numbers.takeWhile { it > 3 })
     //从后往前拿取元素，直到第一个不符合lambda表达式条件的元素为止  [4, 5, 6, 7, 8]
