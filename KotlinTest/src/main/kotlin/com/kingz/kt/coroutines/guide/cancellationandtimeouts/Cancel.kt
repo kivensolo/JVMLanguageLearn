@@ -69,68 +69,73 @@ private suspend fun CoroutineScope.cancelJobWithNoCheck() {
     println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.com.kingz.kt.operators.main: Now I can quit.")
 }
 
-private suspend fun CoroutineScope.cancelJobWithCheck() {
-    val startTime = currentTimeMillis()
-    val job = launch(Dispatchers.Default) {
-        var nextPrintTime = startTime
-        var i = 0
-        // isActive 是一个可以被使用在 CoroutineScope 中的扩展属性
-        while (isActive) { // 可以被取消的计算循环
-            // 每秒打印两次消息
-            if (currentTimeMillis() >= nextPrintTime) {
-                println("job: I'm sleeping ${i++} ...")
-                nextPrintTime += 500L
+private suspend fun cancelJobWithCheck() {
+    coroutineScope {
+        val startTime = currentTimeMillis()
+        val job = launch(Dispatchers.Default) {
+            var nextPrintTime = startTime
+            var i = 0
+            // isActive 是一个可以被使用在 CoroutineScope 中的扩展属性
+            while (isActive) { // 可以被取消的计算循环
+                // 每秒打印两次消息
+                if (currentTimeMillis() >= nextPrintTime) {
+                    println("job: I'm sleeping ${i++} ...")
+                    nextPrintTime += 500L
+                }
             }
         }
+        delay(1300L)
+        println("main: I'm tired of waiting!")
+        job.cancelAndJoin()
+        println("main: Now I can quit.")
     }
-    delay(1300L)    // 等待一段时间
-    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.com.kingz.kt.operators.main: I'm tired of waiting!")
-    job.cancelAndJoin()  // 取消一个作业并且等待它结束
-    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.com.kingz.kt.operators.main: Now I can quit.")
 }
 
-private suspend fun CoroutineScope.cancelJobWithFinally() {
-    val job = launch {
-        try {
-            repeat(1000) { i ->
-                println("job: I'm sleeping $i ...")
-                delay(500L)
+private suspend fun cancelJobWithFinally() {
+    coroutineScope {
+        val job = launch {
+            try {
+                repeat(1000) { i ->
+                    println("job: I'm sleeping $i ...")
+                    delay(500L)
+                }
+            } finally {
+                println("job: I'm running finally")
             }
-        } finally {
-            println("job: I'm running finally")
         }
+        delay(1300L)
+        println("main: I'm tired of waiting!")
+        job.cancelAndJoin()
+        println("main: Now I can quit.")
     }
-    delay(1300L) // 延迟一段时间
-    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.com.kingz.kt.operators.main: I'm tired of waiting!  job pls stop.")
-    job.cancelAndJoin() // 取消该作业并且等待它结束
-    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.com.kingz.kt.operators.main: Now I can quit.")
 }
 
-private suspend fun CoroutineScope.cancelWithContext() {
-    val job = launch {
-        try {
-            repeat(1000) { i ->
-                println("job: I'm sleeping $i ...")
-                delay(500L)
-            }
-        } finally {
-            // 任何尝试在 finally 块中调用挂起函数的行为都会抛出 CancellationException
-            // 因为这里持续运行的代码是可以被取消的。
+private suspend fun cancelWithContext() {
+    coroutineScope {
+        val job = launch {
+            try {
+                repeat(1000) { i ->
+                    println("job: I'm sleeping $i ...")
+                    delay(500L)
+                }
+            } finally {
+                // 任何尝试在 finally 块中调用挂起函数的行为都会抛出 CancellationException
+                // 因为这里持续运行的代码是可以被取消的。会导致后续输出语句无法执行。
 //            println("job: I'm running finally")
 //            delay(1000L)
-            // 这种写法，不能打印这句输出
 //            println("job: And I've just delayed for 1 sec because I'm non-cancellable")
 
-            // 当需要挂起一个被取消的协程，可使用 withContext(NonCancellable){}
-            withContext(NonCancellable) {
-                println("job: I'm running finally")
-                delay(2_000L)
-                println("job: And I've just delayed for 2 sec because I'm non-cancellable")
+                // 当需要挂起一个被取消的协程，可使用 withContext(NonCancellable){}
+                withContext(NonCancellable) {
+                    println("job: I'm running finally")
+                    delay(2_000L)
+                    println("job: And I've just delayed for 2 sec because I'm non-cancellable")
+                }
             }
         }
+        delay(1300L)
+        println("main: I'm tired of waiting!")
+        job.cancelAndJoin() // cancels the job and waits for its completion
+        println("main: Now I can quit.")
     }
-    delay(1300L) // 延迟一段时间
-    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.com.kingz.kt.operators.main: I'm tired of waiting!  job pls stop.")
-    job.cancelAndJoin() // 取消该作业并且等待它结束
-    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.com.kingz.kt.operators.main: Now I can quit.")
 }
