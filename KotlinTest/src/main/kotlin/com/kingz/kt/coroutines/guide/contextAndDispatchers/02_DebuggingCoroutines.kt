@@ -3,8 +3,11 @@ package com.kingz.kt.coroutines.guide.contextAndDispatchers
 /**
  * author: King.Z <br>
  * date:  2020/7/2 10:55 <br>
- * description: 按照调试普通应用程序的方式（如:日志生命中打印线程名字），对协程来说是不怎么有用的，
+ * description: 按照调试普通应用程序的方式（如:日志声明中打印线程名字），对协程来说是不怎么有用的，
  * 因为单独的线程名称不会给出很多协程上下文信息，所以kotlin包含了调试工具来让开发着更方便的调试。<br>
+ *
+ * 开启 JVM 的 -Dkotlinx.coroutines.debug 配置后运行以下代码
+ * 就可以看到协程的标识符，以及它们运行在哪个线程上。如：[main @coroutine#2]
  */
 import kotlinx.coroutines.*
 
@@ -13,8 +16,8 @@ fun log(msg: String) = println("[${Thread.currentThread().name}] $msg")
 
 
 fun main() = runBlocking<Unit> {
-//    printWithDebugFlag()
-    printWithDebugName()
+    printWithDebugFlag()
+//    printWithDebugName()
 }
 
 /**
@@ -39,7 +42,7 @@ private suspend fun CoroutineScope.printWithDebugFlag() {
  * 自定义CoroutineScopeContext元素
  */
 private suspend fun CoroutineScope.printWithDebugName() {
-    log("Started org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.com.kingz.kt.operators.main coroutine")
+    log("Started main coroutine")
     // 运行两个后台值计算
     val jobA = async(CoroutineName("coroutine-jobA")) {
         log("JobA async befor delay.")

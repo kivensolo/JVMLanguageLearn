@@ -20,7 +20,7 @@ fun main() = runBlocking<Unit> {
                 println("Coroutine $i is done")
             }
         }
-        println("request: I'm done and I don't explicitly join my children that are still active")
+        println("request: 我已经结束了，无需使用join等待子协程们结束")
     }
     parentJob.join() // 等待主协程 & 所以所有子协程 处理完毕
     println("Now processing of the request is complete")

@@ -19,15 +19,15 @@ fun main() = runBlocking<Unit> {
     val request = launch {
         // 启动A、B两个协程
 
-        // A : 通过 GlobalScope 启动, 新的协程没有父Job，所以它与启动它的作用域无关，且独立运行。
-        GlobalScope.launch {
+        // A : 通过 GlobalScope 启动的协程没有父Job，所以它与启动它的作用域无关，且独立运行。
+        val job_a = GlobalScope.launch {
             println("job1: I run in GlobalScope and execute independently!")
             delay(2000)
             println("job1: I am not affected by cancellation of the request")
         }
 
-        // B : 集成父协程的Context
-        launch {
+        // B : 继承父协程的Context
+        val job_b = launch {
             delay(100)
             println("job2: I am a child of the request coroutine")
             delay(2000)
@@ -35,8 +35,8 @@ fun main() = runBlocking<Unit> {
         }
     }
     delay(500)
-    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.com.kingz.kt.operators.main: Do cancel action for jobs.")
+    println("main: Do cancel action for jobs.")
     request.cancel() // 取消请求（request）的执行
     delay(2000) // 延迟2秒钟来看看发生了什么
-    println("org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.com.kingz.kt.operators.main: Who has survived request cancellation?")
+    println("main: Who has survived request cancellation?")
 }

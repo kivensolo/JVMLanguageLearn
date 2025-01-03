@@ -17,10 +17,9 @@ import kotlin.system.measureTimeMillis
  */
 
 
-// 注意，在这个示例中我们在 `org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.com.kingz.kt.operators.main` 函数的右边没有加上 `runBlocking`
-//fun org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.org.jetbrains.kotlinworkshop.introduction._8Delegation.com.kingz.kt.operators.main() {
+// 注意，在这个示例中我们在 `main` 函数的右边没有加上 `runBlocking`
+//fun main() {
 //    useBadStyle()
-//
 //}
 
 private fun useBadStyle() {
@@ -35,16 +34,11 @@ private fun useBadStyle() {
             println("The answer is ${one.await() + two.await()}")
         }
     }
-    println("Completed in $time ms")
+    println("" +
+            " in $time ms")
 }
 
 
-fun main() = runBlocking<Unit> {
-    val time = measureTimeMillis {
-        println("The answer is ${concurrentSum()}")
-    }
-    println("Completed in $time ms")
-}
 
 /**
  * 注意，这些 xxxAsync 函数不是 挂起 函数。它们可以在任何地方使用
@@ -66,10 +60,21 @@ fun somethingUsefulTwoAsync() = GlobalScope.async {
 * http://www.kotlincn.net/docs/reference/coroutines/composing-suspending-functions.html
 */
 
+/**
+ * 使用 async 的结构化并发
+ */
+fun main() = runBlocking<Unit> {
+    val time = measureTimeMillis {
+        println("The answer is ${concurrentSum()}")
+    }
+    println("Completed in $time ms")
+}
 
 /**
- * 将函数写在同一作用域内，
- * 这种情况下，如果在 concurrentSum 函数内部发生了错误，
+ * 提取一个同时执行 doSomethingUsefulOne() 和 doSomethingUsefulTwo() 并返回其结果之和的函数.
+ *
+ * 因为 async 函数被定义为 CoroutineScope 上的一个扩展函数，所以需要将它放在 CoroutineScope 中，
+ * 将2个doSomethingXXXX的函数写在同一作用域内，这种情况下，如果在 concurrentSum 函数内部发生了错误，
  * 并且它抛出了一个异常， 所有在作用域中启动的协程都会被取消。
  */
 suspend fun concurrentSum(): Int = coroutineScope {

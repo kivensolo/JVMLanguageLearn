@@ -3,7 +3,10 @@ package com.kingz.kt.coroutines.guide.contextAndDispatchers
 /**
  * author: King.Z <br>
  * date:  2020/7/2 11:12 <br>
- * description: 使用 withContext 函数来改变协程的上下文，但仍然驻留在相同的协程中 <br>
+ * description:
+ * 主要展示协程在线程中的切换方式。
+ *
+ * 使用 withContext 函数来改变协程的上下文，但仍然驻留在相同的协程中 <br>
  */
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
