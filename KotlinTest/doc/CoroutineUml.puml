@@ -1,4 +1,6 @@
 @startuml
+left to right direction
+class a
 package "【CoroutineContext】" #ABDDDD{
     ' 协程的 context 可以认为是协程的“线程私有变量”，同时这个私有变量是不可变的。
     ' 就是说，在创建一个协程的时候，它的 context 携带的信息就已经确定了下来。

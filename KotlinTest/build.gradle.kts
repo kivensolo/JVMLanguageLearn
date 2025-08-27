@@ -1,12 +1,12 @@
 plugins {
-    maven
+
+    //FIXEM 升级到1.7.0或者1.8.0+ Gradel会报错
     //My target environment is JVM
     kotlin("jvm") version "1.5.30"
 }
 
 repositories {
     maven("https://maven.aliyun.com/repository/public")
-
     maven("https://maven.aliyun.com/repository/google")
 }
 
