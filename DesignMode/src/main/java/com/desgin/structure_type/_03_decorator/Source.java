@@ -7,7 +7,7 @@ package com.desgin.structure_type._03_decorator;
  */
 public class Source implements Sourceable{
     @Override
-    public void method() {
+    public void doSomething() {
         System.out.println("the original method!!");
     }
 }
