@@ -9,6 +9,10 @@ import java.io.*;
  *     原型模式虽然是创建型的模式，但是与工厂模式没有关系，
  *     从名字即可看出，该模式的思想就是将一个对象作为原型，
  *     对其进行复制、克隆，产生一个和原对象类似的新对象
+ *
+ * Uodate at 2025/09/05
+ * 原型模式在开发中很少使用，属于冷门的设计模式。
+ * 其实就是提供了克隆API便于对外生产类似的对象。
  */
 public class Prototype implements Cloneable,Serializable {
 
@@ -19,10 +23,11 @@ public class Prototype implements Cloneable,Serializable {
 
     /**
      * 浅复制
-     * @return
+     *
+     * 此处clone方法可以改成任意的名称，因为Cloneable接口是个空接口
+     * @return 返回一个和原对象类似的新对象
      * @throws CloneNotSupportedException
      */
-    //此处clone方法可以改成任意的名称，因为Cloneable接口是个空接口
     public Object clone() throws CloneNotSupportedException {
         //此处的重点是super.clonepra()这句话，super.clonepra()调用的是Object的clone()方法 native的
         Prototype proto = (Prototype) super.clone();

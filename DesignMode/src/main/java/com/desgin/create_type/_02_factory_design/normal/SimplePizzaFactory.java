@@ -23,6 +23,9 @@ import com.desgin.create_type._02_factory_design.products.HotPizza;
  * 缺点
  * 1 违背“开放 - 关闭原则”，扩展性差（一旦添加新产品就不得不修改工厂类的逻辑）
  * 2 不同的产品需要不同额外参数的时候 不支持(哪怕使用Object参数去兼容)。
+ *
+ *
+ * 但是日常的生产开发中，这种写法较多，因为最简单。
  */
 public class SimplePizzaFactory {
     //职责 创建各种pizza
